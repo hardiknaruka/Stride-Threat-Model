@@ -114,6 +114,7 @@ interface ProjectContextValue {
   refreshProjects: () => Promise<void>;
   refreshActiveProject: () => Promise<void>;
   reseedDemo: () => Promise<void>;
+  deleteProject: (id: string) => Promise<{ success: boolean; error?: string }>;
   roleConfig: typeof USER_ROLES[UserRole];
 }
 
@@ -218,6 +219,34 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
     }
   }, [refreshProjects]);
 
+  const deleteProject = useCallback(
+    async (id: string): Promise<{ success: boolean; error?: string }> => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const res = await fetch(`/api/projects/${id}`, {
+          method: "DELETE",
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || "Failed to delete project");
+        }
+
+        await refreshProjects();
+        return { success: true };
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : "Failed to delete project";
+        console.error(err);
+        setError(msg);
+        return { success: false, error: msg };
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [refreshProjects]
+  );
+
   useEffect(() => {
     refreshProjects();
   }, [refreshProjects]);
@@ -250,6 +279,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         refreshProjects,
         refreshActiveProject,
         reseedDemo,
+        deleteProject,
         roleConfig,
       }}
     >

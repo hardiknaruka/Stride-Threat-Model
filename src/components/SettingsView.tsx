@@ -13,12 +13,24 @@ import {
   Terminal,
   Server,
   Lock,
+  Trash2,
 } from "lucide-react";
+import { DeleteProjectModal } from "@/components/DeleteProjectModal";
+import { ProjectSummary } from "@/context/ProjectContext";
 
 export function SettingsView() {
-  const { reseedDemo, isLoading, activeProject, themePalette } = useProject();
+  const {
+    reseedDemo,
+    isLoading,
+    activeProject,
+    activeProjectId,
+    setActiveProjectId,
+    projects,
+    themePalette,
+  } = useProject();
   const isCorporate = themePalette === "corporate";
   const [reseedSuccess, setReseedSuccess] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState<ProjectSummary | null>(null);
 
   const handleReseed = async () => {
     if (confirm("Reset and re-seed the fictional Commerce Microservices Threat Model sample?")) {
@@ -172,6 +184,81 @@ export function SettingsView() {
         </div>
       </div>
 
+      {/* Threat Modeling Projects Management */}
+      <div className="p-6 rounded-xl glass-card space-y-4 shadow-xs border border-rose-500/20">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="flex items-center gap-2.5">
+            <div className="h-9 w-9 rounded-lg flex items-center justify-center bg-rose-500/10 border border-rose-500/30 text-rose-500 shrink-0">
+              <Trash2 className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                Threat Modeling Projects Management
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                Manage your saved threat models or permanently delete obsolete projects.
+              </p>
+            </div>
+          </div>
+          <span className="text-xs px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold border border-slate-200 dark:border-slate-700 self-start sm:self-auto">
+            {projects.length} {projects.length === 1 ? "Project" : "Projects"}
+          </span>
+        </div>
+
+        <div className="space-y-2.5 pt-2">
+          {projects.map((proj) => {
+            const isActive = proj.id === activeProject?.id;
+            return (
+              <div
+                key={proj.id}
+                className={`p-3.5 rounded-lg border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                  isActive
+                    ? "stride-box border-blue-500/40 dark:border-blue-500/40 ring-1 ring-blue-500/20"
+                    : "stride-box"
+                }`}
+              >
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-xs text-slate-900 dark:text-white">
+                      {proj.name}
+                    </span>
+                    {isActive && (
+                      <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-800">
+                        Active Study
+                      </span>
+                    )}
+                    <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                      {proj.environment}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                    Lead: {proj.owner} • Status: {proj.status} • {proj.threatCount} Threats ({proj.highOrCriticalCount} High/Critical)
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                  {!isActive && (
+                    <button
+                      onClick={() => setActiveProjectId(proj.id)}
+                      className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 transition-colors"
+                    >
+                      Switch To
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setProjectToDelete(proj)}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-rose-300 dark:border-rose-800/80 transition-colors shadow-2xs"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                    Delete Project
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Sample Data Management */}
       <div className="p-6 rounded-xl glass-card flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
         <div className="space-y-1">
@@ -201,6 +288,13 @@ export function SettingsView() {
           Re-seed Demo Data
         </button>
       </div>
+
+      {/* Delete Project Confirmation Modal */}
+      <DeleteProjectModal
+        isOpen={!!projectToDelete}
+        project={projectToDelete}
+        onClose={() => setProjectToDelete(null)}
+      />
     </div>
   );
 }

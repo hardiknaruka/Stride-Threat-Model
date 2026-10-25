@@ -105,11 +105,41 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    await prisma.project.delete({
+
+    const project = await prisma.project.findUnique({
       where: { id },
+      select: { id: true, name: true },
     });
 
-    return NextResponse.json({ success: true, message: "Project deleted" });
+    if (!project) {
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    }
+
+    // Explicitly delete child relations for MongoDB safety
+    const threats = await prisma.threat.findMany({
+      where: { projectId: id },
+      select: { id: true },
+    });
+    const threatIds = threats.map((t) => t.id);
+
+    if (threatIds.length > 0) {
+      await prisma.threatElementLink.deleteMany({
+        where: { threatId: { in: threatIds } },
+      });
+      await prisma.threatFlowLink.deleteMany({
+        where: { threatId: { in: threatIds } },
+      });
+    }
+
+    await prisma.threat.deleteMany({ where: { projectId: id } });
+    await prisma.dataFlow.deleteMany({ where: { projectId: id } });
+    await prisma.architectureElement.deleteMany({ where: { projectId: id } });
+    await prisma.project.delete({ where: { id } });
+
+    return NextResponse.json({
+      success: true,
+      message: `Project "${project.name}" deleted successfully`,
+    });
   } catch (err) {
     console.error("Failed to delete project:", err);
     return NextResponse.json(

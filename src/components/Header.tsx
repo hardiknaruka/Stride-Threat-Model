@@ -15,7 +15,10 @@ import {
   Check,
   Moon,
   Sun,
+  Trash2,
 } from "lucide-react";
+import { DeleteProjectModal } from "@/components/DeleteProjectModal";
+import { ProjectSummary } from "@/context/ProjectContext";
 
 interface HeaderProps {
   onOpenNewProject: () => void;
@@ -41,6 +44,7 @@ export function Header({ onOpenNewProject }: HeaderProps) {
   const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
   const [paletteDropdownOpen, setPaletteDropdownOpen] = useState(false);
   const [showDisclaimerModal, setShowDisclaimerModal] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState<ProjectSummary | null>(null);
 
   const role = USER_ROLES[activeRole];
 
@@ -105,32 +109,48 @@ export function Header({ onOpenNewProject }: HeaderProps) {
               </div>
               <div className="max-h-60 overflow-y-auto space-y-1">
                 {projects.map((p) => (
-                  <button
+                  <div
                     key={p.id}
-                    onClick={() => {
-                      setActiveProjectId(p.id);
-                      setProjectDropdownOpen(false);
-                    }}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center justify-between ${
+                    className={`w-full group rounded-lg text-xs transition-colors flex items-center justify-between p-1.5 ${
                       p.id === activeProjectId
                         ? isCorporate
-                          ? "bg-blue-50 text-blue-800 border border-blue-200 font-semibold"
-                          : "bg-teal-50 text-teal-800 border border-teal-200 font-semibold"
-                        : "hover:bg-slate-50 text-slate-700"
+                          ? "bg-blue-50/80 dark:bg-blue-950/40 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800/60 font-semibold"
+                          : "bg-teal-50/80 dark:bg-teal-950/40 text-teal-800 dark:text-teal-300 border border-teal-200 dark:border-teal-800/60 font-semibold"
+                        : "hover:bg-slate-100 dark:hover:bg-slate-800/60 text-slate-700 dark:text-slate-300"
                     }`}
                   >
-                    <div className="truncate">
-                      <div className="truncate">{p.name}</div>
-                      <div className="text-[10px] text-slate-500 font-normal">
+                    <button
+                      onClick={() => {
+                        setActiveProjectId(p.id);
+                        setProjectDropdownOpen(false);
+                      }}
+                      className="flex-1 text-left truncate px-1.5 py-1"
+                    >
+                      <div className="truncate font-semibold">{p.name}</div>
+                      <div className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">
                         {p.threatCount} threats • {p.environment}
                       </div>
+                    </button>
+
+                    <div className="flex items-center gap-1 shrink-0 ml-1">
+                      {p.highOrCriticalCount > 0 && (
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60 shrink-0">
+                          {p.highOrCriticalCount} high
+                        </span>
+                      )}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setProjectDropdownOpen(false);
+                          setProjectToDelete(p);
+                        }}
+                        title={`Delete project "${p.name}"`}
+                        className="p-1 rounded-md text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </button>
                     </div>
-                    {p.highOrCriticalCount > 0 && (
-                      <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200 shrink-0">
-                        {p.highOrCriticalCount} high
-                      </span>
-                    )}
-                  </button>
+                  </div>
                 ))}
               </div>
               <div className="mt-2 pt-2 border-t border-slate-100 flex items-center gap-2">
@@ -360,6 +380,13 @@ export function Header({ onOpenNewProject }: HeaderProps) {
           </div>
         </div>
       )}
+
+      {/* Project Deletion Confirmation Modal */}
+      <DeleteProjectModal
+        isOpen={!!projectToDelete}
+        project={projectToDelete}
+        onClose={() => setProjectToDelete(null)}
+      />
     </header>
   );
 }

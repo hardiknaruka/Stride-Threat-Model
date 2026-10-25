@@ -16,7 +16,9 @@ import {
   Code,
   Copy,
   Check,
+  Trash2,
 } from "lucide-react";
+import { DeleteProjectModal } from "@/components/DeleteProjectModal";
 
 export function ReviewSummaryView() {
   const { activeProject, themePalette } = useProject();
@@ -24,6 +26,7 @@ export function ReviewSummaryView() {
 
   const [copiedJson, setCopiedJson] = useState(false);
   const [showThreatDragonSpec, setShowThreatDragonSpec] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   if (!activeProject) return null;
 
@@ -116,11 +119,20 @@ export function ReviewSummaryView() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+          <button
+            onClick={() => setShowDeleteModal(true)}
+            title="Permanently delete this threat model project"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-rose-300/80 dark:border-rose-500/30 bg-rose-50/80 dark:bg-rose-950/30 hover:bg-rose-100 dark:hover:bg-rose-950/50 text-rose-700 dark:text-rose-400 text-xs font-semibold shadow-xs transition-colors backdrop-blur-sm"
+          >
+            <Trash2 className="h-4 w-4" />
+            <span className="hidden sm:inline">Delete</span> Project
+          </button>
+
           <a
             href={`/api/projects/${activeProject.id}/export/csv`}
             download
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-slate-200/80 bg-white/80 hover:bg-white text-slate-700 text-xs font-semibold shadow-xs transition-colors backdrop-blur-sm"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-slate-200/80 bg-white/80 hover:bg-white text-slate-700 dark:text-slate-200 dark:border-slate-700 dark:bg-slate-800/80 text-xs font-semibold shadow-xs transition-colors backdrop-blur-sm"
           >
             <Download className="h-4 w-4" />
             Download CSV
@@ -406,6 +418,13 @@ export function ReviewSummaryView() {
           )}
         </div>
       </div>
+
+      {/* Delete Project Confirmation Modal */}
+      <DeleteProjectModal
+        isOpen={showDeleteModal}
+        project={activeProject}
+        onClose={() => setShowDeleteModal(false)}
+      />
     </div>
   );
 }
