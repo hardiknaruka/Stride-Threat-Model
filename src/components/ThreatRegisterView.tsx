@@ -190,7 +190,7 @@ export function ThreatRegisterView({
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Top action & export bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel p-4 rounded-xl shadow-xs">
         <div>
           <h2 className="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
             <ShieldAlert className={`h-5 w-5 ${isCorporate ? "text-blue-700" : "text-teal-700"}`} />
@@ -228,7 +228,7 @@ export function ThreatRegisterView({
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="p-4 rounded-xl border border-slate-200 bg-white shadow-xs space-y-3">
+      <div className="p-4 rounded-xl glass-card shadow-xs space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 text-xs">
           {/* Search */}
           <div className="lg:col-span-2 relative">
@@ -365,7 +365,7 @@ export function ThreatRegisterView({
 
       {/* Threats List Cards */}
       {sortedThreats.length === 0 ? (
-        <div className="rounded-xl border border-slate-200 bg-white p-12 text-center space-y-3 shadow-xs">
+        <div className="rounded-xl glass-card p-12 text-center space-y-3 shadow-xs">
           <ShieldAlert className="h-10 w-10 text-slate-300 mx-auto" />
           <h3 className="text-base font-bold text-slate-900">No Threats Found</h3>
           <p className="text-xs text-slate-500 max-w-sm mx-auto">
@@ -394,7 +394,7 @@ export function ThreatRegisterView({
             return (
               <div
                 key={threat.id}
-                className="group rounded-xl border border-slate-200 bg-white p-5 hover:border-slate-300 hover:shadow-md transition-all shadow-xs space-y-3"
+                className="group glass-card glass-card-hover rounded-xl p-5 shadow-xs space-y-3"
               >
                 {/* Header row */}
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">

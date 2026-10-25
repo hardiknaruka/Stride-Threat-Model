@@ -43,7 +43,7 @@ export function Header({ onOpenNewProject }: HeaderProps) {
   const isCorporate = themePalette === "corporate";
 
   return (
-    <header className="no-print sticky top-0 z-40 w-full border-b border-slate-200/90 bg-white/95 backdrop-blur-md shadow-xs">
+    <header className="no-print sticky top-0 z-40 w-full border-b border-white/80 bg-white/75 backdrop-blur-xl shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Brand / Logo */}
         <div className="flex items-center gap-3">
@@ -85,7 +85,7 @@ export function Header({ onOpenNewProject }: HeaderProps) {
         <div className="relative">
           <button
             onClick={() => setProjectDropdownOpen(!projectDropdownOpen)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-300 bg-slate-50 hover:bg-slate-100 text-sm text-slate-800 transition-colors max-w-xs truncate shadow-2xs font-medium"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/80 bg-white/80 hover:bg-white text-sm text-slate-800 transition-all max-w-xs truncate shadow-2xs font-medium backdrop-blur-sm"
           >
             <Server className={`h-4 w-4 shrink-0 ${isCorporate ? "text-blue-600" : "text-teal-600"}`} />
             <span className="truncate">
@@ -95,7 +95,7 @@ export function Header({ onOpenNewProject }: HeaderProps) {
           </button>
 
           {projectDropdownOpen && (
-            <div className="absolute left-0 mt-2 w-72 rounded-xl border border-slate-200 bg-white p-2 shadow-xl z-50 animate-in fade-in duration-100">
+            <div className="absolute left-0 mt-2 w-72 rounded-xl border border-white/90 bg-white/90 backdrop-blur-2xl p-2 shadow-2xl z-50 animate-in fade-in duration-100">
               <div className="px-2 py-1.5 text-xs font-bold uppercase tracking-wider text-slate-500">
                 Threat Modeling Projects
               </div>
@@ -164,7 +164,7 @@ export function Header({ onOpenNewProject }: HeaderProps) {
           <div className="relative">
             <button
               onClick={() => setPaletteDropdownOpen(!paletteDropdownOpen)}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-300 bg-slate-50 hover:bg-slate-100 text-xs font-semibold text-slate-700 transition-colors shadow-2xs"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/80 bg-white/80 hover:bg-white text-xs font-semibold text-slate-700 transition-all shadow-2xs backdrop-blur-sm"
               title="Switch light color palette"
             >
               <Palette className={`h-3.5 w-3.5 ${isCorporate ? "text-blue-600" : "text-teal-600"}`} />
@@ -175,7 +175,7 @@ export function Header({ onOpenNewProject }: HeaderProps) {
             </button>
 
             {paletteDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-56 rounded-xl border border-slate-200 bg-white p-2 shadow-xl z-50 animate-in fade-in duration-100">
+              <div className="absolute right-0 mt-2 w-56 rounded-xl border border-white/90 bg-white/90 backdrop-blur-2xl p-2 shadow-2xl z-50 animate-in fade-in duration-100">
                 <div className="px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   Select Color Palette
                 </div>
@@ -244,7 +244,7 @@ export function Header({ onOpenNewProject }: HeaderProps) {
           <div className="relative">
             <button
               onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-300 bg-slate-50 hover:bg-slate-100 text-xs text-slate-800 transition-colors shadow-2xs font-medium"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/80 bg-white/80 hover:bg-white text-xs text-slate-800 transition-all shadow-2xs font-medium backdrop-blur-sm"
             >
               <UserCheck className="h-3.5 w-3.5 text-emerald-600" />
               <div className="text-left hidden sm:block">
@@ -255,7 +255,7 @@ export function Header({ onOpenNewProject }: HeaderProps) {
             </button>
 
             {roleDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-72 rounded-xl border border-slate-200 bg-white p-2 shadow-xl z-50 animate-in fade-in duration-100">
+              <div className="absolute right-0 mt-2 w-72 rounded-xl border border-white/90 bg-white/90 backdrop-blur-2xl p-2 shadow-2xl z-50 animate-in fade-in duration-100">
                 <div className="px-2 py-1 text-xs font-bold uppercase tracking-wider text-slate-400">
                   Switch Active Role
                 </div>
@@ -292,8 +292,8 @@ export function Header({ onOpenNewProject }: HeaderProps) {
 
       {/* Security & Data Handling Modal */}
       {showDisclaimerModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="max-w-md w-full bg-white border border-slate-200 rounded-2xl p-6 shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/35 backdrop-blur-sm animate-in fade-in duration-150">
+          <div className="max-w-md w-full glass-modal border border-white/95 rounded-2xl p-6 shadow-2xl space-y-4">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
                 <AlertTriangle className="h-6 w-6" />

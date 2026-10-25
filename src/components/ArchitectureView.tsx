@@ -242,7 +242,7 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Top Header & View Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel p-4 rounded-xl shadow-xs">
         <div>
           <h2 className="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
             <Layers className={`h-5 w-5 ${isCorporate ? "text-blue-700" : "text-teal-700"}`} />
@@ -322,7 +322,7 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
       {/* SUB-VIEW 1: Interactive Architecture Graph Canvas */}
       {activeSubTab === "diagram" && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-8 rounded-xl border border-slate-200 bg-white p-4 shadow-xs flex flex-col justify-between">
+          <div className="lg:col-span-8 glass-panel p-4 rounded-xl shadow-xs flex flex-col justify-between">
             <div className="flex items-center justify-between mb-2 px-1 text-xs text-slate-600">
               <div className="flex items-center gap-4">
                 <span className="flex items-center gap-1.5">
@@ -565,7 +565,7 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
           </div>
 
           {/* Component Inspector Drawer (4 columns) */}
-          <div className="lg:col-span-4 rounded-xl border border-slate-200 bg-white p-5 space-y-4 flex flex-col justify-between shadow-xs">
+          <div className="lg:col-span-4 glass-card p-5 rounded-xl space-y-4 flex flex-col justify-between shadow-xs">
             {selectedElement ? (
               <div className="space-y-4">
                 <div className="flex items-start justify-between">
@@ -688,7 +688,7 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
 
       {/* SUB-VIEW 2: Components Table */}
       {activeSubTab === "elements" && (
-        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-xs">
+        <div className="rounded-xl glass-panel overflow-hidden shadow-xs">
           <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/70">
             <h3 className="text-sm font-bold text-slate-900">
               Architecture Inventory ({elements.length} components)
@@ -783,7 +783,7 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
 
       {/* SUB-VIEW 3: Data Flows Table */}
       {activeSubTab === "flows" && (
-        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-xs">
+        <div className="rounded-xl glass-panel overflow-hidden shadow-xs">
           <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/70">
             <h3 className="text-sm font-bold text-slate-900">
               Directed Data Flows Register ({flows.length} flows)
@@ -890,8 +890,8 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
 
       {/* ELEMENT MODAL */}
       {showElementModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="max-w-lg w-full bg-white border border-slate-200 rounded-xl p-6 shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/35 backdrop-blur-sm animate-in fade-in duration-150">
+          <div className="max-w-lg w-full glass-modal rounded-2xl p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-slate-100">
               <h3 className="text-base font-bold text-slate-900">
                 {editingElement ? "Edit Architecture Component" : "Add Architecture Component"}
@@ -990,8 +990,8 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
 
       {/* FLOW MODAL */}
       {showFlowModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="max-w-lg w-full bg-white border border-slate-200 rounded-xl p-6 shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/35 backdrop-blur-sm animate-in fade-in duration-150">
+          <div className="max-w-lg w-full glass-modal rounded-2xl p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-slate-100">
               <h3 className="text-base font-bold text-slate-900">
                 {editingFlow ? "Edit Data Flow" : "Add Directed Data Flow"}

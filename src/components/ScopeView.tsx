@@ -109,7 +109,7 @@ export function ScopeView() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto animate-in fade-in duration-200">
       {/* Sensitive Data Notice Alert */}
-      <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200 bg-amber-50 text-amber-900 text-xs shadow-xs">
+      <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200/80 bg-amber-50/70 backdrop-blur-md text-amber-900 text-xs shadow-xs">
         <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
         <div className="space-y-1">
           <p className="font-bold text-amber-900">
@@ -163,7 +163,7 @@ export function ScopeView() {
       {/* 2-Column Grid: In Scope vs Out of Scope */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* In Scope */}
-        <div className="rounded-xl border border-slate-200 bg-white p-5 space-y-3 shadow-sm">
+        <div className="glass-card p-5 rounded-2xl space-y-3 shadow-xs">
           <div className="flex items-center gap-2 text-emerald-700 font-bold text-sm bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-200">
             <CheckCircle2 className="h-4 w-4 text-emerald-600" />
             <span>Target Systems & Components In-Scope</span>
@@ -182,7 +182,7 @@ export function ScopeView() {
         </div>
 
         {/* Out of Scope */}
-        <div className="rounded-xl border border-slate-200 bg-white p-5 space-y-3 shadow-sm">
+        <div className="glass-card p-5 rounded-2xl space-y-3 shadow-xs">
           <div className="flex items-center gap-2 text-rose-700 font-bold text-sm bg-rose-50 px-3 py-2 rounded-lg border border-rose-200">
             <XCircle className="h-4 w-4 text-rose-600" />
             <span>Systems & Boundaries Out-of-Scope</span>
@@ -204,7 +204,7 @@ export function ScopeView() {
       {/* 2-Column Grid: Assumptions & Open Questions */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Assumptions */}
-        <div className="rounded-xl border border-slate-200 bg-white p-5 space-y-3 shadow-sm">
+        <div className="glass-card p-5 rounded-2xl space-y-3 shadow-xs">
           <div className="flex items-center gap-2 text-blue-700 font-bold text-sm bg-blue-50 px-3 py-2 rounded-lg border border-blue-200">
             <FileText className="h-4 w-4 text-blue-600" />
             <span>Architectural Assumptions & Baseline Controls</span>
@@ -223,7 +223,7 @@ export function ScopeView() {
         </div>
 
         {/* Open Questions */}
-        <div className="rounded-xl border border-slate-200 bg-white p-5 space-y-3 shadow-sm">
+        <div className="glass-card p-5 rounded-2xl space-y-3 shadow-xs">
           <div className="flex items-center gap-2 text-amber-800 font-bold text-sm bg-amber-50 px-3 py-2 rounded-lg border border-amber-200">
             <HelpCircle className="h-4 w-4 text-amber-600" />
             <span>Open Questions & Investigation Items</span>
@@ -243,7 +243,7 @@ export function ScopeView() {
       </div>
 
       {/* Stakeholders Section */}
-      <div className="rounded-xl border border-slate-200 bg-white p-5 space-y-4 shadow-sm">
+      <div className="glass-card p-5 rounded-2xl space-y-4 shadow-xs">
         <div className="flex items-center justify-between border-b border-slate-200 pb-3">
           <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
             <Users className={`h-4 w-4 ${isCorporate ? "text-blue-700" : "text-teal-700"}`} />

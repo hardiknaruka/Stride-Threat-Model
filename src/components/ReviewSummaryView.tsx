@@ -105,7 +105,7 @@ export function ReviewSummaryView() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto print-container">
       {/* Top action toolbar (hidden on print) */}
-      <div className="no-print flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border border-slate-200 bg-white shadow-xs">
+      <div className="no-print glass-panel flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl shadow-xs">
         <div>
           <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
             <FileText className={`h-5 w-5 ${isCorporate ? "text-blue-700" : "text-teal-700"}`} />
@@ -120,7 +120,7 @@ export function ReviewSummaryView() {
           <a
             href={`/api/projects/${activeProject.id}/export/csv`}
             download
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-xs transition-colors"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-slate-200/80 bg-white/80 hover:bg-white text-slate-700 text-xs font-semibold shadow-xs transition-colors backdrop-blur-sm"
           >
             <Download className="h-4 w-4" />
             Download CSV
@@ -141,7 +141,7 @@ export function ReviewSummaryView() {
       </div>
 
       {/* Formal Printable Document Body */}
-      <div className="p-8 sm:p-10 rounded-xl border border-slate-200 bg-white shadow-xs print:bg-white print:text-black print:border-none print:shadow-none space-y-8 print:p-0">
+      <div className="p-8 sm:p-10 rounded-xl glass-card print:bg-white print:text-black print:border-none print:shadow-none space-y-8 print:p-0">
         {/* Document Header */}
         <div className="border-b border-slate-200 print:border-gray-300 pb-6 space-y-2">
           <div className="flex items-center justify-between">
@@ -192,19 +192,19 @@ export function ReviewSummaryView() {
           </h2>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50">
+            <div className="p-3.5 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs">
               <span className="text-xs text-slate-500 block font-medium">Architecture Elements</span>
               <span className="text-2xl font-bold text-slate-900">{elements.length}</span>
             </div>
-            <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50">
+            <div className="p-3.5 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs">
               <span className="text-xs text-slate-500 block font-medium">Directed Data Flows</span>
               <span className="text-2xl font-bold text-slate-900">{flows.length}</span>
             </div>
-            <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50">
+            <div className="p-3.5 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs">
               <span className="text-xs text-slate-500 block font-medium">Total Threats Assessed</span>
               <span className="text-2xl font-bold text-slate-900">{threats.length}</span>
             </div>
-            <div className="p-3.5 rounded-lg border border-rose-200 bg-rose-50">
+            <div className="p-3.5 rounded-lg border border-rose-200/80 bg-rose-50/70 backdrop-blur-xs">
               <span className="text-xs text-rose-700 block font-medium">High & Critical Priority</span>
               <span className="text-2xl font-bold text-rose-700">{highAndCriticalThreats.length}</span>
             </div>
@@ -218,14 +218,14 @@ export function ReviewSummaryView() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            <div className="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+            <div className="p-4 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs space-y-1">
               <span className="font-bold text-emerald-800 block">In-Scope System Elements:</span>
               <p className="text-slate-700 whitespace-pre-line leading-relaxed">
                 {activeProject.inScope || "No in-scope notes documented."}
               </p>
             </div>
 
-            <div className="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+            <div className="p-4 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs space-y-1">
               <span className="font-bold text-rose-800 block">Out-of-Scope Exclusions:</span>
               <p className="text-slate-700 whitespace-pre-line leading-relaxed">
                 {activeProject.outOfScope || "No out-of-scope exclusions documented."}
@@ -234,14 +234,14 @@ export function ReviewSummaryView() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            <div className="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+            <div className="p-4 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs space-y-1">
               <span className="font-bold text-blue-800 block">Technical Assumptions:</span>
               <p className="text-slate-700 whitespace-pre-line leading-relaxed">
                 {activeProject.assumptions || "No assumptions recorded."}
               </p>
             </div>
 
-            <div className="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+            <div className="p-4 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs space-y-1">
               <span className="font-bold text-amber-800 block">Open Questions & Follow-ups:</span>
               <p className="text-slate-700 whitespace-pre-line leading-relaxed">
                 {activeProject.openQuestions || "No open questions recorded."}
@@ -256,10 +256,10 @@ export function ReviewSummaryView() {
             3. Critical & High Priority Risk Register
           </h2>
 
-          <div className="overflow-x-auto border border-slate-200 rounded-lg">
+          <div className="overflow-x-auto border border-slate-200/80 rounded-lg">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="bg-slate-100 text-slate-700 border-b border-slate-200">
+                <tr className="bg-slate-100/80 text-slate-700 border-b border-slate-200">
                   <th className="py-2.5 px-3 font-bold">ID</th>
                   <th className="py-2.5 px-3 font-bold">Title & Threat Scenario</th>
                   <th className="py-2.5 px-3 font-bold">STRIDE</th>
@@ -268,9 +268,9 @@ export function ReviewSummaryView() {
                   <th className="py-2.5 px-3 font-bold">Owner</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100/80">
                 {highAndCriticalThreats.map((t) => (
-                  <tr key={t.id} className="hover:bg-slate-50 transition-colors">
+                  <tr key={t.id} className="hover:bg-slate-50/70 transition-colors">
                     <td className="py-2.5 px-3 font-mono font-bold text-slate-900">
                       {t.threatId}
                     </td>
@@ -289,8 +289,8 @@ export function ReviewSummaryView() {
                       <span
                         className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                           t.severity === "CRITICAL"
-                            ? "bg-rose-100 text-rose-800 border border-rose-300"
-                            : "bg-amber-100 text-amber-900 border border-amber-300"
+                            ? "bg-rose-100/90 text-rose-800 border border-rose-300"
+                            : "bg-amber-100/90 text-amber-900 border border-amber-300"
                         }`}
                       >
                         {t.severity}
@@ -315,10 +315,10 @@ export function ReviewSummaryView() {
             4. Mitigation & Action Plan Register
           </h2>
 
-          <div className="overflow-x-auto border border-slate-200 rounded-lg">
+          <div className="overflow-x-auto border border-slate-200/80 rounded-lg">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="bg-slate-100 text-slate-700 border-b border-slate-200">
+                <tr className="bg-slate-100/80 text-slate-700 border-b border-slate-200">
                   <th className="py-2.5 px-3 font-bold">ID</th>
                   <th className="py-2.5 px-3 font-bold">Recommended Mitigation Treatment</th>
                   <th className="py-2.5 px-3 font-bold">Existing Controls</th>
@@ -327,9 +327,9 @@ export function ReviewSummaryView() {
                   <th className="py-2.5 px-3 font-bold">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100/80">
                 {threats.map((t) => (
-                  <tr key={t.id} className="hover:bg-slate-50 transition-colors">
+                  <tr key={t.id} className="hover:bg-slate-50/70 transition-colors">
                     <td className="py-2.5 px-3 font-mono font-bold text-slate-900">
                       {t.threatId}
                     </td>
@@ -356,7 +356,7 @@ export function ReviewSummaryView() {
         </div>
 
         {/* Section 5: OWASP Threat Dragon Integration Guidance (no-print) */}
-        <div className="no-print rounded-lg border border-slate-200 bg-slate-50 p-5 space-y-4">
+        <div className="no-print rounded-lg border border-slate-200/80 bg-white/60 backdrop-blur-xs p-5 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Code className={`h-5 w-5 ${isCorporate ? "text-blue-700" : "text-teal-700"}`} />
@@ -373,7 +373,7 @@ export function ReviewSummaryView() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowThreatDragonSpec(!showThreatDragonSpec)}
-                className="px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-colors"
+                className="px-3 py-1.5 rounded-lg border border-slate-200/90 bg-white/90 hover:bg-white text-xs font-semibold text-slate-700 transition-colors shadow-2xs backdrop-blur-xs"
               >
                 {showThreatDragonSpec ? "Hide Schema" : "Inspect 2.x Schema"}
               </button>
@@ -399,7 +399,7 @@ export function ReviewSummaryView() {
 
           {showThreatDragonSpec && (
             <div className="relative">
-              <pre className="p-4 rounded-lg bg-white border border-slate-200 text-[11px] font-mono text-slate-800 overflow-x-auto max-h-72">
+              <pre className="p-4 rounded-lg bg-white/90 border border-slate-200/80 text-[11px] font-mono text-slate-800 overflow-x-auto max-h-72 shadow-2xs">
                 {JSON.stringify(threatDragonExportModel, null, 2)}
               </pre>
             </div>

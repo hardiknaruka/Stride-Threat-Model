@@ -266,7 +266,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Top Outer Card Container (Clean Light Presentation Canvas) */}
-      <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-xs space-y-6">
+      <div className="glass-panel rounded-2xl p-6 shadow-sm space-y-6">
         {/* Top Accent Line */}
         <div
           className={`w-full h-1.5 rounded-full -mt-2 mb-4 ${
@@ -362,7 +362,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
         {/* EXECUTIVE KPI STRIP (4 Industry Standard Metric Cards) */}
         {/* ============================================================== */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-4 rounded-xl border border-slate-200 bg-slate-50">
+          <div className="glass-card glass-card-hover p-4 rounded-xl shadow-2xs">
             <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
               Total Threats Assessed
             </span>
@@ -374,7 +374,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
             </div>
           </div>
 
-          <div className="p-4 rounded-xl border border-rose-200 bg-rose-50/70">
+          <div className="p-4 rounded-xl border border-rose-200/80 bg-rose-50/60 backdrop-blur-md shadow-2xs glass-card-hover">
             <span className="text-[11px] font-semibold text-rose-700 uppercase tracking-wider block">
               Critical & High Risks
             </span>
@@ -386,7 +386,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
             </div>
           </div>
 
-          <div className="p-4 rounded-xl border border-emerald-200 bg-emerald-50/70">
+          <div className="p-4 rounded-xl border border-emerald-200/80 bg-emerald-50/60 backdrop-blur-md shadow-2xs glass-card-hover">
             <span className="text-[11px] font-semibold text-emerald-800 uppercase tracking-wider block">
               Mitigation Health
             </span>
@@ -400,7 +400,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
             </div>
           </div>
 
-          <div className="p-4 rounded-xl border border-slate-200 bg-slate-50">
+          <div className="glass-card glass-card-hover p-4 rounded-xl shadow-2xs">
             <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
               Assessed Architecture
             </span>
@@ -418,7 +418,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
         {/* ============================================================== */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Left: Corporate Risk Profile Table (6 Columns) */}
-          <div className="lg:col-span-6 rounded-xl border border-slate-200 bg-slate-50/60 p-5 flex flex-col justify-between shadow-xs">
+          <div className="lg:col-span-6 glass-card p-5 rounded-2xl flex flex-col justify-between shadow-2xs">
             <div>
               {/* Header with Circular Badge */}
               <div className="flex items-center justify-between mb-3">
@@ -453,7 +453,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
               </div>
 
               {/* Data Table */}
-              <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-xs">
+              <div className="overflow-hidden rounded-xl border border-slate-200/80 bg-white/85 backdrop-blur-sm shadow-2xs">
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
                     <tr
@@ -546,7 +546,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
           {/* Right: Two Donut Charts (6 Columns, 2 equal sub-columns) */}
           <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
             {/* Card 2: Risk Control Donut Chart */}
-            <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-4 flex flex-col justify-between shadow-xs">
+            <div className="glass-card p-4 rounded-2xl flex flex-col justify-between shadow-2xs">
               <div>
                 {/* Header with Circular Green Badge */}
                 <div className="flex items-center gap-2 mb-2">
@@ -562,7 +562,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
                 </div>
 
                 {/* Donut Chart Visualization */}
-                <div className="py-2 bg-white rounded-lg border border-slate-200 shadow-2xs">
+                <div className="py-2 bg-white/75 backdrop-blur-sm rounded-xl border border-white/80 shadow-2xs">
                   {renderDonut(controlSegments, totalThreats, "Threats", hoveredDonut1, setHoveredDonut1)}
                 </div>
 
@@ -598,7 +598,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
             </div>
 
             {/* Card 3: Impact of Risks Donut Chart */}
-            <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-4 flex flex-col justify-between shadow-xs">
+            <div className="glass-card p-4 rounded-2xl flex flex-col justify-between shadow-2xs">
               <div>
                 {/* Header with Circular Teal Badge */}
                 <div className="flex items-center gap-2 mb-2">
@@ -614,7 +614,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
                 </div>
 
                 {/* Donut Chart Visualization */}
-                <div className="py-2 bg-white rounded-lg border border-slate-200 shadow-2xs">
+                <div className="py-2 bg-white/75 backdrop-blur-sm rounded-xl border border-white/80 shadow-2xs">
                   {renderDonut(impactSegments, totalThreats, "Severity", hoveredDonut2, setHoveredDonut2)}
                 </div>
 
@@ -656,7 +656,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
         {/* ============================================================== */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Card 4: Different Risks Impact - Horizontal Stacked Bar Chart (6 Cols) */}
-          <div className="lg:col-span-6 rounded-xl border border-slate-200 bg-slate-50/60 p-5 flex flex-col justify-between shadow-xs">
+          <div className="lg:col-span-6 glass-card p-5 rounded-2xl flex flex-col justify-between shadow-2xs">
             <div>
               {/* Header with Circular Blue Badge */}
               <div className="flex items-center gap-2.5 mb-3">
@@ -678,7 +678,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
               </div>
 
               {/* Stacked Horizontal Bars */}
-              <div className="space-y-2.5 bg-white p-3.5 rounded-lg border border-slate-200 shadow-2xs">
+              <div className="space-y-2.5 bg-white/75 backdrop-blur-sm p-3.5 rounded-xl border border-white/80 shadow-2xs">
                 {componentExposure.length === 0 ? (
                   <p className="text-xs text-slate-400 italic text-center py-6">
                     No architecture components documented yet. Add components in the Architecture tab.
@@ -759,7 +759,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
           </div>
 
           {/* Card 5: Risk Severity Map - Heat Map Grid (6 Cols) */}
-          <div className="lg:col-span-6 rounded-xl border border-slate-200 bg-slate-50/60 p-5 flex flex-col justify-between shadow-xs">
+          <div className="lg:col-span-6 glass-card p-5 rounded-2xl flex flex-col justify-between shadow-2xs">
             <div>
               {/* Header with Circular Badge */}
               <div className="flex items-center gap-2.5 mb-3">
@@ -781,7 +781,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
               </div>
 
               {/* Heatmap Grid Container */}
-              <div className="bg-white p-3.5 rounded-lg border border-slate-200 shadow-2xs flex items-stretch gap-3">
+              <div className="bg-white/75 backdrop-blur-sm p-3.5 rounded-xl border border-white/80 shadow-2xs flex items-stretch gap-3">
                 {/* Left "Totals" Color Indicator Bar */}
                 <div className="w-12 flex flex-col items-center">
                   <span className="text-[10px] text-slate-500 font-bold mb-1 uppercase tracking-wider">Totals</span>

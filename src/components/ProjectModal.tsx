@@ -77,8 +77,8 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg bg-white border border-slate-200 rounded-xl shadow-2xl p-6 space-y-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/35 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="relative w-full max-w-lg glass-modal rounded-2xl shadow-2xl p-6 space-y-4">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-3">
             <div className={`h-9 w-9 rounded-lg flex items-center justify-center border ${

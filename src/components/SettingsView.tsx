@@ -30,7 +30,7 @@ export function SettingsView() {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto animate-in fade-in duration-200">
-      <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+      <div className="glass-panel p-5 rounded-xl shadow-xs">
         <h2 className="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
           <BookOpen className={`h-5 w-5 ${isCorporate ? "text-blue-700" : "text-teal-700"}`} />
           STRIDE Methodology & Workspace Diagnostics
@@ -54,11 +54,11 @@ export function SettingsView() {
             return (
               <div
                 key={cat}
-                className="p-5 rounded-xl border border-slate-200 bg-white space-y-3 shadow-xs"
+                className="p-5 rounded-xl glass-card glass-card-hover space-y-3 shadow-xs"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2.5">
-                    <span className="h-8 w-8 rounded-lg flex items-center justify-center font-bold text-sm bg-slate-100 text-slate-800 border border-slate-300">
+                    <span className="h-8 w-8 rounded-lg flex items-center justify-center font-bold text-sm bg-white/90 text-slate-800 border border-white/90 shadow-2xs backdrop-blur-xs">
                       {def.letter}
                     </span>
                     <div>
@@ -72,12 +72,12 @@ export function SettingsView() {
                   {def.description}
                 </p>
 
-                <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-[11px] space-y-1.5">
+                <div className="p-3 rounded-lg bg-slate-50/70 border border-slate-200/70 backdrop-blur-xs text-[11px] space-y-1.5">
                   <div>
                     <span className="font-bold text-rose-700">Microservice Attack Scenarios:</span>{" "}
                     <span className="text-slate-600">{def.examples}</span>
                   </div>
-                  <div className="pt-1 border-t border-slate-200">
+                  <div className="pt-1 border-t border-slate-200/80">
                     <span className="font-bold text-emerald-700">Typical Countermeasures:</span>{" "}
                     <span className="text-slate-600">{def.typicalMitigations}</span>
                   </div>
@@ -89,7 +89,7 @@ export function SettingsView() {
       </div>
 
       {/* Risk Scoring Model Specification */}
-      <div className="p-6 rounded-xl border border-slate-200 bg-white space-y-4 shadow-xs">
+      <div className="p-6 rounded-xl glass-card space-y-4 shadow-xs">
         <div className="flex items-center gap-2">
           <ShieldCheck className="h-5 w-5 text-emerald-600" />
           <div>
@@ -112,7 +112,7 @@ export function SettingsView() {
             </ul>
           </div>
 
-          <div className="p-4 rounded-lg border border-amber-200 bg-amber-50 text-xs space-y-2">
+          <div className="p-4 rounded-lg border border-amber-200/80 bg-amber-50/70 backdrop-blur-xs text-xs space-y-2">
             <span className="font-bold text-amber-900 flex items-center gap-1.5">
               <AlertTriangle className="h-4 w-4 text-amber-700" />
               Methodology Transparency & Limitations
@@ -128,7 +128,7 @@ export function SettingsView() {
       </div>
 
       {/* Database & Environment Diagnostics */}
-      <div className="p-6 rounded-xl border border-slate-200 bg-white space-y-4 shadow-xs">
+      <div className="p-6 rounded-xl glass-card space-y-4 shadow-xs">
         <div className="flex items-center gap-2">
           <Database className="h-5 w-5 text-sky-600" />
           <div>
@@ -142,7 +142,7 @@ export function SettingsView() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div className="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+          <div className="p-4 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs space-y-2">
             <div className="font-bold text-slate-800 flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-emerald-600 animate-pulse" />
               Active Database Provider: MongoDB
@@ -154,7 +154,7 @@ export function SettingsView() {
             </p>
           </div>
 
-          <div className="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+          <div className="p-4 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs space-y-2">
             <div className="font-bold text-slate-800 flex items-center gap-2">
               <Terminal className="h-4 w-4 text-blue-600" />
               Connection String Setup
@@ -171,7 +171,7 @@ export function SettingsView() {
       </div>
 
       {/* Sample Data Management */}
-      <div className="p-6 rounded-xl border border-slate-200 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+      <div className="p-6 rounded-xl glass-card flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
         <div className="space-y-1">
           <h3 className="text-base font-bold text-slate-900">
             Reset / Re-seed Fictional Commerce Project

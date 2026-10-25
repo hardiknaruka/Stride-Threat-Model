@@ -61,7 +61,7 @@ export function NavigationTabs() {
   ];
 
   return (
-    <div className="no-print border-b border-slate-200 bg-white">
+    <div className="no-print border-b border-white/80 bg-white/70 backdrop-blur-xl shadow-2xs sticky top-16 z-30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex space-x-1 sm:space-x-2 overflow-x-auto py-2.5">
           {tabs.map((tab) => {
@@ -76,7 +76,7 @@ export function NavigationTabs() {
                     ? isCorporate
                       ? "bg-blue-700 text-white shadow-sm"
                       : "bg-teal-700 text-white shadow-sm"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-white/60 hover:backdrop-blur-xs"
                 }`}
               >
                 <Icon className={`h-4 w-4 ${isActive ? "text-white" : "text-slate-500"}`} />
@@ -90,7 +90,7 @@ export function NavigationTabs() {
                         ? isCorporate
                           ? "bg-blue-800 text-blue-100 border-blue-600"
                           : "bg-teal-800 text-teal-100 border-teal-600"
-                        : "bg-slate-100 text-slate-700 border-slate-200"
+                        : "bg-white/70 text-slate-700 border-white/90 backdrop-blur-xs shadow-2xs"
                     }`}
                   >
                     {tab.badge}
