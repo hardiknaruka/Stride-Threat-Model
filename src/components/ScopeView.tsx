@@ -109,13 +109,13 @@ export function ScopeView() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto animate-in fade-in duration-200">
       {/* Sensitive Data Notice Alert */}
-      <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200/80 bg-amber-50/70 backdrop-blur-md text-amber-900 text-xs shadow-xs">
-        <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+      <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200/80 dark:border-amber-500/30 bg-amber-50/70 dark:bg-amber-950/30 backdrop-blur-md text-amber-900 dark:text-amber-200 text-xs shadow-xs">
+        <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
         <div className="space-y-1">
-          <p className="font-bold text-amber-900">
+          <p className="font-bold text-amber-900 dark:text-amber-200">
             Mandatory Security Boundary & Sensitive Data Guidelines
           </p>
-          <p className="leading-relaxed text-amber-800">
+          <p className="leading-relaxed text-amber-800 dark:text-amber-300">
             Keep sensitive data out of this workspace. Never enter real production credentials,
             API access tokens, production personal identifiable information (PII), or confidential
             business secrets into scope notes, technical assumptions, or threat scenarios.
@@ -126,10 +126,10 @@ export function ScopeView() {
       {/* Header and Save Action */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
             Study Scope, Assumptions & Context
           </h2>
-          <p className="text-xs text-slate-500 font-medium">
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             Define boundaries, system baseline assumptions, unknown questions, and accountable review stakeholders.
           </p>
         </div>
@@ -137,12 +137,12 @@ export function ScopeView() {
         {roleConfig.canEditScope && (
           <div className="flex items-center gap-3">
             {saveSuccess && (
-              <span className="text-xs text-emerald-700 flex items-center gap-1 font-bold">
+              <span className="text-xs text-emerald-700 dark:text-emerald-400 flex items-center gap-1 font-bold">
                 <CheckCircle2 className="h-4 w-4" /> Changes saved
               </span>
             )}
             {saveError && (
-              <span className="text-xs text-rose-700 font-bold">{saveError}</span>
+              <span className="text-xs text-rose-700 dark:text-rose-400 font-bold">{saveError}</span>
             )}
             <button
               onClick={handleSave}
@@ -164,11 +164,11 @@ export function ScopeView() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* In Scope */}
         <div className="glass-card p-5 rounded-2xl space-y-3 shadow-xs">
-          <div className="flex items-center gap-2 text-emerald-700 font-bold text-sm bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-200">
-            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+          <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-300 font-bold text-sm bg-emerald-50 dark:bg-emerald-950/40 px-3 py-2 rounded-lg border border-emerald-200 dark:border-emerald-800/60">
+            <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
             <span>Target Systems & Components In-Scope</span>
           </div>
-          <p className="text-xs text-slate-500 font-medium">
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             List microservices, protocols, authentication boundaries, and data stores assessed in this study.
           </p>
           <textarea
@@ -177,17 +177,17 @@ export function ScopeView() {
             disabled={!roleConfig.canEditScope}
             rows={7}
             placeholder="• Service A to Service B API gateway calls&#10;• JWT token signing and propagation&#10;• Database persistence"
-            className="w-full rounded-lg border border-slate-300 bg-slate-50 p-3 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-blue-600 font-mono leading-relaxed"
+            className="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/60 p-3 text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:border-blue-600 font-mono leading-relaxed"
           />
         </div>
 
         {/* Out of Scope */}
         <div className="glass-card p-5 rounded-2xl space-y-3 shadow-xs">
-          <div className="flex items-center gap-2 text-rose-700 font-bold text-sm bg-rose-50 px-3 py-2 rounded-lg border border-rose-200">
-            <XCircle className="h-4 w-4 text-rose-600" />
+          <div className="flex items-center gap-2 text-rose-700 dark:text-rose-300 font-bold text-sm bg-rose-50 dark:bg-rose-950/40 px-3 py-2 rounded-lg border border-rose-200 dark:border-rose-800/60">
+            <XCircle className="h-4 w-4 text-rose-600 dark:text-rose-400" />
             <span>Systems & Boundaries Out-of-Scope</span>
           </div>
-          <p className="text-xs text-slate-500 font-medium">
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             Explicitly list items excluded from the threat model to prevent scope ambiguity during audits.
           </p>
           <textarea
@@ -196,7 +196,7 @@ export function ScopeView() {
             disabled={!roleConfig.canEditScope}
             rows={7}
             placeholder="• Physical datacenter security&#10;• Corporate office network&#10;• Cloud provider hypervisor internals"
-            className="w-full rounded-lg border border-slate-300 bg-slate-50 p-3 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-blue-600 font-mono leading-relaxed"
+            className="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/60 p-3 text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:border-blue-600 font-mono leading-relaxed"
           />
         </div>
       </div>
@@ -205,11 +205,11 @@ export function ScopeView() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Assumptions */}
         <div className="glass-card p-5 rounded-2xl space-y-3 shadow-xs">
-          <div className="flex items-center gap-2 text-blue-700 font-bold text-sm bg-blue-50 px-3 py-2 rounded-lg border border-blue-200">
-            <FileText className="h-4 w-4 text-blue-600" />
+          <div className="flex items-center gap-2 text-blue-700 dark:text-blue-300 font-bold text-sm bg-blue-50 dark:bg-blue-950/40 px-3 py-2 rounded-lg border border-blue-200 dark:border-blue-800/60">
+            <FileText className="h-4 w-4 text-blue-600 dark:text-blue-400" />
             <span>Architectural Assumptions & Baseline Controls</span>
           </div>
-          <p className="text-xs text-slate-500 font-medium">
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             Document core environmental premises (e.g., mTLS active in cluster, cloud HSM key management).
           </p>
           <textarea
@@ -218,17 +218,17 @@ export function ScopeView() {
             disabled={!roleConfig.canEditScope}
             rows={6}
             placeholder="• Kubernetes network policies isolate pod namespaces&#10;• TLS 1.3 enforced at edge ingress&#10;• Secrets injected via cloud secret manager"
-            className="w-full rounded-lg border border-slate-300 bg-slate-50 p-3 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-blue-600 font-mono leading-relaxed"
+            className="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/60 p-3 text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:border-blue-600 font-mono leading-relaxed"
           />
         </div>
 
         {/* Open Questions */}
         <div className="glass-card p-5 rounded-2xl space-y-3 shadow-xs">
-          <div className="flex items-center gap-2 text-amber-800 font-bold text-sm bg-amber-50 px-3 py-2 rounded-lg border border-amber-200">
-            <HelpCircle className="h-4 w-4 text-amber-600" />
+          <div className="flex items-center gap-2 text-amber-800 dark:text-amber-300 font-bold text-sm bg-amber-50 dark:bg-amber-950/40 px-3 py-2 rounded-lg border border-amber-200 dark:border-amber-800/60">
+            <HelpCircle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
             <span>Open Questions & Investigation Items</span>
           </div>
-          <p className="text-xs text-slate-500 font-medium">
+          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
             Record unresolved technical questions requiring follow-up with infrastructure or feature teams.
           </p>
           <textarea
@@ -237,22 +237,22 @@ export function ScopeView() {
             disabled={!roleConfig.canEditScope}
             rows={6}
             placeholder="• Does payment processor support webhook HMAC signature verification?&#10;• Is broker partition key hashed to avoid hot spot DoS?"
-            className="w-full rounded-lg border border-slate-300 bg-slate-50 p-3 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-blue-600 font-mono leading-relaxed"
+            className="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/60 p-3 text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:border-blue-600 font-mono leading-relaxed"
           />
         </div>
       </div>
 
       {/* Stakeholders Section */}
       <div className="glass-card p-5 rounded-2xl space-y-4 shadow-xs">
-        <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-          <div className="flex items-center gap-2 text-slate-900 font-bold text-sm">
-            <Users className={`h-4 w-4 ${isCorporate ? "text-blue-700" : "text-teal-700"}`} />
+        <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+          <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-sm">
+            <Users className={`h-4 w-4 ${isCorporate ? "text-blue-700 dark:text-blue-400" : "text-teal-700 dark:text-teal-400"}`} />
             <span>Assigned Study Stakeholders & Reviewers</span>
           </div>
           {roleConfig.canEditScope && (
             <button
               onClick={() => setShowAddStakeholder(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-300 bg-slate-50 hover:bg-slate-100 text-slate-800 text-xs font-bold transition-colors shadow-2xs"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold transition-colors shadow-2xs"
             >
               <Plus className="h-3.5 w-3.5" />
               Add Stakeholder
@@ -261,8 +261,8 @@ export function ScopeView() {
         </div>
 
         {showAddStakeholder && (
-          <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3 animate-in fade-in duration-150">
-            <div className="text-xs font-bold text-slate-800">New Stakeholder Record</div>
+          <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 space-y-3 animate-in fade-in duration-150">
+            <div className="text-xs font-bold text-slate-800 dark:text-slate-200">New Stakeholder Record</div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               <input
                 type="text"

@@ -324,14 +324,14 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
 
         {/* Helpful Banner when project has 0 threats */}
         {totalThreats === 0 && (
-          <div className="p-4 rounded-xl border border-blue-200 bg-blue-50/70 text-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div className="p-4 rounded-xl border border-blue-200/80 dark:border-blue-500/30 bg-blue-50/70 dark:bg-slate-900/80 text-slate-800 dark:text-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-2xs">
             <div className="flex items-center gap-2.5">
-              <Info className="h-5 w-5 text-blue-600 shrink-0" />
+              <Info className="h-5 w-5 text-blue-600 dark:text-blue-400 shrink-0" />
               <div>
-                <span className="font-bold text-slate-900">
+                <span className="font-bold text-slate-900 dark:text-white">
                   Current project &ldquo;{activeProject.name}&rdquo; has 0 threats assessed.
                 </span>{" "}
-                <span className="text-slate-600">
+                <span className="text-slate-600 dark:text-slate-300">
                   You can record your first threat scenario or switch to the pre-seeded Commerce sample.
                 </span>
               </div>
@@ -351,7 +351,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
               {demoProject && (
                 <button
                   onClick={() => setActiveProjectId(demoProject.id)}
-                  className="px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs shadow-xs"
+                  className="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs shadow-xs"
                 >
                   Switch to Sample ({demoProject.threatCount} Threats)
                 </button>
@@ -365,50 +365,50 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
         {/* ============================================================== */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="glass-card glass-card-hover p-4 rounded-xl shadow-2xs">
-            <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
               Total Threats Assessed
             </span>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-black text-slate-900">{totalThreats}</span>
-              <span className="text-xs text-slate-500 font-medium">
+              <span className="text-2xl font-black text-slate-900 dark:text-white">{totalThreats}</span>
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                 ({openCount} open • {verifiedMitigated + assumedMitigated} mitigated)
               </span>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl border border-rose-200/80 bg-rose-50/60 backdrop-blur-md shadow-2xs glass-card-hover">
-            <span className="text-[11px] font-semibold text-rose-700 uppercase tracking-wider block">
+          <div className="glass-card glass-card-hover p-4 rounded-xl shadow-2xs border border-rose-200/80 dark:border-rose-500/30 dark:bg-rose-950/20">
+            <span className="text-[11px] font-bold text-rose-700 dark:text-rose-400 uppercase tracking-wider block">
               Critical & High Risks
             </span>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-black text-rose-700">{highCritical}</span>
-              <span className="text-xs text-rose-600 font-medium">
+              <span className="text-2xl font-black text-rose-700 dark:text-rose-400">{highCritical}</span>
+              <span className="text-xs text-rose-600 dark:text-rose-300 font-medium">
                 {highCritical > 0 ? "Requires mitigation priority" : "No critical exposure"}
               </span>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl border border-emerald-200/80 bg-emerald-50/60 backdrop-blur-md shadow-2xs glass-card-hover">
-            <span className="text-[11px] font-semibold text-emerald-800 uppercase tracking-wider block">
+          <div className="glass-card glass-card-hover p-4 rounded-xl shadow-2xs border border-emerald-200/80 dark:border-emerald-500/30 dark:bg-emerald-950/20">
+            <span className="text-[11px] font-bold text-emerald-800 dark:text-emerald-400 uppercase tracking-wider block">
               Mitigation Health
             </span>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-black text-emerald-700">
+              <span className="text-2xl font-black text-emerald-700 dark:text-emerald-400">
                 {totalThreats > 0 ? Math.round(((verifiedMitigated + assumedMitigated) / totalThreats) * 100) : 0}%
               </span>
-              <span className="text-xs text-emerald-700 font-medium">
+              <span className="text-xs text-emerald-700 dark:text-emerald-300 font-medium">
                 Controls verified or in place
               </span>
             </div>
           </div>
 
           <div className="glass-card glass-card-hover p-4 rounded-xl shadow-2xs">
-            <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
               Assessed Architecture
             </span>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-black text-slate-900">{elements.length}</span>
-              <span className="text-xs text-slate-500 font-medium">
+              <span className="text-2xl font-black text-slate-900 dark:text-white">{elements.length}</span>
+              <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                 Components • {flows.length} Data Flows
               </span>
             </div>
@@ -564,7 +564,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
                 </div>
 
                 {/* Donut Chart Visualization */}
-                <div className="py-2 bg-white/75 backdrop-blur-sm rounded-xl border border-white/80 shadow-2xs">
+                <div className="py-2 bg-white/75 dark:bg-slate-900/60 backdrop-blur-sm rounded-xl border border-white/80 dark:border-white/10 shadow-2xs">
                   {renderDonut(controlSegments, totalThreats, "Threats", hoveredDonut1, setHoveredDonut1)}
                 </div>
 
@@ -616,7 +616,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
                 </div>
 
                 {/* Donut Chart Visualization */}
-                <div className="py-2 bg-white/75 backdrop-blur-sm rounded-xl border border-white/80 shadow-2xs">
+                <div className="py-2 bg-white/75 dark:bg-slate-900/60 backdrop-blur-sm rounded-xl border border-white/80 dark:border-white/10 shadow-2xs">
                   {renderDonut(impactSegments, totalThreats, "Severity", hoveredDonut2, setHoveredDonut2)}
                 </div>
 
@@ -680,7 +680,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
               </div>
 
               {/* Stacked Horizontal Bars */}
-              <div className="space-y-2.5 bg-white/75 backdrop-blur-sm p-3.5 rounded-xl border border-white/80 shadow-2xs">
+              <div className="space-y-2.5 bg-white/75 dark:bg-slate-900/60 backdrop-blur-sm p-3.5 rounded-xl border border-white/80 dark:border-white/10 shadow-2xs">
                 {componentExposure.length === 0 ? (
                   <p className="text-xs text-slate-400 italic text-center py-6">
                     No architecture components documented yet. Add components in the Architecture tab.
@@ -696,12 +696,12 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
                     return (
                       <div key={comp.id} className="flex items-center gap-2 text-xs">
                         {/* Component Label */}
-                        <span className="w-32 text-right text-slate-800 font-semibold truncate text-[11px] shrink-0" title={comp.name}>
+                        <span className="w-32 text-right text-slate-800 dark:text-slate-200 font-semibold truncate text-[11px] shrink-0" title={comp.name}>
                           {comp.name}
                         </span>
 
                         {/* Stacked Bar Container */}
-                        <div className="flex-1 h-4 bg-slate-100 rounded-sm overflow-hidden flex border border-slate-200">
+                        <div className="flex-1 h-4 bg-slate-100 dark:bg-slate-800 rounded-sm overflow-hidden flex border border-slate-200 dark:border-slate-700">
                           {highWidth > 0 && (
                             <div
                               style={{ width: `${highWidth}%` }}
@@ -728,7 +728,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
                 )}
 
                 {/* X-Axis Scale Indicator (Ranking 0 to 55) */}
-                <div className="mt-3 pt-2 border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-500 font-mono pl-32 font-medium">
+                <div className="mt-3 pt-2 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400 font-mono pl-32 font-medium">
                   <span>0</span>
                   <span>10</span>
                   <span>20</span>
@@ -737,14 +737,14 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
                   <span>50</span>
                   <span>55</span>
                 </div>
-                <div className="text-right text-[10px] font-bold text-slate-600 mt-0.5 uppercase tracking-wider">
+                <div className="text-right text-[10px] font-bold text-slate-600 dark:text-slate-300 mt-0.5 uppercase tracking-wider">
                   Ranking / Risk Exposure Score
                 </div>
               </div>
             </div>
 
             {/* Legend for Stacked Bar */}
-            <div className="flex items-center gap-4 text-[10px] text-slate-600 pt-2 border-t border-slate-200 mt-3 font-medium">
+            <div className="flex items-center gap-4 text-[10px] text-slate-600 dark:text-slate-300 pt-2 border-t border-slate-200 dark:border-slate-700 mt-3 font-medium">
               <span className="flex items-center gap-1.5">
                 <span className="h-2.5 w-3 rounded-xs bg-rose-600" />
                 Critical & High Impact
@@ -783,7 +783,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
               </div>
 
               {/* Heatmap Grid Container */}
-              <div className="bg-white/75 backdrop-blur-sm p-3.5 rounded-xl border border-white/80 shadow-2xs flex items-stretch gap-3">
+              <div className="bg-white/75 dark:bg-slate-900/60 backdrop-blur-sm p-3.5 rounded-xl border border-white/80 dark:border-white/10 shadow-2xs flex items-stretch gap-3">
                 {/* Left "Totals" Color Indicator Bar */}
                 <div className="w-12 flex flex-col items-center">
                   <span className="text-[10px] text-slate-500 font-bold mb-1 uppercase tracking-wider">Totals</span>

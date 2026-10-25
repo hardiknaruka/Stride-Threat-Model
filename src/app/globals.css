@@ -34,7 +34,7 @@ body {
 }
 
 .dark .glass-panel {
-  background: rgba(13, 19, 33, 0.75);
+  background: rgba(13, 19, 33, 0.78);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -51,7 +51,7 @@ body {
 }
 
 .dark .glass-card {
-  background: rgba(15, 23, 42, 0.65);
+  background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -71,7 +71,7 @@ body {
 }
 
 .dark .glass-card-hover:hover {
-  background: rgba(26, 36, 56, 0.8);
+  background: rgba(26, 36, 56, 0.85);
   border-color: rgba(255, 255, 255, 0.18);
   box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.6), 0 4px 12px -2px rgba(0, 0, 0, 0.4);
   transform: translateY(-1px);
@@ -124,7 +124,8 @@ body {
 }
 
 /* ==========================================================================
-   Dark Mode Adaptive Text, Surface & Border Overrides
+   Dark Mode Adaptive Text, Surfaces & Border Overrides
+   Eliminates all washed-out light box reflections and maximizes contrast
    ========================================================================== */
 
 /* Typography */
@@ -147,7 +148,7 @@ body {
   color: #64748b !important;
 }
 
-/* Backgrounds & Panels */
+/* Base Surfaces in Dark Mode */
 .dark .bg-white {
   background-color: rgba(15, 23, 42, 0.75) !important;
 }
@@ -157,26 +158,23 @@ body {
 .dark .bg-slate-100 {
   background-color: rgba(30, 41, 59, 0.6) !important;
 }
-.dark .bg-white\/60,
-.dark .bg-white\/70,
-.dark .bg-white\/75,
-.dark .bg-white\/80,
-.dark .bg-white\/90 {
+
+/* Catch all translucent white variations so they don't produce a blinding light box */
+.dark [class*="bg-white/"] {
   background-color: rgba(15, 23, 42, 0.7) !important;
 }
+.dark [class*="border-white/"] {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
 
-/* Borders */
+/* Neutral Borders */
 .dark .border-slate-200,
-.dark .border-slate-200\/70,
-.dark .border-slate-200\/80 {
+.dark [class*="border-slate-200"] {
   border-color: rgba(51, 65, 85, 0.6) !important;
 }
-.dark .border-slate-300 {
+.dark .border-slate-300,
+.dark [class*="border-slate-300"] {
   border-color: rgba(71, 85, 105, 0.6) !important;
-}
-.dark .border-white\/80,
-.dark .border-white\/90 {
-  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 /* Hover States */
@@ -190,90 +188,124 @@ body {
 
 /* Table Dividers */
 .dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
-.dark .divide-slate-100\/80 > :not([hidden]) ~ :not([hidden]) {
+.dark [class*="divide-slate-100"] > :not([hidden]) ~ :not([hidden]) {
   border-color: rgba(51, 65, 85, 0.4) !important;
 }
-.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]) {
+.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]),
+.dark [class*="divide-slate-200"] > :not([hidden]) ~ :not([hidden]) {
   border-color: rgba(51, 65, 85, 0.5) !important;
 }
 
-/* Status Indicators in Dark Mode */
-.dark .bg-rose-50,
-.dark .bg-rose-50\/70,
-.dark .bg-rose-100,
-.dark .bg-rose-100\/90 {
-  background-color: rgba(136, 19, 55, 0.35) !important;
+/* ==========================================================================
+   Dark Mode Colored Boxes & Badges (Eliminates Pastel Light Box Reflections)
+   ========================================================================== */
+
+/* Rose / Critical & High */
+.dark [class*="bg-rose-50"],
+.dark [class*="bg-rose-100"] {
+  background-color: rgba(136, 19, 55, 0.3) !important;
 }
-.dark .text-rose-700,
-.dark .text-rose-800 {
-  color: #fda4af !important;
-}
-.dark .border-rose-200,
-.dark .border-rose-200\/80,
-.dark .border-rose-300 {
+.dark [class*="border-rose-200"],
+.dark [class*="border-rose-300"] {
   border-color: rgba(244, 63, 94, 0.35) !important;
 }
-
-.dark .bg-amber-50,
-.dark .bg-amber-50\/70,
-.dark .bg-amber-100,
-.dark .bg-amber-100\/90 {
-  background-color: rgba(120, 53, 15, 0.35) !important;
+.dark [class*="text-rose-700"],
+.dark [class*="text-rose-800"] {
+  color: #fb7185 !important; /* rose-400 */
 }
-.dark .text-amber-700,
-.dark .text-amber-800,
-.dark .text-amber-900 {
-  color: #fcd34d !important;
-}
-.dark .border-amber-200,
-.dark .border-amber-200\/80,
-.dark .border-amber-300 {
-  border-color: rgba(245, 158, 11, 0.35) !important;
+.dark [class*="text-rose-600"] {
+  color: #fda4af !important; /* rose-300 */
 }
 
-.dark .bg-emerald-50,
-.dark .bg-emerald-50\/70,
-.dark .bg-emerald-100,
-.dark .bg-emerald-100\/90 {
-  background-color: rgba(6, 78, 59, 0.35) !important;
+/* Emerald / Mitigated & Low */
+.dark [class*="bg-emerald-50"],
+.dark [class*="bg-emerald-100"] {
+  background-color: rgba(6, 78, 59, 0.3) !important;
 }
-.dark .text-emerald-700,
-.dark .text-emerald-800 {
-  color: #6ee7b7 !important;
-}
-.dark .border-emerald-200,
-.dark .border-emerald-200\/80,
-.dark .border-emerald-300 {
+.dark [class*="border-emerald-200"],
+.dark [class*="border-emerald-300"] {
   border-color: rgba(16, 185, 129, 0.35) !important;
 }
+.dark [class*="text-emerald-700"],
+.dark [class*="text-emerald-800"] {
+  color: #34d399 !important; /* emerald-400 */
+}
+.dark [class*="text-emerald-600"] {
+  color: #6ee7b7 !important; /* emerald-300 */
+}
 
-.dark .bg-blue-50,
-.dark .bg-blue-100 {
-  background-color: rgba(30, 58, 138, 0.35) !important;
+/* Amber / Medium & Warnings */
+.dark [class*="bg-amber-50"],
+.dark [class*="bg-amber-100"] {
+  background-color: rgba(120, 53, 15, 0.3) !important;
 }
-.dark .text-blue-700,
-.dark .text-blue-800 {
-  color: #93c5fd !important;
+.dark [class*="border-amber-200"],
+.dark [class*="border-amber-300"] {
+  border-color: rgba(245, 158, 11, 0.35) !important;
 }
-.dark .border-blue-200,
-.dark .border-blue-300 {
+.dark [class*="text-amber-700"],
+.dark [class*="text-amber-800"],
+.dark [class*="text-amber-900"] {
+  color: #fbbf24 !important; /* amber-400 */
+}
+.dark [class*="text-amber-600"] {
+  color: #fcd34d !important; /* amber-300 */
+}
+
+/* Blue / Corporate & Info */
+.dark [class*="bg-blue-50"],
+.dark [class*="bg-blue-100"] {
+  background-color: rgba(30, 58, 138, 0.3) !important;
+}
+.dark [class*="border-blue-200"],
+.dark [class*="border-blue-300"] {
   border-color: rgba(59, 130, 246, 0.35) !important;
 }
+.dark [class*="text-blue-700"],
+.dark [class*="text-blue-800"] {
+  color: #60a5fa !important; /* blue-400 */
+}
+.dark [class*="text-blue-600"] {
+  color: #93c5fd !important; /* blue-300 */
+}
 
-.dark .bg-teal-50,
-.dark .bg-teal-100 {
-  background-color: rgba(19, 78, 74, 0.35) !important;
+/* Teal / Tech */
+.dark [class*="bg-teal-50"],
+.dark [class*="bg-teal-100"] {
+  background-color: rgba(19, 78, 74, 0.3) !important;
 }
-.dark .text-teal-700,
-.dark .text-teal-800 {
-  color: #5eead4 !important;
-}
-.dark .border-teal-200,
-.dark .border-teal-300 {
+.dark [class*="border-teal-200"],
+.dark [class*="border-teal-300"] {
   border-color: rgba(20, 184, 166, 0.35) !important;
 }
+.dark [class*="text-teal-700"],
+.dark [class*="text-teal-800"] {
+  color: #2dd4bf !important; /* teal-400 */
+}
+.dark [class*="text-teal-600"] {
+  color: #5eead4 !important; /* teal-300 */
+}
 
-/* Code & Pre */
+/* Form Controls in Dark Mode */
+.dark input[type="text"],
+.dark input[type="email"],
+.dark input[type="search"],
+.dark select,
+.dark textarea {
+  background-color: rgba(15, 23, 42, 0.85) !important;
+  border-color: rgba(51, 65, 85, 0.8) !important;
+  color: #f8fafc !important;
+}
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b !important;
+}
+.dark select option {
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+
+/* Code & Pre Blocks */
 .dark pre {
   background-color: rgba(10, 15, 28, 0.9) !important;
   border-color: rgba(51, 65, 85, 0.8) !important;
