@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id                  String   @id @default(cuid())
+  name                String
+  description         String
+  owner               String
+  status              String   @default("In Assessment") // Planning, In Assessment, Under Review, Approved, Archived
+  architectureVersion String   @default("1.0.0")
+  environment         String   @default("Production")   // Production, Staging, Development, Multi-Region Cloud
+  reviewDate          DateTime?
+  inScope             String?
+  outOfScope          String?
+  assumptions         String?
+  openQuestions       String?
+  stakeholders        String?  // JSON string: [{ name, role, email, team }]
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  elements            ArchitectureElement[]
+  flows               DataFlow[]
+  threats             Threat[]
+}
+
+model ArchitectureElement {
+  id          String   @id @default(cuid())
+  projectId   String
+  name        String
+  type        String   // EXTERNAL_ENTITY, PROCESS, DATA_STORE, TRUST_BOUNDARY
+  description String?
+  technology  String?  // e.g. Node.js, PostgreSQL, Redis, Envoy
+  trustZone   String?  // e.g. Public Internet, DMZ, VPC Private, Secure Core
+  posX        Float    @default(100)
+  posY        Float    @default(100)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  sourceFlows DataFlow[] @relation("FlowSource")
+  targetFlows DataFlow[] @relation("FlowTarget")
+  threatLinks ThreatElementLink[]
+
+  @@index([projectId])
+}
+
+model DataFlow {
+  id                   String   @id @default(cuid())
+  projectId            String
+  name                 String
+  sourceElementId      String
+  targetElementId      String
+  protocol             String   @default("HTTPS/REST") // HTTPS/REST, gRPC, AMQP/Kafka, WebSocket, Database Wire
+  dataCategory         String?  // Sensitive PII, Auth Credentials, Financial/Payment, Public Data, Telemetry
+  authContext          String?  // OAuth 2.0 Bearer, mTLS, API Key, Session Cookie, Unauthenticated
+  crossesTrustBoundary Boolean  @default(false)
+  notes                String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  project              Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  sourceElement        ArchitectureElement @relation("FlowSource", fields: [sourceElementId], references: [id], onDelete: Cascade)
+  targetElement        ArchitectureElement @relation("FlowTarget", fields: [targetElementId], references: [id], onDelete: Cascade)
+  threatLinks          ThreatFlowLink[]
+
+  @@index([projectId])
+  @@index([sourceElementId])
+  @@index([targetElementId])
+}
+
+model Threat {
+  id                     String   @id @default(cuid())
+  projectId              String
+  threatId               String   // e.g., THR-001
+  title                  String
+  scenario               String
+  strideCategories       String   // JSON array string: ["SPOOFING", "TAMPERING"]
+  preconditions          String?
+  confidentialityImpact  String?  // Low, Medium, High, None
+  integrityImpact        String?  // Low, Medium, High, None
+  availabilityImpact     String?  // Low, Medium, High, None
+  privacyImpact          String?  // Low, Medium, High, None
+  businessImpact         String?
+  likelihood             String   @default("MEDIUM") // LOW, MEDIUM, HIGH
+  impact                 String   @default("MEDIUM") // LOW, MEDIUM, HIGH
+  severity               String   @default("MEDIUM") // LOW, MEDIUM, HIGH, CRITICAL
+  severityRationale      String?  // Documented rationale if overridden
+  isOverridden           Boolean  @default(false)
+  existingControls       String?
+  controlsStatus         String   @default("ASSUMED") // VERIFIED, ASSUMED, NONE
+  mitigation             String?
+  owner                  String?
+  dueDate                DateTime?
+  status                 String   @default("OPEN") // OPEN, ACCEPTED, MITIGATED, DEFERRED, NOT_APPLICABLE
+  notApplicableRationale String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  project                Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  linkedElements         ThreatElementLink[]
+  linkedFlows            ThreatFlowLink[]
+
+  @@index([projectId])
+  @@index([status])
+  @@index([severity])
+}
+
+model ThreatElementLink {
+  id        String   @id @default(cuid())
+  threatId  String
+  elementId String
+  createdAt DateTime @default(now())
+
+  threat    Threat   @relation(fields: [threatId], references: [id], onDelete: Cascade)
+  element   ArchitectureElement @relation(fields: [elementId], references: [id], onDelete: Cascade)
+
+  @@unique([threatId, elementId])
+  @@index([elementId])
+}
+
+model ThreatFlowLink {
+  id        String   @id @default(cuid())
+  threatId  String
+  flowId    String
+  createdAt DateTime @default(now())
+
+  threat    Threat   @relation(fields: [threatId], references: [id], onDelete: Cascade)
+  flow      DataFlow @relation(fields: [flowId], references: [id], onDelete: Cascade)
+
+  @@unique([threatId, flowId])
+  @@index([flowId])
+}
