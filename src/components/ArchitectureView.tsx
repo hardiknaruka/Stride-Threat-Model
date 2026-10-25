@@ -16,6 +16,8 @@ import {
   Lock,
   ExternalLink,
   Info,
+  CheckCircle2,
+  X,
 } from "lucide-react";
 
 interface ArchitectureViewProps {
@@ -23,7 +25,8 @@ interface ArchitectureViewProps {
 }
 
 export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureViewProps) {
-  const { activeProject, refreshActiveProject, roleConfig } = useProject();
+  const { activeProject, refreshActiveProject, roleConfig, themePalette } = useProject();
+  const isCorporate = themePalette === "corporate";
 
   const [activeSubTab, setActiveSubTab] = useState<"diagram" | "elements" | "flows">("diagram");
   const [selectedElementId, setSelectedElementId] = useState<string | null>(null);
@@ -106,6 +109,7 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
 
   const handleSaveElement = async () => {
     if (!elementForm.name.trim()) return;
+
     try {
       if (editingElement) {
         await fetch(`/api/projects/${activeProject.id}/elements/${editingElement.id}`, {
@@ -128,13 +132,15 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
   };
 
   const handleDeleteElement = async (elemId: string) => {
-    if (!confirm("Are you sure you want to delete this architecture component and its associated flows?")) return;
+    if (!confirm("Are you sure you want to delete this component? Associated data flows will also be removed.")) {
+      return;
+    }
     try {
       await fetch(`/api/projects/${activeProject.id}/elements/${elemId}`, {
         method: "DELETE",
       });
-      await refreshActiveProject();
       if (selectedElementId === elemId) setSelectedElementId(null);
+      await refreshActiveProject();
     } catch (err) {
       console.error(err);
     }
@@ -142,7 +148,7 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
 
   const handleOpenAddFlow = () => {
     if (elements.length < 2) {
-      alert("Please create at least two architecture components before adding a data flow.");
+      alert("At least 2 architecture components are required to create a data flow.");
       return;
     }
     setEditingFlow(null);
@@ -175,7 +181,10 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
   };
 
   const handleSaveFlow = async () => {
-    if (!flowForm.name.trim() || !flowForm.sourceElementId || !flowForm.targetElementId) return;
+    if (!flowForm.name.trim() || !flowForm.sourceElementId || !flowForm.targetElementId) {
+      return;
+    }
+
     try {
       if (editingFlow) {
         await fetch(`/api/projects/${activeProject.id}/flows/${editingFlow.id}`, {
@@ -233,45 +242,52 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
       {/* Top Header & View Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
         <div>
-          <h2 className="text-xl font-bold text-white tracking-tight">
+          <h2 className="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <Layers className={`h-5 w-5 ${isCorporate ? "text-blue-700" : "text-teal-700"}`} />
             Architecture Inventory & Data Flows
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500 mt-0.5">
             Microservices, data stores, external entities, trust boundaries, and directed communication channels.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           {/* Sub-view toggle */}
-          <div className="flex items-center p-1 rounded-xl bg-slate-900 border border-slate-800 text-xs">
+          <div className="flex items-center p-1 rounded-lg bg-slate-100 border border-slate-200 text-xs">
             <button
               onClick={() => setActiveSubTab("diagram")}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-md font-semibold transition-all ${
                 activeSubTab === "diagram"
-                  ? "bg-indigo-600 text-white"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? isCorporate
+                    ? "bg-blue-700 text-white shadow-xs"
+                    : "bg-teal-700 text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
               Interactive Graph
             </button>
             <button
               onClick={() => setActiveSubTab("elements")}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-md font-semibold transition-all ${
                 activeSubTab === "elements"
-                  ? "bg-indigo-600 text-white"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? isCorporate
+                    ? "bg-blue-700 text-white shadow-xs"
+                    : "bg-teal-700 text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
               Components ({elements.length})
             </button>
             <button
               onClick={() => setActiveSubTab("flows")}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-md font-semibold transition-all ${
                 activeSubTab === "flows"
-                  ? "bg-indigo-600 text-white"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? isCorporate
+                    ? "bg-blue-700 text-white shadow-xs"
+                    : "bg-teal-700 text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
               Data Flows ({flows.length})
@@ -282,14 +298,18 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
             <div className="flex items-center gap-2">
               <button
                 onClick={handleOpenAddElement}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md shadow-indigo-600/30 transition-colors"
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white text-xs font-semibold shadow-xs transition-colors ${
+                  isCorporate
+                    ? "bg-blue-700 hover:bg-blue-800"
+                    : "bg-teal-700 hover:bg-teal-800"
+                }`}
               >
                 <Plus className="h-3.5 w-3.5" />
                 Add Component
               </button>
               <button
                 onClick={handleOpenAddFlow}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-750 text-slate-200 text-xs font-semibold transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-colors"
               >
                 <Plus className="h-3.5 w-3.5" />
                 Add Flow
@@ -302,40 +322,40 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
       {/* SUB-VIEW 1: Interactive Architecture Graph Canvas */}
       {activeSubTab === "diagram" && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-8 rounded-2xl border border-slate-800 bg-slate-950/80 p-4 shadow-xl flex flex-col justify-between">
-            <div className="flex items-center justify-between mb-2 px-2 text-xs text-slate-400">
+          <div className="lg:col-span-8 rounded-xl border border-slate-200 bg-white p-4 shadow-xs flex flex-col justify-between">
+            <div className="flex items-center justify-between mb-2 px-1 text-xs text-slate-600">
               <div className="flex items-center gap-4">
                 <span className="flex items-center gap-1.5">
-                  <span className="h-3 w-3 rounded-md bg-indigo-500/20 border border-indigo-500" />
-                  Process
+                  <span className={`h-3 w-3 rounded-sm border ${isCorporate ? "bg-blue-100 border-blue-600" : "bg-teal-100 border-teal-600"}`} />
+                  <span className="font-medium text-slate-700">Process</span>
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="h-3 w-3 rounded-md bg-emerald-500/20 border border-emerald-500" />
-                  Data Store
+                  <span className="h-3 w-3 rounded-sm bg-emerald-100 border border-emerald-600" />
+                  <span className="font-medium text-slate-700">Data Store</span>
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="h-3 w-3 rounded-md bg-cyan-500/20 border border-cyan-500" />
-                  External Entity
+                  <span className="h-3 w-3 rounded-sm bg-sky-100 border border-sky-600" />
+                  <span className="font-medium text-slate-700">External Entity</span>
                 </span>
                 <span className="flex items-center gap-1.5">
                   <span className="h-2 w-4 border-t-2 border-dashed border-rose-500" />
-                  Trust Boundary Flow
+                  <span className="font-medium text-slate-700">Trust Boundary Flow</span>
                 </span>
               </div>
-              <span className="text-[11px] text-slate-500">
+              <span className="text-[11px] text-slate-400">
                 Click any component node to inspect details & linked STRIDE threats
               </span>
             </div>
 
             {/* SVG Diagram Canvas */}
-            <div className="relative w-full h-[540px] bg-[#070b14] rounded-xl border border-slate-800/80 overflow-hidden flex items-center justify-center">
+            <div className="relative w-full h-[520px] bg-slate-50 rounded-xl border border-slate-200 overflow-hidden flex items-center justify-center">
               <svg
                 className="w-full h-full select-none"
                 viewBox="0 0 1000 480"
                 preserveAspectRatio="xMidYMid meet"
               >
                 <defs>
-                  {/* Arrowhead marker */}
+                  {/* Arrowhead marker standard */}
                   <marker
                     id="arrowhead"
                     markerWidth="8"
@@ -344,8 +364,9 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                     refY="3"
                     orient="auto"
                   >
-                    <polygon points="0 0, 8 3, 0 6" fill="#6366f1" />
+                    <polygon points="0 0, 8 3, 0 6" fill={isCorporate ? "#1d4ed8" : "#0f766e"} />
                   </marker>
+                  {/* Arrowhead marker boundary */}
                   <marker
                     id="arrowhead-boundary"
                     markerWidth="8"
@@ -354,13 +375,13 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                     refY="3"
                     orient="auto"
                   >
-                    <polygon points="0 0, 8 3, 0 6" fill="#f43f5e" />
+                    <polygon points="0 0, 8 3, 0 6" fill="#e11d48" />
                   </marker>
                 </defs>
 
                 {/* Grid dots background */}
-                <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
-                  <circle cx="2" cy="2" r="1" fill="#1e293b" />
+                <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1.2" fill="#cbd5e1" />
                 </pattern>
                 <rect width="1000" height="480" fill="url(#grid)" />
 
@@ -384,7 +405,7 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                   const cy2 = ty;
 
                   const isCrossing = flow.crossesTrustBoundary;
-                  const strokeColor = isCrossing ? "#f43f5e" : "#6366f1";
+                  const strokeColor = isCrossing ? "#e11d48" : isCorporate ? "#2563eb" : "#0d9488";
                   const markerId = isCrossing ? "url(#arrowhead-boundary)" : "url(#arrowhead)";
 
                   const midX = (sx + tx) / 2;
@@ -402,19 +423,31 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                         strokeWidth={isConnected ? 3 : 2}
                         strokeDasharray={isCrossing ? "5,4" : undefined}
                         markerEnd={markerId}
-                        opacity={selectedElementId && !isConnected ? 0.3 : 0.85}
+                        opacity={selectedElementId && !isConnected ? 0.35 : 0.9}
                       />
                       {/* Flow label */}
+                      <rect
+                        x={midX - 55}
+                        y={midY - 10}
+                        width="110"
+                        height="16"
+                        rx="4"
+                        fill="#ffffff"
+                        stroke="#e2e8f0"
+                        strokeWidth="1"
+                        opacity={selectedElementId && !isConnected ? 0.35 : 0.95}
+                      />
                       <text
                         x={midX}
-                        y={midY}
-                        fill="#94a3b8"
+                        y={midY + 1}
+                        fill="#334155"
                         fontSize="9"
+                        fontWeight="600"
                         textAnchor="middle"
-                        className="font-mono bg-slate-950 px-1"
-                        style={{ textShadow: "0 1px 3px rgba(0,0,0,0.8)" }}
+                        className="font-mono select-none"
+                        opacity={selectedElementId && !isConnected ? 0.35 : 1}
                       >
-                        {flow.name} ({flow.protocol})
+                        {flow.name.length > 15 ? flow.name.substring(0, 14) + "…" : flow.name}
                       </text>
                     </g>
                   );
@@ -425,40 +458,55 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                   const isSelected = selectedElementId === elem.id;
                   const threatCount = getElementThreatCount(elem.id);
 
-                  let borderColor = "stroke-indigo-500";
-                  let bgColor = "fill-[#0f172a]";
+                  let borderColor = isCorporate ? "stroke-blue-600" : "stroke-teal-600";
+                  let headerColor = isCorporate ? "fill-blue-50" : "fill-teal-50";
+                  let badgeFill = isCorporate ? "#1d4ed8" : "#0f766e";
+
                   if (elem.type === "DATA_STORE") {
-                    borderColor = "stroke-emerald-500";
-                    bgColor = "fill-[#06201b]";
+                    borderColor = "stroke-emerald-600";
+                    headerColor = "fill-emerald-50";
+                    badgeFill = "#059669";
                   } else if (elem.type === "EXTERNAL_ENTITY") {
-                    borderColor = "stroke-cyan-500";
-                    bgColor = "fill-[#081e28]";
+                    borderColor = "stroke-sky-600";
+                    headerColor = "fill-sky-50";
+                    badgeFill = "#0284c7";
                   }
 
                   return (
                     <g
                       key={elem.id}
                       onClick={() => setSelectedElementId(elem.id)}
-                      className="cursor-pointer transition-transform duration-150 hover:brightness-125"
+                      className="cursor-pointer transition-transform duration-150 hover:brightness-95"
                       transform={`translate(${elem.posX}, ${elem.posY})`}
                     >
                       {/* Node Box */}
                       <rect
                         width="160"
                         height="70"
-                        rx="10"
-                        className={`${bgColor} ${borderColor} ${
+                        rx="8"
+                        fill="#ffffff"
+                        className={`${borderColor} ${
                           isSelected ? "stroke-[3px]" : "stroke-[1.5px]"
                         }`}
-                        filter={isSelected ? "drop-shadow(0 0 10px rgba(99,102,241,0.5))" : undefined}
+                        filter={isSelected ? "drop-shadow(0 4px 8px rgba(0,0,0,0.15))" : "drop-shadow(0 1px 3px rgba(0,0,0,0.06))"}
+                      />
+
+                      {/* Header bar */}
+                      <rect
+                        x="1"
+                        y="1"
+                        width="158"
+                        height="26"
+                        rx="7"
+                        className={headerColor}
                       />
 
                       {/* Header line */}
                       <text
                         x="12"
-                        y="24"
-                        fill="#f8fafc"
-                        fontSize="12"
+                        y="18"
+                        fill="#0f172a"
+                        fontSize="11"
                         fontWeight="bold"
                       >
                         {elem.name.length > 18 ? elem.name.substring(0, 16) + "..." : elem.name}
@@ -468,9 +516,10 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                       <text
                         x="12"
                         y="42"
-                        fill="#94a3b8"
+                        fill="#475569"
                         fontSize="10"
                         fontFamily="monospace"
+                        fontWeight="500"
                       >
                         {elem.technology ? elem.technology.substring(0, 20) : elem.type}
                       </text>
@@ -486,13 +535,13 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
 
                       {/* Threat count badge */}
                       {threatCount > 0 && (
-                        <g transform="translate(142, 6)">
+                        <g transform="translate(142, 4)">
                           <circle cx="6" cy="6" r="9" fill="#e11d48" />
                           <text
                             x="6"
-                            y="10"
+                            y="9.5"
                             fill="#ffffff"
-                            fontSize="10"
+                            fontSize="9"
                             fontWeight="bold"
                             textAnchor="middle"
                           >
@@ -506,28 +555,30 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
               </svg>
             </div>
 
-            <div className="mt-3 px-2 flex items-center justify-between text-[11px] text-slate-500">
+            <div className="mt-3 px-1 flex items-center justify-between text-[11px] text-slate-500">
               <span className="flex items-center gap-1.5">
                 <Info className="h-3.5 w-3.5 text-slate-400" />
-                Dedicated diagramming: Use OWASP Threat Dragon for complex threat tree modeling.
+                OWASP Threat Dragon integration compatible for complete DFD diagrams.
               </span>
-              <span>{elements.length} components • {flows.length} directed flows</span>
+              <span className="font-medium text-slate-600">{elements.length} components • {flows.length} directed flows</span>
             </div>
           </div>
 
           {/* Component Inspector Drawer (4 columns) */}
-          <div className="lg:col-span-4 rounded-2xl border border-slate-800 bg-slate-900/60 p-5 space-y-4 flex flex-col justify-between">
+          <div className="lg:col-span-4 rounded-xl border border-slate-200 bg-white p-5 space-y-4 flex flex-col justify-between shadow-xs">
             {selectedElement ? (
               <div className="space-y-4">
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-slate-800 text-slate-300">
+                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                      isCorporate ? "bg-blue-50 text-blue-700 border border-blue-200" : "bg-teal-50 text-teal-700 border border-teal-200"
+                    }`}>
                       {selectedElement.type}
                     </span>
-                    <h3 className="text-lg font-bold text-white mt-1">
+                    <h3 className="text-base font-bold text-slate-900 mt-1.5">
                       {selectedElement.name}
                     </h3>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-slate-500 font-mono">
                       {selectedElement.technology || "No technology stack noted"}
                     </p>
                   </div>
@@ -535,14 +586,14 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => handleOpenEditElement(selectedElement)}
-                        className="p-1.5 text-slate-400 hover:text-white rounded hover:bg-slate-800"
+                        className="p-1.5 text-slate-500 hover:text-slate-900 rounded-md hover:bg-slate-100 transition-colors"
                         title="Edit component"
                       >
                         <Edit2 className="h-3.5 w-3.5" />
                       </button>
                       <button
                         onClick={() => handleDeleteElement(selectedElement.id)}
-                        className="p-1.5 text-slate-400 hover:text-rose-400 rounded hover:bg-slate-800"
+                        className="p-1.5 text-slate-500 hover:text-rose-600 rounded-md hover:bg-rose-50 transition-colors"
                         title="Delete component"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
@@ -551,14 +602,14 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                   )}
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-2 text-xs">
+                <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 space-y-2 text-xs">
                   <div>
-                    <span className="text-slate-400">Trust Zone:</span>{" "}
-                    <span className="text-slate-200 font-medium">{selectedElement.trustZone || "Default"}</span>
+                    <span className="text-slate-500 font-medium">Trust Zone:</span>{" "}
+                    <span className="text-slate-800 font-semibold">{selectedElement.trustZone || "Default"}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400">Description:</span>{" "}
-                    <span className="text-slate-300 leading-relaxed block mt-0.5">
+                    <span className="text-slate-500 font-medium">Description:</span>{" "}
+                    <span className="text-slate-700 leading-relaxed block mt-0.5">
                       {selectedElement.description || "No description provided."}
                     </span>
                   </div>
@@ -567,14 +618,16 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                 {/* Linked Threats for Selected Component */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-slate-300 flex items-center gap-1.5">
-                      <ShieldAlert className="h-4 w-4 text-rose-400" />
+                    <span className="font-bold text-slate-800 flex items-center gap-1.5">
+                      <ShieldAlert className="h-4 w-4 text-rose-600" />
                       Linked STRIDE Threats ({selectedElementThreats.length})
                     </span>
                     {onOpenNewThreatForElement && roleConfig.canCreateThreats && (
                       <button
                         onClick={() => onOpenNewThreatForElement(selectedElement.id)}
-                        className="text-indigo-400 hover:underline text-[11px]"
+                        className={`text-xs font-semibold hover:underline ${
+                          isCorporate ? "text-blue-700" : "text-teal-700"
+                        }`}
                       >
                         + Link Threat
                       </button>
@@ -582,7 +635,7 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                   </div>
 
                   {selectedElementThreats.length === 0 ? (
-                    <p className="text-xs text-slate-500 italic py-2">
+                    <p className="text-xs text-slate-400 italic py-2">
                       No threats specifically linked to this component yet.
                     </p>
                   ) : (
@@ -590,26 +643,26 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                       {selectedElementThreats.map((t) => (
                         <div
                           key={t.id}
-                          className="p-2.5 rounded-lg border border-slate-800 bg-slate-950/40 text-xs space-y-1"
+                          className="p-2.5 rounded-lg border border-slate-200 bg-slate-50 text-xs space-y-1 hover:border-slate-300 transition-colors"
                         >
                           <div className="flex items-center justify-between">
-                            <span className="font-mono text-[10px] text-slate-400 font-bold">
+                            <span className="font-mono text-[10px] text-slate-700 font-bold">
                               {t.threatId}
                             </span>
                             <span
-                              className={`px-1.5 py-0.2 rounded text-[10px] font-semibold ${
+                              className={`px-1.5 py-0.2 rounded text-[10px] font-bold ${
                                 t.severity === "CRITICAL"
-                                  ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
+                                  ? "bg-rose-100 text-rose-700 border border-rose-200"
                                   : t.severity === "HIGH"
-                                  ? "bg-orange-500/20 text-orange-300 border border-orange-500/30"
-                                  : "bg-blue-500/20 text-blue-300 border border-blue-500/30"
+                                  ? "bg-amber-100 text-amber-800 border border-amber-200"
+                                  : "bg-blue-100 text-blue-800 border border-blue-200"
                               }`}
                             >
                               {t.severity}
                             </span>
                           </div>
-                          <div className="font-semibold text-slate-200 line-clamp-1">{t.title}</div>
-                          <div className="text-slate-400 text-[11px] line-clamp-2">{t.mitigation || "Mitigation pending"}</div>
+                          <div className="font-bold text-slate-800 line-clamp-1">{t.title}</div>
+                          <div className="text-slate-500 text-[11px] line-clamp-2">{t.mitigation || "Mitigation pending"}</div>
                         </div>
                       ))}
                     </div>
@@ -617,17 +670,17 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                 </div>
               </div>
             ) : (
-              <div className="h-full flex flex-col items-center justify-center text-center p-6 text-slate-500">
-                <Server className="h-10 w-10 text-slate-600 mb-2" />
-                <p className="text-xs font-medium text-slate-400">No Component Selected</p>
+              <div className="h-full flex flex-col items-center justify-center text-center p-6 text-slate-400">
+                <Server className="h-10 w-10 text-slate-300 mb-2" />
+                <p className="text-xs font-bold text-slate-700">No Component Selected</p>
                 <p className="text-[11px] text-slate-500 mt-1 max-w-xs">
                   Click any microservice, database, or external entity in the graph to inspect properties and associated threats.
                 </p>
               </div>
             )}
 
-            <div className="pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
-              <span>OWASP Threat Dragon integration available</span>
+            <div className="pt-3 border-t border-slate-200 text-[11px] text-slate-500 flex items-center justify-between">
+              <span>OWASP Threat Dragon ready</span>
             </div>
           </div>
         </div>
@@ -635,15 +688,19 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
 
       {/* SUB-VIEW 2: Components Table */}
       {activeSubTab === "elements" && (
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden shadow-xl">
-          <div className="p-4 border-b border-slate-800 flex items-center justify-between">
-            <h3 className="text-sm font-bold text-white">
+        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-xs">
+          <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/70">
+            <h3 className="text-sm font-bold text-slate-900">
               Architecture Inventory ({elements.length} components)
             </h3>
             {roleConfig.canEditArchitecture && (
               <button
                 onClick={handleOpenAddElement}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold"
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white text-xs font-semibold shadow-xs ${
+                  isCorporate
+                    ? "bg-blue-700 hover:bg-blue-800"
+                    : "bg-teal-700 hover:bg-teal-800"
+                }`}
               >
                 <Plus className="h-3.5 w-3.5" />
                 Add Component
@@ -654,60 +711,60 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="border-b border-slate-800 bg-slate-950/40 text-slate-400">
-                  <th className="py-2.5 px-4 font-semibold">Component Name</th>
-                  <th className="py-2.5 px-4 font-semibold">Type</th>
-                  <th className="py-2.5 px-4 font-semibold">Technology</th>
-                  <th className="py-2.5 px-4 font-semibold">Trust Zone</th>
-                  <th className="py-2.5 px-4 font-semibold">Linked Threats</th>
-                  <th className="py-2.5 px-4 font-semibold">Description</th>
-                  {roleConfig.canEditArchitecture && <th className="py-2.5 px-4 text-right">Actions</th>}
+                <tr className="border-b border-slate-200 bg-slate-100 text-slate-700">
+                  <th className="py-2.5 px-4 font-bold">Component Name</th>
+                  <th className="py-2.5 px-4 font-bold">Type</th>
+                  <th className="py-2.5 px-4 font-bold">Technology</th>
+                  <th className="py-2.5 px-4 font-bold">Trust Zone</th>
+                  <th className="py-2.5 px-4 font-bold">Linked Threats</th>
+                  <th className="py-2.5 px-4 font-bold">Description</th>
+                  {roleConfig.canEditArchitecture && <th className="py-2.5 px-4 text-right font-bold">Actions</th>}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-slate-100">
                 {elements.map((elem) => {
                   const threatCount = getElementThreatCount(elem.id);
                   return (
-                    <tr key={elem.id} className="hover:bg-slate-850/40">
-                      <td className="py-3 px-4 font-semibold text-slate-200">
+                    <tr key={elem.id} className="hover:bg-slate-50 transition-colors">
+                      <td className="py-3 px-4 font-bold text-slate-900">
                         {elem.name}
                       </td>
                       <td className="py-3 px-4">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-slate-800 text-slate-300">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-700 border border-slate-200">
                           {elem.type}
                         </span>
                       </td>
-                      <td className="py-3 px-4 font-mono text-slate-300">
+                      <td className="py-3 px-4 font-mono text-slate-700">
                         {elem.technology || "—"}
                       </td>
-                      <td className="py-3 px-4 text-slate-300">
+                      <td className="py-3 px-4 text-slate-700 font-medium">
                         {elem.trustZone || "—"}
                       </td>
                       <td className="py-3 px-4">
                         {threatCount > 0 ? (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
                             {threatCount} threats
                           </span>
                         ) : (
-                          <span className="text-slate-500">—</span>
+                          <span className="text-slate-400">—</span>
                         )}
                       </td>
-                      <td className="py-3 px-4 text-slate-400 max-w-xs truncate">
+                      <td className="py-3 px-4 text-slate-600 max-w-xs truncate">
                         {elem.description || "—"}
                       </td>
                       {roleConfig.canEditArchitecture && (
                         <td className="py-3 px-4 text-right">
-                          <div className="flex items-center justify-end gap-2">
+                          <div className="flex items-center justify-end gap-1">
                             <button
                               onClick={() => handleOpenEditElement(elem)}
-                              className="p-1 text-slate-400 hover:text-white"
+                              className="p-1.5 text-slate-500 hover:text-slate-900 rounded hover:bg-slate-100 transition-colors"
                               title="Edit"
                             >
                               <Edit2 className="h-3.5 w-3.5" />
                             </button>
                             <button
                               onClick={() => handleDeleteElement(elem.id)}
-                              className="p-1 text-slate-400 hover:text-rose-400"
+                              className="p-1.5 text-slate-500 hover:text-rose-600 rounded hover:bg-rose-50 transition-colors"
                               title="Delete"
                             >
                               <Trash2 className="h-3.5 w-3.5" />
@@ -726,15 +783,19 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
 
       {/* SUB-VIEW 3: Data Flows Table */}
       {activeSubTab === "flows" && (
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 overflow-hidden shadow-xl">
-          <div className="p-4 border-b border-slate-800 flex items-center justify-between">
-            <h3 className="text-sm font-bold text-white">
+        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-xs">
+          <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50/70">
+            <h3 className="text-sm font-bold text-slate-900">
               Directed Data Flows Register ({flows.length} flows)
             </h3>
             {roleConfig.canEditArchitecture && (
               <button
                 onClick={handleOpenAddFlow}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold"
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white text-xs font-semibold shadow-xs ${
+                  isCorporate
+                    ? "bg-blue-700 hover:bg-blue-800"
+                    : "bg-teal-700 hover:bg-teal-800"
+                }`}
               >
                 <Plus className="h-3.5 w-3.5" />
                 Add Data Flow
@@ -745,72 +806,72 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="border-b border-slate-800 bg-slate-950/40 text-slate-400">
-                  <th className="py-2.5 px-4 font-semibold">Flow Name</th>
-                  <th className="py-2.5 px-4 font-semibold">Source &rarr; Target</th>
-                  <th className="py-2.5 px-4 font-semibold">Protocol / Channel</th>
-                  <th className="py-2.5 px-4 font-semibold">Data Category</th>
-                  <th className="py-2.5 px-4 font-semibold">Authentication Context</th>
-                  <th className="py-2.5 px-4 font-semibold">Crosses Boundary</th>
-                  <th className="py-2.5 px-4 font-semibold">Linked Threats</th>
-                  {roleConfig.canEditArchitecture && <th className="py-2.5 px-4 text-right">Actions</th>}
+                <tr className="border-b border-slate-200 bg-slate-100 text-slate-700">
+                  <th className="py-2.5 px-4 font-bold">Flow Name</th>
+                  <th className="py-2.5 px-4 font-bold">Source &rarr; Target</th>
+                  <th className="py-2.5 px-4 font-bold">Protocol / Channel</th>
+                  <th className="py-2.5 px-4 font-bold">Data Category</th>
+                  <th className="py-2.5 px-4 font-bold">Authentication Context</th>
+                  <th className="py-2.5 px-4 font-bold">Crosses Boundary</th>
+                  <th className="py-2.5 px-4 font-bold">Linked Threats</th>
+                  {roleConfig.canEditArchitecture && <th className="py-2.5 px-4 text-right font-bold">Actions</th>}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-slate-100">
                 {flows.map((flow) => {
                   const threatCount = getFlowThreatCount(flow.id);
                   return (
-                    <tr key={flow.id} className="hover:bg-slate-850/40">
-                      <td className="py-3 px-4 font-semibold text-slate-200">
+                    <tr key={flow.id} className="hover:bg-slate-50 transition-colors">
+                      <td className="py-3 px-4 font-bold text-slate-900">
                         {flow.name}
                       </td>
-                      <td className="py-3 px-4 text-slate-300">
-                        <span className="text-slate-200 font-medium">{flow.sourceElement?.name || "Source"}</span>
-                        <span className="text-indigo-400 mx-1.5">&rarr;</span>
-                        <span className="text-slate-200 font-medium">{flow.targetElement?.name || "Target"}</span>
+                      <td className="py-3 px-4 text-slate-700">
+                        <span className="font-semibold text-slate-900">{flow.sourceElement?.name || "Source"}</span>
+                        <span className={`mx-1.5 font-bold ${isCorporate ? "text-blue-600" : "text-teal-600"}`}>&rarr;</span>
+                        <span className="font-semibold text-slate-900">{flow.targetElement?.name || "Target"}</span>
                       </td>
-                      <td className="py-3 px-4 font-mono text-cyan-300">
+                      <td className="py-3 px-4 font-mono font-medium text-slate-800">
                         {flow.protocol}
                       </td>
-                      <td className="py-3 px-4 text-slate-300">
+                      <td className="py-3 px-4 text-slate-600">
                         {flow.dataCategory || "—"}
                       </td>
-                      <td className="py-3 px-4 text-slate-400">
+                      <td className="py-3 px-4 text-slate-600">
                         {flow.authContext || "—"}
                       </td>
                       <td className="py-3 px-4">
                         {flow.crossesTrustBoundary ? (
-                          <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
                             Yes (Boundary Cross)
                           </span>
                         ) : (
-                          <span className="px-2 py-0.5 rounded text-[10px] text-slate-400 bg-slate-800">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-medium text-slate-600 bg-slate-100 border border-slate-200">
                             Internal
                           </span>
                         )}
                       </td>
                       <td className="py-3 px-4">
                         {threatCount > 0 ? (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
                             {threatCount}
                           </span>
                         ) : (
-                          <span className="text-slate-500">—</span>
+                          <span className="text-slate-400">—</span>
                         )}
                       </td>
                       {roleConfig.canEditArchitecture && (
                         <td className="py-3 px-4 text-right">
-                          <div className="flex items-center justify-end gap-2">
+                          <div className="flex items-center justify-end gap-1">
                             <button
                               onClick={() => handleOpenEditFlow(flow)}
-                              className="p-1 text-slate-400 hover:text-white"
+                              className="p-1.5 text-slate-500 hover:text-slate-900 rounded hover:bg-slate-100 transition-colors"
                               title="Edit"
                             >
                               <Edit2 className="h-3.5 w-3.5" />
                             </button>
                             <button
                               onClick={() => handleDeleteFlow(flow.id)}
-                              className="p-1 text-slate-400 hover:text-rose-400"
+                              className="p-1.5 text-slate-500 hover:text-rose-600 rounded hover:bg-rose-50 transition-colors"
                               title="Delete"
                             >
                               <Trash2 className="h-3.5 w-3.5" />
@@ -829,31 +890,39 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
 
       {/* ELEMENT MODAL */}
       {showElementModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="max-w-lg w-full bg-slate-900 border border-slate-700 rounded-2xl p-6 shadow-2xl space-y-4">
-            <h3 className="text-base font-bold text-white">
-              {editingElement ? "Edit Architecture Component" : "Add Architecture Component"}
-            </h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="max-w-lg w-full bg-white border border-slate-200 rounded-xl p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+              <h3 className="text-base font-bold text-slate-900">
+                {editingElement ? "Edit Architecture Component" : "Add Architecture Component"}
+              </h3>
+              <button
+                onClick={() => setShowElementModal(false)}
+                className="p-1 text-slate-400 hover:text-slate-700 rounded-md"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
 
             <div className="space-y-3 text-xs">
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Component Name *</label>
+                <label className="block text-slate-700 font-semibold mb-1">Component Name *</label>
                 <input
                   type="text"
                   placeholder="e.g., Order Service, Redis Cache, API Gateway"
                   value={elementForm.name}
                   onChange={(e) => setElementForm({ ...elementForm, name: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-semibold mb-1">Element Type *</label>
+                  <label className="block text-slate-700 font-semibold mb-1">Element Type *</label>
                   <select
                     value={elementForm.type}
                     onChange={(e) => setElementForm({ ...elementForm, type: e.target.value as ElementType })}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600"
                   >
                     <option value="PROCESS">Process / Microservice</option>
                     <option value="DATA_STORE">Data Store / Database</option>
@@ -863,50 +932,54 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-semibold mb-1">Trust Zone</label>
+                  <label className="block text-slate-700 font-semibold mb-1">Trust Zone</label>
                   <input
                     type="text"
                     placeholder="e.g., Public Internet, DMZ, VPC Core"
                     value={elementForm.trustZone}
                     onChange={(e) => setElementForm({ ...elementForm, trustZone: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Technology Stack</label>
+                <label className="block text-slate-700 font-semibold mb-1">Technology Stack</label>
                 <input
                   type="text"
                   placeholder="e.g., Node.js / Express, PostgreSQL 16, Envoy Proxy"
                   value={elementForm.technology}
                   onChange={(e) => setElementForm({ ...elementForm, technology: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Description & Role</label>
+                <label className="block text-slate-700 font-semibold mb-1">Description & Role</label>
                 <textarea
                   rows={3}
                   placeholder="Briefly describe the responsibilities and architectural placement..."
                   value={elementForm.description}
                   onChange={(e) => setElementForm({ ...elementForm, description: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600"
                 />
               </div>
             </div>
 
-            <div className="flex justify-end gap-2 pt-2 border-t border-slate-800">
+            <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
               <button
                 onClick={() => setShowElementModal(false)}
-                className="px-4 py-2 rounded-lg border border-slate-700 text-xs text-slate-400 hover:text-white"
+                className="px-4 py-2 rounded-lg border border-slate-300 text-xs text-slate-600 hover:bg-slate-100 font-medium"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveElement}
-                className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs text-white font-semibold"
+                className={`px-4 py-2 rounded-lg text-xs text-white font-semibold shadow-xs ${
+                  isCorporate
+                    ? "bg-blue-700 hover:bg-blue-800"
+                    : "bg-teal-700 hover:bg-teal-800"
+                }`}
               >
                 Save Component
               </button>
@@ -917,31 +990,39 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
 
       {/* FLOW MODAL */}
       {showFlowModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-150">
-          <div className="max-w-lg w-full bg-slate-900 border border-slate-700 rounded-2xl p-6 shadow-2xl space-y-4">
-            <h3 className="text-base font-bold text-white">
-              {editingFlow ? "Edit Data Flow" : "Add Directed Data Flow"}
-            </h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="max-w-lg w-full bg-white border border-slate-200 rounded-xl p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+              <h3 className="text-base font-bold text-slate-900">
+                {editingFlow ? "Edit Data Flow" : "Add Directed Data Flow"}
+              </h3>
+              <button
+                onClick={() => setShowFlowModal(false)}
+                className="p-1 text-slate-400 hover:text-slate-700 rounded-md"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
 
             <div className="space-y-3 text-xs">
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Flow Name *</label>
+                <label className="block text-slate-700 font-semibold mb-1">Flow Name *</label>
                 <input
                   type="text"
                   placeholder="e.g., Authenticate User, Forward Order, Publish Kafka Event"
                   value={flowForm.name}
                   onChange={(e) => setFlowForm({ ...flowForm, name: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-semibold mb-1">Source Component *</label>
+                  <label className="block text-slate-700 font-semibold mb-1">Source Component *</label>
                   <select
                     value={flowForm.sourceElementId}
                     onChange={(e) => setFlowForm({ ...flowForm, sourceElementId: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600"
                   >
                     {elements.map((e) => (
                       <option key={e.id} value={e.id}>
@@ -952,11 +1033,11 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-semibold mb-1">Target Component *</label>
+                  <label className="block text-slate-700 font-semibold mb-1">Target Component *</label>
                   <select
                     value={flowForm.targetElementId}
                     onChange={(e) => setFlowForm({ ...flowForm, targetElementId: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600"
                   >
                     {elements.map((e) => (
                       <option key={e.id} value={e.id}>
@@ -969,36 +1050,36 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-semibold mb-1">Protocol / Channel *</label>
+                  <label className="block text-slate-700 font-semibold mb-1">Protocol / Channel *</label>
                   <input
                     type="text"
                     placeholder="e.g., HTTPS/REST, gRPC, Kafka AMQP, TLS"
                     value={flowForm.protocol}
                     onChange={(e) => setFlowForm({ ...flowForm, protocol: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 font-semibold mb-1">Data Category</label>
+                  <label className="block text-slate-700 font-semibold mb-1">Data Category</label>
                   <input
                     type="text"
                     placeholder="e.g., Auth Tokens, Order Payload, Public Catalog"
                     value={flowForm.dataCategory}
                     onChange={(e) => setFlowForm({ ...flowForm, dataCategory: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Authentication Context</label>
+                <label className="block text-slate-700 font-semibold mb-1">Authentication Context</label>
                 <input
                   type="text"
                   placeholder="e.g., OAuth 2.0 PKCE, mTLS Service Mesh, API Key, Session Cookie"
                   value={flowForm.authContext}
                   onChange={(e) => setFlowForm({ ...flowForm, authContext: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600"
                 />
               </div>
 
@@ -1008,35 +1089,39 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                   id="crossesTrust"
                   checked={flowForm.crossesTrustBoundary}
                   onChange={(e) => setFlowForm({ ...flowForm, crossesTrustBoundary: e.target.checked })}
-                  className="h-4 w-4 rounded border-slate-700 bg-slate-950 text-indigo-600 focus:ring-indigo-500"
+                  className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
                 />
-                <label htmlFor="crossesTrust" className="text-slate-300 font-medium">
+                <label htmlFor="crossesTrust" className="text-slate-800 font-medium">
                   Crosses Trust Boundary (requires higher scrutiny under STRIDE)
                 </label>
               </div>
 
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Flow Notes & Controls</label>
+                <label className="block text-slate-700 font-semibold mb-1">Flow Notes & Controls</label>
                 <textarea
                   rows={2}
                   placeholder="Security notes, rate limiting, encryption details..."
                   value={flowForm.notes}
                   onChange={(e) => setFlowForm({ ...flowForm, notes: e.target.value })}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600"
                 />
               </div>
             </div>
 
-            <div className="flex justify-end gap-2 pt-2 border-t border-slate-800">
+            <div className="flex justify-end gap-2 pt-3 border-t border-slate-100">
               <button
                 onClick={() => setShowFlowModal(false)}
-                className="px-4 py-2 rounded-lg border border-slate-700 text-xs text-slate-400 hover:text-white"
+                className="px-4 py-2 rounded-lg border border-slate-300 text-xs text-slate-600 hover:bg-slate-100 font-medium"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveFlow}
-                className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs text-white font-semibold"
+                className={`px-4 py-2 rounded-lg text-xs text-white font-semibold shadow-xs ${
+                  isCorporate
+                    ? "bg-blue-700 hover:bg-blue-800"
+                    : "bg-teal-700 hover:bg-teal-800"
+                }`}
               >
                 Save Data Flow
               </button>

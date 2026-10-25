@@ -19,7 +19,9 @@ import {
 } from "lucide-react";
 
 export function ReviewSummaryView() {
-  const { activeProject } = useProject();
+  const { activeProject, themePalette } = useProject();
+  const isCorporate = themePalette === "corporate";
+
   const [copiedJson, setCopiedJson] = useState(false);
   const [showThreatDragonSpec, setShowThreatDragonSpec] = useState(false);
 
@@ -58,7 +60,7 @@ export function ReviewSummaryView() {
           id: 0,
           diagramType: "STRIDE",
           placeholder: "OWASP Threat Dragon 2.x Diagram Standard",
-          cells: elements.map((elem, idx) => ({
+          cells: elements.map((elem) => ({
             id: elem.id,
             type:
               elem.type === "PROCESS"
@@ -101,14 +103,15 @@ export function ReviewSummaryView() {
   };
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto print-container">
+    <div className="space-y-6 max-w-5xl mx-auto print-container">
       {/* Top action toolbar (hidden on print) */}
-      <div className="no-print flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl border border-slate-800 bg-slate-900/80">
+      <div className="no-print flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border border-slate-200 bg-white shadow-xs">
         <div>
-          <h2 className="text-base font-bold text-white">
+          <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+            <FileText className={`h-5 w-5 ${isCorporate ? "text-blue-700" : "text-teal-700"}`} />
             Review & Handover Summary Report
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500 mt-0.5">
             Audit-ready formal documentation with print layout and CSV export.
           </p>
         </div>
@@ -117,7 +120,7 @@ export function ReviewSummaryView() {
           <a
             href={`/api/projects/${activeProject.id}/export/csv`}
             download
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-750 text-slate-200 text-xs font-semibold transition-colors"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-xs transition-colors"
           >
             <Download className="h-4 w-4" />
             Download CSV
@@ -125,7 +128,11 @@ export function ReviewSummaryView() {
 
           <button
             onClick={handlePrint}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-lg shadow-indigo-600/30 transition-all hover:scale-105"
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-white text-xs font-semibold shadow-xs transition-all hover:scale-[1.02] ${
+              isCorporate
+                ? "bg-blue-700 hover:bg-blue-800"
+                : "bg-teal-700 hover:bg-teal-800"
+            }`}
           >
             <Printer className="h-4 w-4" />
             Print / Save PDF Report
@@ -134,42 +141,44 @@ export function ReviewSummaryView() {
       </div>
 
       {/* Formal Printable Document Body */}
-      <div className="p-8 sm:p-10 rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl print:bg-white print:text-black print:border-none print:shadow-none space-y-8 print:p-0">
+      <div className="p-8 sm:p-10 rounded-xl border border-slate-200 bg-white shadow-xs print:bg-white print:text-black print:border-none print:shadow-none space-y-8 print:p-0">
         {/* Document Header */}
-        <div className="border-b border-slate-800 print:border-gray-300 pb-6 space-y-2">
+        <div className="border-b border-slate-200 print:border-gray-300 pb-6 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-widest text-indigo-400 print:text-indigo-800">
+            <span className={`text-xs font-bold uppercase tracking-widest ${
+              isCorporate ? "text-blue-700" : "text-teal-700"
+            }`}>
               STRIDE Threat Modeling Study Report
             </span>
-            <span className="text-xs text-slate-400 print:text-gray-600">
+            <span className="text-xs text-slate-500 print:text-gray-600">
               Generated: {new Date().toLocaleDateString()}
             </span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white print:text-black tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 print:text-black tracking-tight">
             {activeProject.name}
           </h1>
 
-          <p className="text-sm text-slate-300 print:text-gray-700 leading-relaxed max-w-4xl">
+          <p className="text-sm text-slate-600 print:text-gray-700 leading-relaxed max-w-4xl">
             {activeProject.description}
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 text-xs">
             <div>
-              <span className="text-slate-400 print:text-gray-500 block">Assessment Lead:</span>
-              <span className="font-semibold text-slate-200 print:text-black">{activeProject.owner}</span>
+              <span className="text-slate-500 print:text-gray-500 block font-medium">Assessment Lead:</span>
+              <span className="font-bold text-slate-900 print:text-black">{activeProject.owner}</span>
             </div>
             <div>
-              <span className="text-slate-400 print:text-gray-500 block">Target Environment:</span>
-              <span className="font-semibold text-slate-200 print:text-black">{activeProject.environment}</span>
+              <span className="text-slate-500 print:text-gray-500 block font-medium">Target Environment:</span>
+              <span className="font-bold text-slate-900 print:text-black">{activeProject.environment}</span>
             </div>
             <div>
-              <span className="text-slate-400 print:text-gray-500 block">Architecture Version:</span>
-              <span className="font-semibold text-slate-200 print:text-black">v{activeProject.architectureVersion}</span>
+              <span className="text-slate-500 print:text-gray-500 block font-medium">Architecture Version:</span>
+              <span className="font-bold text-slate-900 print:text-black">v{activeProject.architectureVersion}</span>
             </div>
             <div>
-              <span className="text-slate-400 print:text-gray-500 block">Review Sign-off Date:</span>
-              <span className="font-semibold text-slate-200 print:text-black">
+              <span className="text-slate-500 print:text-gray-500 block font-medium">Review Sign-off Date:</span>
+              <span className="font-bold text-slate-900 print:text-black">
                 {activeProject.reviewDate ? new Date(activeProject.reviewDate).toLocaleDateString() : "Pending"}
               </span>
             </div>
@@ -178,63 +187,63 @@ export function ReviewSummaryView() {
 
         {/* Section 1: Executive KPI Overview */}
         <div className="print-avoid-break space-y-3">
-          <h2 className="text-base font-bold text-white print:text-black border-b border-slate-800 print:border-gray-300 pb-2">
+          <h2 className="text-base font-bold text-slate-900 print:text-black border-b border-slate-200 print:border-gray-300 pb-2">
             1. Executive Assessment Summary
           </h2>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="p-3.5 rounded-xl border border-slate-800 print:border-gray-200 bg-slate-950/60 print:bg-gray-50">
-              <span className="text-xs text-slate-400 print:text-gray-600 block">Architecture Elements</span>
-              <span className="text-2xl font-bold text-white print:text-black">{elements.length}</span>
+            <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50">
+              <span className="text-xs text-slate-500 block font-medium">Architecture Elements</span>
+              <span className="text-2xl font-bold text-slate-900">{elements.length}</span>
             </div>
-            <div className="p-3.5 rounded-xl border border-slate-800 print:border-gray-200 bg-slate-950/60 print:bg-gray-50">
-              <span className="text-xs text-slate-400 print:text-gray-600 block">Directed Data Flows</span>
-              <span className="text-2xl font-bold text-white print:text-black">{flows.length}</span>
+            <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50">
+              <span className="text-xs text-slate-500 block font-medium">Directed Data Flows</span>
+              <span className="text-2xl font-bold text-slate-900">{flows.length}</span>
             </div>
-            <div className="p-3.5 rounded-xl border border-slate-800 print:border-gray-200 bg-slate-950/60 print:bg-gray-50">
-              <span className="text-xs text-slate-400 print:text-gray-600 block">Total Threats Assessed</span>
-              <span className="text-2xl font-bold text-white print:text-black">{threats.length}</span>
+            <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50">
+              <span className="text-xs text-slate-500 block font-medium">Total Threats Assessed</span>
+              <span className="text-2xl font-bold text-slate-900">{threats.length}</span>
             </div>
-            <div className="p-3.5 rounded-xl border border-rose-900/40 print:border-red-200 bg-rose-950/20 print:bg-red-50">
-              <span className="text-xs text-rose-300 print:text-red-700 block">High & Critical Priority</span>
-              <span className="text-2xl font-bold text-rose-400 print:text-red-700">{highAndCriticalThreats.length}</span>
+            <div className="p-3.5 rounded-lg border border-rose-200 bg-rose-50">
+              <span className="text-xs text-rose-700 block font-medium">High & Critical Priority</span>
+              <span className="text-2xl font-bold text-rose-700">{highAndCriticalThreats.length}</span>
             </div>
           </div>
         </div>
 
         {/* Section 2: Study Scope & Baseline Boundaries */}
         <div className="print-avoid-break space-y-4">
-          <h2 className="text-base font-bold text-white print:text-black border-b border-slate-800 print:border-gray-300 pb-2">
+          <h2 className="text-base font-bold text-slate-900 print:text-black border-b border-slate-200 print:border-gray-300 pb-2">
             2. System Scope & Boundaries
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            <div className="p-4 rounded-xl border border-slate-800 print:border-gray-200 bg-slate-950/40 print:bg-gray-50 space-y-1">
-              <span className="font-bold text-emerald-400 print:text-green-800 block">In-Scope System Elements:</span>
-              <p className="text-slate-300 print:text-gray-800 whitespace-pre-line leading-relaxed">
+            <div className="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+              <span className="font-bold text-emerald-800 block">In-Scope System Elements:</span>
+              <p className="text-slate-700 whitespace-pre-line leading-relaxed">
                 {activeProject.inScope || "No in-scope notes documented."}
               </p>
             </div>
 
-            <div className="p-4 rounded-xl border border-slate-800 print:border-gray-200 bg-slate-950/40 print:bg-gray-50 space-y-1">
-              <span className="font-bold text-rose-400 print:text-red-800 block">Out-of-Scope Exclusions:</span>
-              <p className="text-slate-300 print:text-gray-800 whitespace-pre-line leading-relaxed">
+            <div className="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+              <span className="font-bold text-rose-800 block">Out-of-Scope Exclusions:</span>
+              <p className="text-slate-700 whitespace-pre-line leading-relaxed">
                 {activeProject.outOfScope || "No out-of-scope exclusions documented."}
               </p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            <div className="p-4 rounded-xl border border-slate-800 print:border-gray-200 bg-slate-950/40 print:bg-gray-50 space-y-1">
-              <span className="font-bold text-blue-400 print:text-blue-800 block">Technical Assumptions:</span>
-              <p className="text-slate-300 print:text-gray-800 whitespace-pre-line leading-relaxed">
+            <div className="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+              <span className="font-bold text-blue-800 block">Technical Assumptions:</span>
+              <p className="text-slate-700 whitespace-pre-line leading-relaxed">
                 {activeProject.assumptions || "No assumptions recorded."}
               </p>
             </div>
 
-            <div className="p-4 rounded-xl border border-slate-800 print:border-gray-200 bg-slate-950/40 print:bg-gray-50 space-y-1">
-              <span className="font-bold text-amber-400 print:text-amber-800 block">Open Questions & Follow-ups:</span>
-              <p className="text-slate-300 print:text-gray-800 whitespace-pre-line leading-relaxed">
+            <div className="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-1">
+              <span className="font-bold text-amber-800 block">Open Questions & Follow-ups:</span>
+              <p className="text-slate-700 whitespace-pre-line leading-relaxed">
                 {activeProject.openQuestions || "No open questions recorded."}
               </p>
             </div>
@@ -243,36 +252,36 @@ export function ReviewSummaryView() {
 
         {/* Section 3: High and Critical Risks Highlight Table */}
         <div className="print-avoid-break space-y-3">
-          <h2 className="text-base font-bold text-white print:text-black border-b border-slate-800 print:border-gray-300 pb-2">
+          <h2 className="text-base font-bold text-slate-900 print:text-black border-b border-slate-200 print:border-gray-300 pb-2">
             3. Critical & High Priority Risk Register
           </h2>
 
-          <div className="overflow-x-auto border border-slate-800 print:border-gray-300 rounded-xl">
+          <div className="overflow-x-auto border border-slate-200 rounded-lg">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="bg-slate-950 print:bg-gray-100 text-slate-400 print:text-gray-700 border-b border-slate-800 print:border-gray-300">
-                  <th className="py-2.5 px-3 font-semibold">ID</th>
-                  <th className="py-2.5 px-3 font-semibold">Title & Threat Scenario</th>
-                  <th className="py-2.5 px-3 font-semibold">STRIDE</th>
-                  <th className="py-2.5 px-3 font-semibold">Priority</th>
-                  <th className="py-2.5 px-3 font-semibold">Status</th>
-                  <th className="py-2.5 px-3 font-semibold">Owner</th>
+                <tr className="bg-slate-100 text-slate-700 border-b border-slate-200">
+                  <th className="py-2.5 px-3 font-bold">ID</th>
+                  <th className="py-2.5 px-3 font-bold">Title & Threat Scenario</th>
+                  <th className="py-2.5 px-3 font-bold">STRIDE</th>
+                  <th className="py-2.5 px-3 font-bold">Priority</th>
+                  <th className="py-2.5 px-3 font-bold">Status</th>
+                  <th className="py-2.5 px-3 font-bold">Owner</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80 print:divide-gray-200">
+              <tbody className="divide-y divide-slate-100">
                 {highAndCriticalThreats.map((t) => (
-                  <tr key={t.id} className="hover:bg-slate-850/40 print:hover:bg-transparent">
-                    <td className="py-2.5 px-3 font-mono font-bold text-indigo-400 print:text-black">
+                  <tr key={t.id} className="hover:bg-slate-50 transition-colors">
+                    <td className="py-2.5 px-3 font-mono font-bold text-slate-900">
                       {t.threatId}
                     </td>
                     <td className="py-2.5 px-3 max-w-md">
-                      <div className="font-bold text-slate-200 print:text-black">{t.title}</div>
-                      <div className="text-slate-400 print:text-gray-600 text-[11px] line-clamp-2 mt-0.5">
+                      <div className="font-bold text-slate-900">{t.title}</div>
+                      <div className="text-slate-500 text-[11px] line-clamp-2 mt-0.5">
                         {t.scenario}
                       </div>
                     </td>
                     <td className="py-2.5 px-3">
-                      <span className="font-semibold text-slate-300 print:text-black">
+                      <span className="font-semibold text-slate-700">
                         {JSON.parse(t.strideCategories || "[]").join(", ")}
                       </span>
                     </td>
@@ -280,17 +289,17 @@ export function ReviewSummaryView() {
                       <span
                         className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                           t.severity === "CRITICAL"
-                            ? "bg-rose-500/20 text-rose-300 print:bg-red-100 print:text-red-800"
-                            : "bg-orange-500/20 text-orange-300 print:bg-yellow-100 print:text-yellow-800"
+                            ? "bg-rose-100 text-rose-800 border border-rose-300"
+                            : "bg-amber-100 text-amber-900 border border-amber-300"
                         }`}
                       >
                         {t.severity}
                       </span>
                     </td>
-                    <td className="py-2.5 px-3 font-medium text-slate-300 print:text-black">
+                    <td className="py-2.5 px-3 font-semibold text-slate-700">
                       {t.status}
                     </td>
-                    <td className="py-2.5 px-3 text-slate-300 print:text-black">
+                    <td className="py-2.5 px-3 text-slate-600">
                       {t.owner || "Unassigned"}
                     </td>
                   </tr>
@@ -302,41 +311,41 @@ export function ReviewSummaryView() {
 
         {/* Section 4: Mitigations & Treatment Plan Table */}
         <div className="print-avoid-break space-y-3">
-          <h2 className="text-base font-bold text-white print:text-black border-b border-slate-800 print:border-gray-300 pb-2">
+          <h2 className="text-base font-bold text-slate-900 print:text-black border-b border-slate-200 print:border-gray-300 pb-2">
             4. Mitigation & Action Plan Register
           </h2>
 
-          <div className="overflow-x-auto border border-slate-800 print:border-gray-300 rounded-xl">
+          <div className="overflow-x-auto border border-slate-200 rounded-lg">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="bg-slate-950 print:bg-gray-100 text-slate-400 print:text-gray-700 border-b border-slate-800 print:border-gray-300">
-                  <th className="py-2.5 px-3 font-semibold">ID</th>
-                  <th className="py-2.5 px-3 font-semibold">Recommended Mitigation Treatment</th>
-                  <th className="py-2.5 px-3 font-semibold">Existing Controls</th>
-                  <th className="py-2.5 px-3 font-semibold">Owner / Team</th>
-                  <th className="py-2.5 px-3 font-semibold">Due Date</th>
-                  <th className="py-2.5 px-3 font-semibold">Status</th>
+                <tr className="bg-slate-100 text-slate-700 border-b border-slate-200">
+                  <th className="py-2.5 px-3 font-bold">ID</th>
+                  <th className="py-2.5 px-3 font-bold">Recommended Mitigation Treatment</th>
+                  <th className="py-2.5 px-3 font-bold">Existing Controls</th>
+                  <th className="py-2.5 px-3 font-bold">Owner / Team</th>
+                  <th className="py-2.5 px-3 font-bold">Due Date</th>
+                  <th className="py-2.5 px-3 font-bold">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80 print:divide-gray-200">
+              <tbody className="divide-y divide-slate-100">
                 {threats.map((t) => (
-                  <tr key={t.id} className="hover:bg-slate-850/40 print:hover:bg-transparent">
-                    <td className="py-2.5 px-3 font-mono font-bold text-slate-300 print:text-black">
+                  <tr key={t.id} className="hover:bg-slate-50 transition-colors">
+                    <td className="py-2.5 px-3 font-mono font-bold text-slate-900">
                       {t.threatId}
                     </td>
-                    <td className="py-2.5 px-3 text-slate-300 print:text-black max-w-sm">
+                    <td className="py-2.5 px-3 text-slate-800 max-w-sm">
                       {t.mitigation || "Mitigation pending specification"}
                     </td>
-                    <td className="py-2.5 px-3 text-slate-400 print:text-gray-600 text-[11px] max-w-xs">
+                    <td className="py-2.5 px-3 text-slate-600 text-[11px] max-w-xs">
                       {t.existingControls ? `${t.existingControls} (${t.controlsStatus})` : "None"}
                     </td>
-                    <td className="py-2.5 px-3 text-slate-300 print:text-black">
+                    <td className="py-2.5 px-3 text-slate-700 font-medium">
                       {t.owner || "Unassigned"}
                     </td>
-                    <td className="py-2.5 px-3 text-slate-400 print:text-gray-700 font-mono text-[11px]">
+                    <td className="py-2.5 px-3 text-slate-600 font-mono text-[11px]">
                       {t.dueDate ? new Date(t.dueDate).toLocaleDateString() : "—"}
                     </td>
-                    <td className="py-2.5 px-3 font-semibold text-slate-300 print:text-black">
+                    <td className="py-2.5 px-3 font-semibold text-slate-800">
                       {t.status}
                     </td>
                   </tr>
@@ -347,15 +356,15 @@ export function ReviewSummaryView() {
         </div>
 
         {/* Section 5: OWASP Threat Dragon Integration Guidance (no-print) */}
-        <div className="no-print rounded-xl border border-slate-800 bg-slate-950/70 p-5 space-y-4">
+        <div className="no-print rounded-lg border border-slate-200 bg-slate-50 p-5 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Code className="h-5 w-5 text-indigo-400" />
+              <Code className={`h-5 w-5 ${isCorporate ? "text-blue-700" : "text-teal-700"}`} />
               <div>
-                <h3 className="text-sm font-bold text-white">
+                <h3 className="text-sm font-bold text-slate-900">
                   OWASP Threat Dragon Integration Path
                 </h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-500">
                   OWASP Threat Dragon is the preferred dedicated diagramming tool. This workspace manages the study workflow and risk register.
                 </p>
               </div>
@@ -364,13 +373,17 @@ export function ReviewSummaryView() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowThreatDragonSpec(!showThreatDragonSpec)}
-                className="px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-750 text-xs text-slate-200"
+                className="px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-colors"
               >
                 {showThreatDragonSpec ? "Hide Schema" : "Inspect 2.x Schema"}
               </button>
               <button
                 onClick={handleCopyThreatDragonJson}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs text-white font-medium"
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs text-white font-semibold shadow-xs transition-colors ${
+                  isCorporate
+                    ? "bg-blue-700 hover:bg-blue-800"
+                    : "bg-teal-700 hover:bg-teal-800"
+                }`}
               >
                 {copiedJson ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
                 {copiedJson ? "Copied JSON" : "Copy Threat Dragon JSON"}
@@ -378,7 +391,7 @@ export function ReviewSummaryView() {
             </div>
           </div>
 
-          <p className="text-xs text-slate-300 leading-relaxed">
+          <p className="text-xs text-slate-600 leading-relaxed">
             The schema below maps this study&apos;s architecture components and STRIDE threats directly into the verified
             OWASP Threat Dragon 2.x standard JSON format (<code>diagramType: &ldquo;STRIDE&rdquo;</code>, <code>cells: tm.Process, tm.Store, tm.Actor</code>).
             You can load this model directly into OWASP Threat Dragon for deep visual rule validation.
@@ -386,7 +399,7 @@ export function ReviewSummaryView() {
 
           {showThreatDragonSpec && (
             <div className="relative">
-              <pre className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-[11px] font-mono text-cyan-300 overflow-x-auto max-h-72">
+              <pre className="p-4 rounded-lg bg-white border border-slate-200 text-[11px] font-mono text-slate-800 overflow-x-auto max-h-72">
                 {JSON.stringify(threatDragonExportModel, null, 2)}
               </pre>
             </div>

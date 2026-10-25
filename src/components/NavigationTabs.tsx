@@ -12,7 +12,9 @@ import {
 } from "lucide-react";
 
 export function NavigationTabs() {
-  const { activeTab, setActiveTab, activeProject } = useProject();
+  const { activeTab, setActiveTab, activeProject, themePalette } = useProject();
+
+  const isCorporate = themePalette === "corporate";
 
   const tabs = [
     {
@@ -42,7 +44,7 @@ export function NavigationTabs() {
       badge: activeProject?.highOrCriticalCount
         ? `${activeProject.highOrCriticalCount} high`
         : null,
-      badgeColor: "bg-rose-500/20 text-rose-300 border-rose-500/30",
+      badgeColor: "bg-rose-100 text-rose-800 border-rose-300",
     },
     {
       id: "review",
@@ -59,7 +61,7 @@ export function NavigationTabs() {
   ];
 
   return (
-    <div className="no-print border-b border-slate-800/80 bg-slate-950/40">
+    <div className="no-print border-b border-slate-200 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex space-x-1 sm:space-x-2 overflow-x-auto py-2.5">
           {tabs.map((tab) => {
@@ -69,22 +71,26 @@ export function NavigationTabs() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold whitespace-nowrap transition-all duration-150 ${
+                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold whitespace-nowrap transition-all duration-150 ${
                   isActive
-                    ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-900"
+                    ? isCorporate
+                      ? "bg-blue-700 text-white shadow-sm"
+                      : "bg-teal-700 text-white shadow-sm"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                 }`}
               >
-                <Icon className={`h-4 w-4 ${isActive ? "text-white" : "text-slate-400"}`} />
+                <Icon className={`h-4 w-4 ${isActive ? "text-white" : "text-slate-500"}`} />
                 <span>{tab.label}</span>
                 {tab.badge && (
                   <span
-                    className={`ml-1 px-1.5 py-0.2 rounded text-[10px] font-medium border ${
+                    className={`ml-1 px-1.5 py-0.2 rounded text-[10px] font-semibold border ${
                       tab.badgeColor
                         ? tab.badgeColor
                         : isActive
-                        ? "bg-indigo-700 text-indigo-100 border-indigo-500"
-                        : "bg-slate-800 text-slate-300 border-slate-700"
+                        ? isCorporate
+                          ? "bg-blue-800 text-blue-100 border-blue-600"
+                          : "bg-teal-800 text-teal-100 border-teal-600"
+                        : "bg-slate-100 text-slate-700 border-slate-200"
                     }`}
                   >
                     {tab.badge}

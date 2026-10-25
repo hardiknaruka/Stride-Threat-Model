@@ -16,7 +16,8 @@ import {
 } from "lucide-react";
 
 export function SettingsView() {
-  const { reseedDemo, isLoading, activeProject } = useProject();
+  const { reseedDemo, isLoading, activeProject, themePalette } = useProject();
+  const isCorporate = themePalette === "corporate";
   const [reseedSuccess, setReseedSuccess] = useState(false);
 
   const handleReseed = async () => {
@@ -28,12 +29,13 @@ export function SettingsView() {
   };
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto animate-in fade-in duration-200">
-      <div>
-        <h2 className="text-xl font-bold text-white tracking-tight">
+    <div className="space-y-6 max-w-5xl mx-auto animate-in fade-in duration-200">
+      <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+        <h2 className="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
+          <BookOpen className={`h-5 w-5 ${isCorporate ? "text-blue-700" : "text-teal-700"}`} />
           STRIDE Methodology & Workspace Diagnostics
         </h2>
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-slate-500 mt-0.5">
           Security reference guide, qualitative risk scoring specification, data boundaries, and local database settings.
         </p>
       </div>
@@ -41,8 +43,7 @@ export function SettingsView() {
       {/* STRIDE Deep Dive Cards */}
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-          <BookOpen className="h-5 w-5 text-indigo-400" />
-          <h3 className="text-base font-bold text-white">
+          <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
             STRIDE Threat Model Reference for Microservices
           </h3>
         </div>
@@ -53,32 +54,32 @@ export function SettingsView() {
             return (
               <div
                 key={cat}
-                className="p-4 rounded-xl border border-slate-800 bg-slate-900/70 space-y-2.5"
+                className="p-5 rounded-xl border border-slate-200 bg-white space-y-3 shadow-xs"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className={`h-7 w-7 rounded-lg flex items-center justify-center font-bold text-sm border ${def.badgeBg}`}>
+                  <div className="flex items-center gap-2.5">
+                    <span className="h-8 w-8 rounded-lg flex items-center justify-center font-bold text-sm bg-slate-100 text-slate-800 border border-slate-300">
                       {def.letter}
                     </span>
                     <div>
-                      <span className="font-bold text-sm text-white">{def.name}</span>
-                      <span className="text-[10px] text-slate-400 block">Property: {def.securityProperty}</span>
+                      <span className="font-bold text-sm text-slate-900">{def.name}</span>
+                      <span className="text-[10px] text-slate-500 block font-medium">Desired Property: {def.securityProperty}</span>
                     </div>
                   </div>
                 </div>
 
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed">
                   {def.description}
                 </p>
 
-                <div className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-[11px] space-y-1">
+                <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-[11px] space-y-1.5">
                   <div>
-                    <span className="font-semibold text-rose-300">Microservice Attack Scenarios:</span>{" "}
-                    <span className="text-slate-400">{def.examples}</span>
+                    <span className="font-bold text-rose-700">Microservice Attack Scenarios:</span>{" "}
+                    <span className="text-slate-600">{def.examples}</span>
                   </div>
-                  <div className="pt-1 border-t border-slate-800/60">
-                    <span className="font-semibold text-emerald-300">Typical Countermeasures:</span>{" "}
-                    <span className="text-slate-400">{def.typicalMitigations}</span>
+                  <div className="pt-1 border-t border-slate-200">
+                    <span className="font-bold text-emerald-700">Typical Countermeasures:</span>{" "}
+                    <span className="text-slate-600">{def.typicalMitigations}</span>
                   </div>
                 </div>
               </div>
@@ -88,14 +89,14 @@ export function SettingsView() {
       </div>
 
       {/* Risk Scoring Model Specification */}
-      <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 space-y-4">
+      <div className="p-6 rounded-xl border border-slate-200 bg-white space-y-4 shadow-xs">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="h-5 w-5 text-emerald-400" />
+          <ShieldCheck className="h-5 w-5 text-emerald-600" />
           <div>
-            <h3 className="text-base font-bold text-white">
+            <h3 className="text-base font-bold text-slate-900">
               {RISK_MODEL_DOCUMENTATION.name}
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-500">
               {RISK_MODEL_DOCUMENTATION.summary}
             </p>
           </div>
@@ -103,23 +104,23 @@ export function SettingsView() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
           <div className="space-y-2">
-            <h4 className="font-semibold text-slate-200">Matrix Prioritization Logic:</h4>
-            <ul className="space-y-1 text-slate-400 list-disc list-inside">
+            <h4 className="font-bold text-slate-800">Matrix Prioritization Logic:</h4>
+            <ul className="space-y-1 text-slate-600 list-disc list-inside">
               {RISK_MODEL_DOCUMENTATION.guidelines.map((g, idx) => (
                 <li key={idx} className="leading-relaxed">{g}</li>
               ))}
             </ul>
           </div>
 
-          <div className="p-4 rounded-xl border border-slate-800 bg-slate-950 text-xs space-y-2">
-            <span className="font-semibold text-amber-300 flex items-center gap-1.5">
-              <AlertTriangle className="h-4 w-4 text-amber-400" />
+          <div className="p-4 rounded-lg border border-amber-200 bg-amber-50 text-xs space-y-2">
+            <span className="font-bold text-amber-900 flex items-center gap-1.5">
+              <AlertTriangle className="h-4 w-4 text-amber-700" />
               Methodology Transparency & Limitations
             </span>
-            <p className="text-slate-400 leading-relaxed text-[11px]">
+            <p className="text-amber-800 leading-relaxed text-[11px]">
               {RISK_MODEL_DOCUMENTATION.disclaimer}
             </p>
-            <p className="text-slate-400 leading-relaxed text-[11px]">
+            <p className="text-amber-800 leading-relaxed text-[11px]">
               Severity overrides are tracked with a mandatory audit rationale to uphold governance.
             </p>
           </div>
@@ -127,59 +128,59 @@ export function SettingsView() {
       </div>
 
       {/* Database & Environment Diagnostics */}
-      <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 space-y-4">
+      <div className="p-6 rounded-xl border border-slate-200 bg-white space-y-4 shadow-xs">
         <div className="flex items-center gap-2">
-          <Database className="h-5 w-5 text-cyan-400" />
+          <Database className="h-5 w-5 text-sky-600" />
           <div>
-            <h3 className="text-base font-bold text-white">
+            <h3 className="text-base font-bold text-slate-900">
               Data Storage & MongoDB Runtime
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-500">
               Configured for MongoDB with Prisma ORM (MongoDB Atlas or Local MongoDB).
             </p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div className="p-4 rounded-xl border border-slate-800 bg-slate-950 space-y-2">
-            <div className="font-semibold text-slate-200 flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+          <div className="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+            <div className="font-bold text-slate-800 flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-emerald-600 animate-pulse" />
               Active Database Provider: MongoDB
             </div>
-            <p className="text-slate-400 text-[11px] leading-relaxed">
-              Environment Key: <code className="text-cyan-300 font-mono">DATABASE_URL</code>
+            <p className="text-slate-600 text-[11px] leading-relaxed">
+              Environment Key: <code className="text-sky-700 font-mono font-bold">DATABASE_URL</code>
               <br />
               Supports MongoDB Atlas clusters (Replica Sets) and local instances seamlessly.
             </p>
           </div>
 
-          <div className="p-4 rounded-xl border border-slate-800 bg-slate-950 space-y-2">
-            <div className="font-semibold text-slate-200 flex items-center gap-2">
-              <Terminal className="h-4 w-4 text-indigo-400" />
+          <div className="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+            <div className="font-bold text-slate-800 flex items-center gap-2">
+              <Terminal className="h-4 w-4 text-blue-600" />
               Connection String Setup
             </div>
-            <p className="text-slate-400 text-[11px] leading-relaxed">
-              In your <code className="text-indigo-300 font-mono">.env</code> file:
+            <p className="text-slate-600 text-[11px] leading-relaxed">
+              In your <code className="text-slate-800 font-mono font-bold">.env</code> file:
               <br />
-              Atlas: <code className="text-indigo-300 font-mono">mongodb+srv://...</code>
+              Atlas: <code className="text-blue-700 font-mono">mongodb+srv://...</code>
               <br />
-              Local: <code className="text-indigo-300 font-mono">mongodb://localhost:27017/stride_threat_model</code>
+              Local: <code className="text-blue-700 font-mono">mongodb://localhost:27017/stride_threat_model</code>
             </p>
           </div>
         </div>
       </div>
 
       {/* Sample Data Management */}
-      <div className="p-6 rounded-2xl border border-slate-800 bg-slate-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-6 rounded-xl border border-slate-200 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
         <div className="space-y-1">
-          <h3 className="text-base font-bold text-white">
+          <h3 className="text-base font-bold text-slate-900">
             Reset / Re-seed Fictional Commerce Project
           </h3>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500">
             Recreates the 8 microservice components, 6 flows, and 7 STRIDE threat scenarios.
           </p>
           {reseedSuccess && (
-            <span className="text-xs text-emerald-400 font-semibold block pt-1">
+            <span className="text-xs text-emerald-700 font-bold block pt-1">
               ✓ Successfully re-seeded demo data!
             </span>
           )}
@@ -188,7 +189,11 @@ export function SettingsView() {
         <button
           onClick={handleReseed}
           disabled={isLoading}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-750 text-slate-200 text-xs font-semibold transition-colors disabled:opacity-50"
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-white text-xs font-semibold shadow-xs transition-colors disabled:opacity-50 ${
+            isCorporate
+              ? "bg-blue-700 hover:bg-blue-800"
+              : "bg-teal-700 hover:bg-teal-800"
+          }`}
         >
           <RotateCcw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
           Re-seed Demo Data

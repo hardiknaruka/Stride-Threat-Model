@@ -10,7 +10,8 @@ interface ProjectModalProps {
 }
 
 export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
-  const { refreshProjects, setActiveProjectId } = useProject();
+  const { refreshProjects, setActiveProjectId, themePalette } = useProject();
+  const isCorporate = themePalette === "corporate";
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -76,40 +77,44 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="relative w-full max-w-lg bg-white border border-slate-200 rounded-xl shadow-2xl p-6 space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+            <div className={`h-9 w-9 rounded-lg flex items-center justify-center border ${
+              isCorporate
+                ? "bg-blue-50 border-blue-200 text-blue-700"
+                : "bg-teal-50 border-teal-200 text-teal-700"
+            }`}>
               <Server className="h-5 w-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-white">
+              <h2 className="text-base font-bold text-slate-900">
                 New Threat Modeling Project
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500">
                 Initialize a microservices STRIDE threat assessment study.
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         {validationError && (
-          <div className="p-3 rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-300 text-xs flex items-center gap-2">
-            <AlertTriangle className="h-4 w-4 shrink-0" />
-            <span>{validationError}</span>
+          <div className="p-3 rounded-lg border border-rose-200 bg-rose-50 text-rose-800 text-xs flex items-center gap-2">
+            <AlertTriangle className="h-4 w-4 shrink-0 text-rose-600" />
+            <span className="font-semibold">{validationError}</span>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           <div>
-            <label className="block text-slate-300 font-semibold mb-1">
+            <label className="block text-slate-700 font-bold mb-1">
               Project Name *
             </label>
             <input
@@ -118,12 +123,12 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
             />
           </div>
 
           <div>
-            <label className="block text-slate-300 font-semibold mb-1">
+            <label className="block text-slate-700 font-bold mb-1">
               System Purpose & Description *
             </label>
             <textarea
@@ -132,13 +137,13 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
-              className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500 leading-relaxed"
+              className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 leading-relaxed"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-slate-300 font-semibold mb-1">
+              <label className="block text-slate-700 font-bold mb-1">
                 Study Owner / AppSec Lead *
               </label>
               <input
@@ -147,18 +152,18 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
                 value={owner}
                 onChange={(e) => setOwner(e.target.value)}
                 required
-                className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
               />
             </div>
 
             <div>
-              <label className="block text-slate-300 font-semibold mb-1">
+              <label className="block text-slate-700 font-bold mb-1">
                 Environment
               </label>
               <select
                 value={environment}
                 onChange={(e) => setEnvironment(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-800 focus:outline-none focus:border-blue-600"
               >
                 <option value="Production">Production</option>
                 <option value="Staging">Staging</option>
@@ -170,25 +175,25 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
 
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="block text-slate-300 font-semibold mb-1">
+              <label className="block text-slate-700 font-bold mb-1">
                 Arch Version
               </label>
               <input
                 type="text"
                 value={architectureVersion}
                 onChange={(e) => setArchitectureVersion(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500 font-mono"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600 font-mono"
               />
             </div>
 
             <div>
-              <label className="block text-slate-300 font-semibold mb-1">
+              <label className="block text-slate-700 font-bold mb-1">
                 Study Status
               </label>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-800 focus:outline-none focus:border-blue-600"
               >
                 <option value="In Assessment">In Assessment</option>
                 <option value="Planning">Planning</option>
@@ -199,30 +204,34 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
             </div>
 
             <div>
-              <label className="block text-slate-300 font-semibold mb-1">
+              <label className="block text-slate-700 font-bold mb-1">
                 Review Target Date
               </label>
               <input
                 type="date"
                 value={reviewDate}
                 onChange={(e) => setReviewDate(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-200 focus:outline-none focus:border-indigo-500"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-blue-600"
               />
             </div>
           </div>
 
-          <div className="pt-3 border-t border-slate-800 flex justify-end gap-2">
+          <div className="pt-3 border-t border-slate-100 flex justify-end gap-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl border border-slate-700 text-slate-400 hover:text-white"
+              className="px-4 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold shadow-md shadow-indigo-600/30 transition-all disabled:opacity-50"
+              className={`px-5 py-2 rounded-lg text-white font-semibold text-xs shadow-xs transition-all disabled:opacity-50 ${
+                isCorporate
+                  ? "bg-blue-700 hover:bg-blue-800"
+                  : "bg-teal-700 hover:bg-teal-800"
+              }`}
             >
               {isSubmitting ? "Creating..." : "Create Project"}
             </button>

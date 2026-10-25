@@ -93,6 +93,8 @@ export interface FullProjectData extends ProjectSummary {
   threats: ThreatData[];
 }
 
+export type ThemePalette = "corporate" | "tech";
+
 interface ProjectContextValue {
   projects: ProjectSummary[];
   activeProject: FullProjectData | null;
@@ -104,6 +106,8 @@ interface ProjectContextValue {
   setActiveRole: (role: UserRole) => void;
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  themePalette: ThemePalette;
+  setThemePalette: (theme: ThemePalette) => void;
   refreshProjects: () => Promise<void>;
   refreshActiveProject: () => Promise<void>;
   reseedDemo: () => Promise<void>;
@@ -120,6 +124,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState<string | null>(null);
   const [activeRole, setActiveRole] = useState<UserRole>("SECURITY_LEAD");
   const [activeTab, setActiveTab] = useState<string>("dashboard");
+  const [themePalette, setThemePalette] = useState<ThemePalette>("corporate");
 
   const refreshProjects = useCallback(async () => {
     try {
@@ -204,6 +209,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         setActiveRole,
         activeTab,
         setActiveTab,
+        themePalette,
+        setThemePalette,
         refreshProjects,
         refreshActiveProject,
         reseedDemo,

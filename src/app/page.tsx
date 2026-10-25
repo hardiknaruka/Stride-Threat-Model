@@ -59,7 +59,7 @@ function MainAppContent() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#080c16] text-slate-100">
+    <div className="min-h-screen flex flex-col bg-slate-100/70 text-slate-900">
       <Header onOpenNewProject={() => setIsProjectModalOpen(true)} />
       <NavigationTabs />
 
@@ -140,9 +140,9 @@ function MainAppContent() {
       </main>
 
       {/* Footer */}
-      <footer className="no-print mt-auto border-t border-slate-800/80 bg-slate-950/60 py-4 text-center text-[11px] text-slate-500">
+      <footer className="no-print mt-auto border-t border-slate-200 bg-white py-4 text-center text-[11px] text-slate-500 font-medium">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>STRIDE Threat Modeling Workspace • Local Offline Prototype</span>
+          <span>STRIDE Threat Modeling Workspace • Connected to MongoDB Atlas</span>
           <span>Zero Secrets Policy: Keep sensitive credentials out of threat records</span>
         </div>
       </footer>
