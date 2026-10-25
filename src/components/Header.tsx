@@ -13,6 +13,8 @@ import {
   Server,
   Palette,
   Check,
+  Moon,
+  Sun,
 } from "lucide-react";
 
 interface HeaderProps {
@@ -31,6 +33,8 @@ export function Header({ onOpenNewProject }: HeaderProps) {
     isLoading,
     themePalette,
     setThemePalette,
+    themeMode,
+    setThemeMode,
   } = useProject();
 
   const [projectDropdownOpen, setProjectDropdownOpen] = useState(false);
@@ -158,8 +162,27 @@ export function Header({ onOpenNewProject }: HeaderProps) {
           )}
         </div>
 
-        {/* Right action group: Palette Switcher, Security Notice & Role Switcher */}
+        {/* Right action group: Theme Toggle, Palette Switcher, Security Notice & Role Switcher */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* Dark / Light Theme Mode Toggle */}
+          <button
+            onClick={() => setThemeMode(themeMode === "dark" ? "light" : "dark")}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-white/80 dark:border-white/10 bg-white/80 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-all shadow-2xs backdrop-blur-sm"
+            title={`Switch to ${themeMode === "dark" ? "Light Mode" : "Dark Mode"}`}
+          >
+            {themeMode === "dark" ? (
+              <>
+                <Moon className="h-3.5 w-3.5 text-indigo-400" />
+                <span className="hidden sm:inline">Dark</span>
+              </>
+            ) : (
+              <>
+                <Sun className="h-3.5 w-3.5 text-amber-500" />
+                <span className="hidden sm:inline">Light</span>
+              </>
+            )}
+          </button>
+
           {/* Color Palette Switcher Dropdown */}
           <div className="relative">
             <button

@@ -94,6 +94,7 @@ export interface FullProjectData extends ProjectSummary {
 }
 
 export type ThemePalette = "corporate" | "tech";
+export type ThemeMode = "dark" | "light";
 
 interface ProjectContextValue {
   projects: ProjectSummary[];
@@ -108,6 +109,8 @@ interface ProjectContextValue {
   setActiveTab: (tab: string) => void;
   themePalette: ThemePalette;
   setThemePalette: (theme: ThemePalette) => void;
+  themeMode: ThemeMode;
+  setThemeMode: (mode: ThemeMode) => void;
   refreshProjects: () => Promise<void>;
   refreshActiveProject: () => Promise<void>;
   reseedDemo: () => Promise<void>;
@@ -125,6 +128,37 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   const [activeRole, setActiveRole] = useState<UserRole>("SECURITY_LEAD");
   const [activeTab, setActiveTab] = useState<string>("dashboard");
   const [themePalette, setThemePalette] = useState<ThemePalette>("corporate");
+  const [themeMode, setThemeMode] = useState<ThemeMode>("dark");
+
+  // Synchronize Theme Mode with document root and localStorage
+  useEffect(() => {
+    try {
+      const savedMode = localStorage.getItem("stride_theme_mode") as ThemeMode | null;
+      if (savedMode === "light" || savedMode === "dark") {
+        setThemeMode(savedMode);
+      } else {
+        setThemeMode("dark");
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const root = document.documentElement;
+      if (themeMode === "dark") {
+        root.classList.add("dark");
+      } else {
+        root.classList.remove("dark");
+      }
+      try {
+        localStorage.setItem("stride_theme_mode", themeMode);
+      } catch {
+        // ignore
+      }
+    }
+  }, [themeMode]);
 
   const refreshProjects = useCallback(async () => {
     try {
@@ -211,6 +245,8 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         setActiveTab,
         themePalette,
         setThemePalette,
+        themeMode,
+        setThemeMode,
         refreshProjects,
         refreshActiveProject,
         reseedDemo,

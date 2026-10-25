@@ -197,7 +197,8 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
               cy={size / 2}
               r={radius}
               fill="transparent"
-              stroke="#e2e8f0"
+              stroke="currentColor"
+              className="text-slate-200 dark:text-slate-800"
               strokeWidth={strokeWidth}
               strokeDasharray="4 4"
             />
@@ -222,7 +223,8 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
             cy={size / 2}
             r={radius}
             fill="transparent"
-            stroke="#f1f5f9"
+            stroke="currentColor"
+            className="text-slate-100 dark:text-slate-800"
             strokeWidth={strokeWidth}
           />
           {segments.map((seg, idx) => {

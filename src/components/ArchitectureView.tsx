@@ -348,7 +348,7 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
             </div>
 
             {/* SVG Diagram Canvas */}
-            <div className="relative w-full h-[520px] bg-slate-50 rounded-xl border border-slate-200 overflow-hidden flex items-center justify-center">
+            <div className="relative w-full h-[520px] bg-slate-50 dark:bg-[#070b14] rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden flex items-center justify-center transition-colors">
               <svg
                 className="w-full h-full select-none"
                 viewBox="0 0 1000 480"
@@ -364,7 +364,7 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                     refY="3"
                     orient="auto"
                   >
-                    <polygon points="0 0, 8 3, 0 6" fill={isCorporate ? "#1d4ed8" : "#0f766e"} />
+                    <polygon points="0 0, 8 3, 0 6" fill={isCorporate ? "#3b82f6" : "#14b8a6"} />
                   </marker>
                   {/* Arrowhead marker boundary */}
                   <marker
@@ -375,13 +375,13 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                     refY="3"
                     orient="auto"
                   >
-                    <polygon points="0 0, 8 3, 0 6" fill="#e11d48" />
+                    <polygon points="0 0, 8 3, 0 6" fill="#f43f5e" />
                   </marker>
                 </defs>
 
                 {/* Grid dots background */}
                 <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
-                  <circle cx="2" cy="2" r="1.2" fill="#cbd5e1" />
+                  <circle cx="2" cy="2" r="1.2" fill="currentColor" className="text-slate-300 dark:text-slate-800" />
                 </pattern>
                 <rect width="1000" height="480" fill="url(#grid)" />
 
@@ -405,7 +405,7 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                   const cy2 = ty;
 
                   const isCrossing = flow.crossesTrustBoundary;
-                  const strokeColor = isCrossing ? "#e11d48" : isCorporate ? "#2563eb" : "#0d9488";
+                  const strokeColor = isCrossing ? "#f43f5e" : isCorporate ? "#3b82f6" : "#14b8a6";
                   const markerId = isCrossing ? "url(#arrowhead-boundary)" : "url(#arrowhead)";
 
                   const midX = (sx + tx) / 2;
@@ -432,19 +432,19 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                         width="110"
                         height="16"
                         rx="4"
-                        fill="#ffffff"
-                        stroke="#e2e8f0"
+                        fill="currentColor"
+                        stroke="currentColor"
                         strokeWidth="1"
+                        className="text-white dark:text-slate-900 border-slate-200 dark:border-slate-700"
                         opacity={selectedElementId && !isConnected ? 0.35 : 0.95}
                       />
                       <text
                         x={midX}
                         y={midY + 1}
-                        fill="#334155"
                         fontSize="9"
                         fontWeight="600"
                         textAnchor="middle"
-                        className="font-mono select-none"
+                        className="font-mono select-none fill-slate-700 dark:fill-slate-300"
                         opacity={selectedElementId && !isConnected ? 0.35 : 1}
                       >
                         {flow.name.length > 15 ? flow.name.substring(0, 14) + "…" : flow.name}
@@ -458,17 +458,17 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                   const isSelected = selectedElementId === elem.id;
                   const threatCount = getElementThreatCount(elem.id);
 
-                  let borderColor = isCorporate ? "stroke-blue-600" : "stroke-teal-600";
-                  let headerColor = isCorporate ? "fill-blue-50" : "fill-teal-50";
-                  let badgeFill = isCorporate ? "#1d4ed8" : "#0f766e";
+                  let borderColor = isCorporate ? "stroke-blue-600 dark:stroke-blue-500" : "stroke-teal-600 dark:stroke-teal-500";
+                  let headerColor = isCorporate ? "fill-blue-50 dark:fill-blue-950/70" : "fill-teal-50 dark:fill-teal-950/70";
+                  let badgeFill = isCorporate ? "#2563eb" : "#0d9488";
 
                   if (elem.type === "DATA_STORE") {
-                    borderColor = "stroke-emerald-600";
-                    headerColor = "fill-emerald-50";
+                    borderColor = "stroke-emerald-600 dark:stroke-emerald-500";
+                    headerColor = "fill-emerald-50 dark:fill-emerald-950/70";
                     badgeFill = "#059669";
                   } else if (elem.type === "EXTERNAL_ENTITY") {
-                    borderColor = "stroke-sky-600";
-                    headerColor = "fill-sky-50";
+                    borderColor = "stroke-sky-600 dark:stroke-sky-500";
+                    headerColor = "fill-sky-50 dark:fill-sky-950/70";
                     badgeFill = "#0284c7";
                   }
 
@@ -476,7 +476,7 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                     <g
                       key={elem.id}
                       onClick={() => setSelectedElementId(elem.id)}
-                      className="cursor-pointer transition-transform duration-150 hover:brightness-95"
+                      className="cursor-pointer transition-transform duration-150 hover:brightness-105"
                       transform={`translate(${elem.posX}, ${elem.posY})`}
                     >
                       {/* Node Box */}
@@ -484,11 +484,11 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                         width="160"
                         height="70"
                         rx="8"
-                        fill="#ffffff"
-                        className={`${borderColor} ${
+                        fill="currentColor"
+                        className={`text-white dark:text-slate-900/90 ${borderColor} ${
                           isSelected ? "stroke-[3px]" : "stroke-[1.5px]"
                         }`}
-                        filter={isSelected ? "drop-shadow(0 4px 8px rgba(0,0,0,0.15))" : "drop-shadow(0 1px 3px rgba(0,0,0,0.06))"}
+                        filter={isSelected ? "drop-shadow(0 4px 12px rgba(59,130,246,0.3))" : "drop-shadow(0 2px 5px rgba(0,0,0,0.25))"}
                       />
 
                       {/* Header bar */}
@@ -505,9 +505,9 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                       <text
                         x="12"
                         y="18"
-                        fill="#0f172a"
                         fontSize="11"
                         fontWeight="bold"
+                        className="fill-slate-900 dark:fill-slate-100"
                       >
                         {elem.name.length > 18 ? elem.name.substring(0, 16) + "..." : elem.name}
                       </text>
@@ -516,10 +516,10 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                       <text
                         x="12"
                         y="42"
-                        fill="#475569"
                         fontSize="10"
                         fontFamily="monospace"
                         fontWeight="500"
+                        className="fill-slate-600 dark:fill-slate-400"
                       >
                         {elem.technology ? elem.technology.substring(0, 20) : elem.type}
                       </text>
@@ -527,10 +527,10 @@ export function ArchitectureView({ onOpenNewThreatForElement }: ArchitectureView
                       <text
                         x="12"
                         y="58"
-                        fill="#64748b"
-                        fontSize="9"
+                        fontSize="10"
+                        className="fill-slate-500 dark:fill-slate-400"
                       >
-                        Zone: {elem.trustZone || "Core"}
+                        Zone: {elem.trustZone || "Default Zone"}
                       </text>
 
                       {/* Threat count badge */}
