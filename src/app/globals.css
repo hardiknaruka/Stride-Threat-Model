@@ -152,11 +152,19 @@ body {
 .dark .bg-white {
   background-color: rgba(15, 23, 42, 0.75) !important;
 }
-.dark .bg-slate-50 {
-  background-color: rgba(15, 23, 42, 0.5) !important;
+
+/* Catch all light slate variations so they never produce a washed-out light box in dark mode */
+.dark .bg-slate-50,
+.dark [class*="bg-slate-50"] {
+  background-color: rgba(11, 17, 32, 0.85) !important;
 }
-.dark .bg-slate-100 {
-  background-color: rgba(30, 41, 59, 0.6) !important;
+.dark .bg-slate-100,
+.dark [class*="bg-slate-100"] {
+  background-color: rgba(11, 17, 32, 0.85) !important;
+}
+.dark .bg-slate-200,
+.dark [class*="bg-slate-200"] {
+  background-color: rgba(20, 29, 47, 0.8) !important;
 }
 
 /* Catch all translucent white variations so they don't produce a blinding light box */
@@ -165,6 +173,16 @@ body {
 }
 .dark [class*="border-white/"] {
   border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Dedicated STRIDE Methodology Scenario & Diagnostic Boxes */
+.stride-box {
+  background-color: #f1f5f9;
+  border-color: #e2e8f0;
+}
+.dark .stride-box {
+  background-color: rgba(8, 13, 24, 0.92) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 /* Neutral Borders */

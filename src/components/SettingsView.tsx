@@ -74,12 +74,12 @@ export function SettingsView() {
                 </p>
 
                 {/* Scenarios & Mitigations Box - Deep Dark Container with high-contrast text */}
-                <div className="p-3.5 rounded-lg bg-slate-100/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800/90 text-[11px] space-y-2 shadow-2xs">
+                <div className="stride-box p-3.5 rounded-lg border text-[11px] space-y-2 shadow-2xs">
                   <div>
                     <span className="font-bold text-rose-700 dark:text-rose-400">Microservice Attack Scenarios:</span>{" "}
                     <span className="text-slate-700 dark:text-slate-200 leading-relaxed">{def.examples}</span>
                   </div>
-                  <div className="pt-2 border-t border-slate-200/80 dark:border-slate-800">
+                  <div className="pt-2 border-t border-slate-200 dark:border-white/10">
                     <span className="font-bold text-emerald-700 dark:text-emerald-400">Typical Countermeasures:</span>{" "}
                     <span className="text-slate-700 dark:text-slate-200 leading-relaxed">{def.typicalMitigations}</span>
                   </div>
@@ -144,7 +144,7 @@ export function SettingsView() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div className="p-4 rounded-lg border border-slate-200/70 dark:border-slate-800 bg-white/60 dark:bg-slate-900/80 backdrop-blur-xs space-y-2">
+          <div className="stride-box p-4 rounded-lg border backdrop-blur-xs space-y-2">
             <div className="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-pulse" />
               Active Database Provider: MongoDB
@@ -156,7 +156,7 @@ export function SettingsView() {
             </p>
           </div>
 
-          <div className="p-4 rounded-lg border border-slate-200/70 dark:border-slate-800 bg-white/60 dark:bg-slate-900/80 backdrop-blur-xs space-y-2">
+          <div className="stride-box p-4 rounded-lg border backdrop-blur-xs space-y-2">
             <div className="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
               <Terminal className="h-4 w-4 text-blue-600 dark:text-blue-400" />
               Connection String Setup
