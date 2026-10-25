@@ -192,58 +192,58 @@ export function ReviewSummaryView() {
           </h2>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="p-3.5 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs">
-              <span className="text-xs text-slate-500 block font-medium">Architecture Elements</span>
-              <span className="text-2xl font-bold text-slate-900">{elements.length}</span>
+            <div className="p-3.5 rounded-lg border border-slate-200/70 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs">
+              <span className="text-xs text-slate-500 dark:text-slate-400 block font-medium">Architecture Elements</span>
+              <span className="text-2xl font-bold text-slate-900 dark:text-white">{elements.length}</span>
             </div>
-            <div className="p-3.5 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs">
-              <span className="text-xs text-slate-500 block font-medium">Directed Data Flows</span>
-              <span className="text-2xl font-bold text-slate-900">{flows.length}</span>
+            <div className="p-3.5 rounded-lg border border-slate-200/70 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs">
+              <span className="text-xs text-slate-500 dark:text-slate-400 block font-medium">Directed Data Flows</span>
+              <span className="text-2xl font-bold text-slate-900 dark:text-white">{flows.length}</span>
             </div>
-            <div className="p-3.5 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs">
-              <span className="text-xs text-slate-500 block font-medium">Total Threats Assessed</span>
-              <span className="text-2xl font-bold text-slate-900">{threats.length}</span>
+            <div className="p-3.5 rounded-lg border border-slate-200/70 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs">
+              <span className="text-xs text-slate-500 dark:text-slate-400 block font-medium">Total Threats Assessed</span>
+              <span className="text-2xl font-bold text-slate-900 dark:text-white">{threats.length}</span>
             </div>
-            <div className="p-3.5 rounded-lg border border-rose-200/80 bg-rose-50/70 backdrop-blur-xs">
-              <span className="text-xs text-rose-700 block font-medium">High & Critical Priority</span>
-              <span className="text-2xl font-bold text-rose-700">{highAndCriticalThreats.length}</span>
+            <div className="p-3.5 rounded-lg border border-rose-200/80 dark:border-rose-500/30 bg-rose-50/70 dark:bg-rose-950/20 backdrop-blur-xs">
+              <span className="text-xs text-rose-700 dark:text-rose-400 block font-medium">High & Critical Priority</span>
+              <span className="text-2xl font-bold text-rose-700 dark:text-rose-400">{highAndCriticalThreats.length}</span>
             </div>
           </div>
         </div>
 
         {/* Section 2: Study Scope & Baseline Boundaries */}
         <div className="print-avoid-break space-y-4">
-          <h2 className="text-base font-bold text-slate-900 print:text-black border-b border-slate-200 print:border-gray-300 pb-2">
+          <h2 className="text-base font-bold text-slate-900 dark:text-white print:text-black border-b border-slate-200 dark:border-slate-800 print:border-gray-300 pb-2">
             2. System Scope & Boundaries
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            <div className="p-4 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs space-y-1">
-              <span className="font-bold text-emerald-800 block">In-Scope System Elements:</span>
-              <p className="text-slate-700 whitespace-pre-line leading-relaxed">
+            <div className="p-4 rounded-lg border border-slate-200/70 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs space-y-1">
+              <span className="font-bold text-emerald-800 dark:text-emerald-400 block">In-Scope System Elements:</span>
+              <p className="text-slate-700 dark:text-slate-300 whitespace-pre-line leading-relaxed">
                 {activeProject.inScope || "No in-scope notes documented."}
               </p>
             </div>
 
-            <div className="p-4 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs space-y-1">
-              <span className="font-bold text-rose-800 block">Out-of-Scope Exclusions:</span>
-              <p className="text-slate-700 whitespace-pre-line leading-relaxed">
+            <div className="p-4 rounded-lg border border-slate-200/70 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs space-y-1">
+              <span className="font-bold text-rose-800 dark:text-rose-400 block">Out-of-Scope Exclusions:</span>
+              <p className="text-slate-700 dark:text-slate-300 whitespace-pre-line leading-relaxed">
                 {activeProject.outOfScope || "No out-of-scope exclusions documented."}
               </p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            <div className="p-4 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs space-y-1">
-              <span className="font-bold text-blue-800 block">Technical Assumptions:</span>
-              <p className="text-slate-700 whitespace-pre-line leading-relaxed">
+            <div className="p-4 rounded-lg border border-slate-200/70 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs space-y-1">
+              <span className="font-bold text-blue-800 dark:text-blue-400 block">Technical Assumptions:</span>
+              <p className="text-slate-700 dark:text-slate-300 whitespace-pre-line leading-relaxed">
                 {activeProject.assumptions || "No assumptions recorded."}
               </p>
             </div>
 
-            <div className="p-4 rounded-lg border border-slate-200/70 bg-white/60 backdrop-blur-xs space-y-1">
-              <span className="font-bold text-amber-800 block">Open Questions & Follow-ups:</span>
-              <p className="text-slate-700 whitespace-pre-line leading-relaxed">
+            <div className="p-4 rounded-lg border border-slate-200/70 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs space-y-1">
+              <span className="font-bold text-amber-800 dark:text-amber-400 block">Open Questions & Follow-ups:</span>
+              <p className="text-slate-700 dark:text-slate-300 whitespace-pre-line leading-relaxed">
                 {activeProject.openQuestions || "No open questions recorded."}
               </p>
             </div>
@@ -356,15 +356,15 @@ export function ReviewSummaryView() {
         </div>
 
         {/* Section 5: OWASP Threat Dragon Integration Guidance (no-print) */}
-        <div className="no-print rounded-lg border border-slate-200/80 bg-white/60 backdrop-blur-xs p-5 space-y-4">
+        <div className="no-print rounded-lg border border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs p-5 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Code className={`h-5 w-5 ${isCorporate ? "text-blue-700" : "text-teal-700"}`} />
+              <Code className={`h-5 w-5 ${isCorporate ? "text-blue-700 dark:text-blue-400" : "text-teal-700 dark:text-teal-400"}`} />
               <div>
-                <h3 className="text-sm font-bold text-slate-900">
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white">
                   OWASP Threat Dragon Integration Path
                 </h3>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   OWASP Threat Dragon is the preferred dedicated diagramming tool. This workspace manages the study workflow and risk register.
                 </p>
               </div>
@@ -373,7 +373,7 @@ export function ReviewSummaryView() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowThreatDragonSpec(!showThreatDragonSpec)}
-                className="px-3 py-1.5 rounded-lg border border-slate-200/90 bg-white/90 hover:bg-white text-xs font-semibold text-slate-700 transition-colors shadow-2xs backdrop-blur-xs"
+                className="px-3 py-1.5 rounded-lg border border-slate-200/90 dark:border-slate-700 bg-white/90 dark:bg-slate-800 hover:bg-white dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors shadow-2xs backdrop-blur-xs"
               >
                 {showThreatDragonSpec ? "Hide Schema" : "Inspect 2.x Schema"}
               </button>
@@ -391,7 +391,7 @@ export function ReviewSummaryView() {
             </div>
           </div>
 
-          <p className="text-xs text-slate-600 leading-relaxed">
+          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
             The schema below maps this study&apos;s architecture components and STRIDE threats directly into the verified
             OWASP Threat Dragon 2.x standard JSON format (<code>diagramType: &ldquo;STRIDE&rdquo;</code>, <code>cells: tm.Process, tm.Store, tm.Actor</code>).
             You can load this model directly into OWASP Threat Dragon for deep visual rule validation.
@@ -399,7 +399,7 @@ export function ReviewSummaryView() {
 
           {showThreatDragonSpec && (
             <div className="relative">
-              <pre className="p-4 rounded-lg bg-white/90 border border-slate-200/80 text-[11px] font-mono text-slate-800 overflow-x-auto max-h-72 shadow-2xs">
+              <pre className="p-4 rounded-lg bg-white/90 dark:bg-slate-950/90 border border-slate-200/80 dark:border-slate-800 text-[11px] font-mono text-slate-800 dark:text-slate-200 overflow-x-auto max-h-72 shadow-2xs">
                 {JSON.stringify(threatDragonExportModel, null, 2)}
               </pre>
             </div>
