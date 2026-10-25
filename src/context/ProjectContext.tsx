@@ -129,16 +129,16 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
   const [activeRole, setActiveRole] = useState<UserRole>("SECURITY_LEAD");
   const [activeTab, setActiveTab] = useState<string>("dashboard");
   const [themePalette, setThemePalette] = useState<ThemePalette>("corporate");
-  const [themeMode, setThemeMode] = useState<ThemeMode>("dark");
+  const [themeMode, setThemeMode] = useState<ThemeMode>("light");
 
-  // Synchronize Theme Mode with document root and localStorage
+  // Synchronize Theme Mode with document root and localStorage (Default: Light Theme)
   useEffect(() => {
     try {
       const savedMode = localStorage.getItem("stride_theme_mode") as ThemeMode | null;
       if (savedMode === "light" || savedMode === "dark") {
         setThemeMode(savedMode);
       } else {
-        setThemeMode("dark");
+        setThemeMode("light");
       }
     } catch {
       // ignore
