@@ -264,43 +264,16 @@ def create_python_script():
     return "\n".join(lines)
 
 def main():
-    print("Generating submission Jupyter Notebooks...")
+    print("Generating primary submission Jupyter Notebook...")
     nb = create_notebook()
     nb_content = json.dumps(nb, indent=1, ensure_ascii=False)
 
-    # 1. HardikNaruka_StrideThreatModel.ipynb
-    path1 = os.path.join(ROOT_DIR, "HardikNaruka_StrideThreatModel.ipynb")
-    with open(path1, "w", encoding="utf-8") as f:
+    # Primary submission file: HardikNaruka_StrideThreatModel.ipynb
+    path = os.path.join(ROOT_DIR, "HardikNaruka_StrideThreatModel.ipynb")
+    with open(path, "w", encoding="utf-8") as f:
         f.write(nb_content)
-    print(f"[OK] Created: {path1} ({os.path.getsize(path1):,} bytes)")
-
-    # 2. Hardik_Naruka_StrideThreatModel.ipynb
-    path2 = os.path.join(ROOT_DIR, "Hardik_Naruka_StrideThreatModel.ipynb")
-    with open(path2, "w", encoding="utf-8") as f:
-        f.write(nb_content)
-    print(f"[OK] Created: {path2} ({os.path.getsize(path2):,} bytes)")
-
-    # 3. YourName_ProjectName.ipynb (literal filename requested by prompt)
-    path3 = os.path.join(ROOT_DIR, "YourName_ProjectName.ipynb")
-    with open(path3, "w", encoding="utf-8") as f:
-        f.write(nb_content)
-    print(f"[OK] Created: {path3} ({os.path.getsize(path3):,} bytes)")
-
-    # 4. Generate Python script version (.py format)
-    print("\nGenerating submission Python scripts (.py format)...")
-    py_content = create_python_script()
-
-    path_py1 = os.path.join(ROOT_DIR, "HardikNaruka_StrideThreatModel.py")
-    with open(path_py1, "w", encoding="utf-8") as f:
-        f.write(py_content)
-    print(f"[OK] Created: {path_py1} ({os.path.getsize(path_py1):,} bytes)")
-
-    path_py2 = os.path.join(ROOT_DIR, "YourName_ProjectName.py")
-    with open(path_py2, "w", encoding="utf-8") as f:
-        f.write(py_content)
-    print(f"[OK] Created: {path_py2} ({os.path.getsize(path_py2):,} bytes)")
-
-    print("\nAll project submission files generated successfully!")
+    print(f"[OK] Primary notebook created: {path} ({os.path.getsize(path):,} bytes)")
+    print("Submission notebook generated cleanly without duplicates!")
 
 if __name__ == "__main__":
     main()
