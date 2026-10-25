@@ -132,10 +132,10 @@ export function SettingsView() {
           <Database className="h-5 w-5 text-cyan-400" />
           <div>
             <h3 className="text-base font-bold text-white">
-              Data Storage & Environment Runtime
+              Data Storage & MongoDB Runtime
             </h3>
             <p className="text-xs text-slate-400">
-              Zero-config local SQLite storage with optional PostgreSQL Docker Compose setup.
+              Configured for MongoDB with Prisma ORM (MongoDB Atlas or Local MongoDB).
             </p>
           </div>
         </div>
@@ -144,28 +144,26 @@ export function SettingsView() {
           <div className="p-4 rounded-xl border border-slate-800 bg-slate-950 space-y-2">
             <div className="font-semibold text-slate-200 flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              Active Database: SQLite (Local Zero-Config)
+              Active Database Provider: MongoDB
             </div>
             <p className="text-slate-400 text-[11px] leading-relaxed">
-              Connection string: <code className="text-cyan-300 font-mono">file:./dev.db</code>
+              Environment Key: <code className="text-cyan-300 font-mono">DATABASE_URL</code>
               <br />
-              All components, flows, threats, and scope records persist safely to the local disk via Prisma ORM.
+              Supports MongoDB Atlas clusters (Replica Sets) and local instances seamlessly.
             </p>
           </div>
 
           <div className="p-4 rounded-xl border border-slate-800 bg-slate-950 space-y-2">
             <div className="font-semibold text-slate-200 flex items-center gap-2">
               <Terminal className="h-4 w-4 text-indigo-400" />
-              PostgreSQL Docker Compose Support
+              Connection String Setup
             </div>
             <p className="text-slate-400 text-[11px] leading-relaxed">
-              To connect PostgreSQL instead:
+              In your <code className="text-indigo-300 font-mono">.env</code> file:
               <br />
-              1. Run <code className="text-indigo-300 font-mono">docker compose up -d</code>
+              Atlas: <code className="text-indigo-300 font-mono">mongodb+srv://...</code>
               <br />
-              2. Change <code className="text-indigo-300 font-mono">DATABASE_URL</code> in <code className="text-indigo-300 font-mono">.env</code> to Postgres
-              <br />
-              3. Run <code className="text-indigo-300 font-mono">npx prisma db push</code>
+              Local: <code className="text-indigo-300 font-mono">mongodb://localhost:27017/stride_threat_model</code>
             </p>
           </div>
         </div>

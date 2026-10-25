@@ -78,116 +78,114 @@ export async function PUT(
       severity = calculateSeverity(likelihood, impact);
     }
 
-    const updated = await prisma.$transaction(async (tx) => {
-      await tx.threat.update({
-        where: { id: threatId },
-        data: {
-          title: data.title ?? existing.title,
-          threatId: data.threatId ?? existing.threatId,
-          scenario: data.scenario ?? existing.scenario,
-          strideCategories: data.strideCategories
-            ? JSON.stringify(data.strideCategories)
-            : existing.strideCategories,
-          preconditions:
-            data.preconditions !== undefined
-              ? data.preconditions
-              : existing.preconditions,
-          confidentialityImpact:
-            data.confidentialityImpact !== undefined
-              ? data.confidentialityImpact
-              : existing.confidentialityImpact,
-          integrityImpact:
-            data.integrityImpact !== undefined
-              ? data.integrityImpact
-              : existing.integrityImpact,
-          availabilityImpact:
-            data.availabilityImpact !== undefined
-              ? data.availabilityImpact
-              : existing.availabilityImpact,
-          privacyImpact:
-            data.privacyImpact !== undefined
-              ? data.privacyImpact
-              : existing.privacyImpact,
-          businessImpact:
-            data.businessImpact !== undefined
-              ? data.businessImpact
-              : existing.businessImpact,
-          likelihood,
-          impact,
-          severity,
-          severityRationale: isOverridden
-            ? (data.severityRationale ?? existing.severityRationale)
+    await prisma.threat.update({
+      where: { id: threatId },
+      data: {
+        title: data.title ?? existing.title,
+        threatId: data.threatId ?? existing.threatId,
+        scenario: data.scenario ?? existing.scenario,
+        strideCategories: data.strideCategories
+          ? JSON.stringify(data.strideCategories)
+          : existing.strideCategories,
+        preconditions:
+          data.preconditions !== undefined
+            ? data.preconditions
+            : existing.preconditions,
+        confidentialityImpact:
+          data.confidentialityImpact !== undefined
+            ? data.confidentialityImpact
+            : existing.confidentialityImpact,
+        integrityImpact:
+          data.integrityImpact !== undefined
+            ? data.integrityImpact
+            : existing.integrityImpact,
+        availabilityImpact:
+          data.availabilityImpact !== undefined
+            ? data.availabilityImpact
+            : existing.availabilityImpact,
+        privacyImpact:
+          data.privacyImpact !== undefined
+            ? data.privacyImpact
+            : existing.privacyImpact,
+        businessImpact:
+          data.businessImpact !== undefined
+            ? data.businessImpact
+            : existing.businessImpact,
+        likelihood,
+        impact,
+        severity,
+        severityRationale: isOverridden
+          ? (data.severityRationale ?? existing.severityRationale)
+          : null,
+        isOverridden,
+        existingControls:
+          data.existingControls !== undefined
+            ? data.existingControls
+            : existing.existingControls,
+        controlsStatus: data.controlsStatus ?? existing.controlsStatus,
+        mitigation:
+          data.mitigation !== undefined
+            ? data.mitigation
+            : existing.mitigation,
+        owner: data.owner !== undefined ? data.owner : existing.owner,
+        dueDate:
+          data.dueDate !== undefined
+            ? data.dueDate
+              ? new Date(data.dueDate)
+              : null
+            : existing.dueDate,
+        status: data.status ?? existing.status,
+        notApplicableRationale:
+          (data.status ?? existing.status) === "NOT_APPLICABLE"
+            ? (data.notApplicableRationale ?? existing.notApplicableRationale)
             : null,
-          isOverridden,
-          existingControls:
-            data.existingControls !== undefined
-              ? data.existingControls
-              : existing.existingControls,
-          controlsStatus: data.controlsStatus ?? existing.controlsStatus,
-          mitigation:
-            data.mitigation !== undefined
-              ? data.mitigation
-              : existing.mitigation,
-          owner: data.owner !== undefined ? data.owner : existing.owner,
-          dueDate:
-            data.dueDate !== undefined
-              ? data.dueDate
-                ? new Date(data.dueDate)
-                : null
-              : existing.dueDate,
-          status: data.status ?? existing.status,
-          notApplicableRationale:
-            (data.status ?? existing.status) === "NOT_APPLICABLE"
-              ? (data.notApplicableRationale ?? existing.notApplicableRationale)
-              : null,
-        },
+      },
+    });
+
+    // Update linked elements if provided
+    if (data.linkedElementIds !== undefined) {
+      await prisma.threatElementLink.deleteMany({
+        where: { threatId },
       });
-
-      // Update linked elements if provided
-      if (data.linkedElementIds !== undefined) {
-        await tx.threatElementLink.deleteMany({
-          where: { threatId },
+      if (data.linkedElementIds.length > 0) {
+        await prisma.threatElementLink.createMany({
+          data: data.linkedElementIds.map((elementId) => ({
+            threatId,
+            elementId,
+          })),
         });
-        if (data.linkedElementIds.length > 0) {
-          await tx.threatElementLink.createMany({
-            data: data.linkedElementIds.map((elementId) => ({
-              threatId,
-              elementId,
-            })),
-          });
-        }
       }
+    }
 
-      // Update linked flows if provided
-      if (data.linkedFlowIds !== undefined) {
-        await tx.threatFlowLink.deleteMany({
-          where: { threatId },
+    // Update linked flows if provided
+    if (data.linkedFlowIds !== undefined) {
+      await prisma.threatFlowLink.deleteMany({
+        where: { threatId },
+      });
+      if (data.linkedFlowIds.length > 0) {
+        await prisma.threatFlowLink.createMany({
+          data: data.linkedFlowIds.map((flowId) => ({
+            threatId,
+            flowId,
+          })),
         });
-        if (data.linkedFlowIds.length > 0) {
-          await tx.threatFlowLink.createMany({
-            data: data.linkedFlowIds.map((flowId) => ({
-              threatId,
-              flowId,
-            })),
-          });
-        }
       }
+    }
 
-      return tx.threat.findUnique({
-        where: { id: threatId },
-        include: {
-          linkedElements: {
-            include: {
-              element: { select: { id: true, name: true, type: true } },
-            },
-          },
-          linkedFlows: {
-            include: {
-              flow: { select: { id: true, name: true, protocol: true } },
-            },
+    const updated = await prisma.threat.findUnique({
+      where: { id: threatId },
+      include: {
+        linkedElements: {
+          include: {
+            element: { select: { id: true, name: true, type: true } },
           },
         },
-      });
+        linkedFlows: {
+          include: {
+            flow: { select: { id: true, name: true, protocol: true } },
+          },
+        },
+      },
     });
 
     return NextResponse.json(updated);

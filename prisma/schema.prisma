@@ -3,24 +3,24 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model Project {
-  id                  String   @id @default(cuid())
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
   name                String
   description         String
   owner               String
-  status              String   @default("In Assessment") // Planning, In Assessment, Under Review, Approved, Archived
+  status              String   @default("In Assessment")
   architectureVersion String   @default("1.0.0")
-  environment         String   @default("Production")   // Production, Staging, Development, Multi-Region Cloud
+  environment         String   @default("Production")
   reviewDate          DateTime?
   inScope             String?
   outOfScope          String?
   assumptions         String?
   openQuestions       String?
-  stakeholders        String?  // JSON string: [{ name, role, email, team }]
+  stakeholders        String?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 
@@ -30,13 +30,13 @@ model Project {
 }
 
 model ArchitectureElement {
-  id          String   @id @default(cuid())
-  projectId   String
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectId   String   @db.ObjectId
   name        String
   type        String   // EXTERNAL_ENTITY, PROCESS, DATA_STORE, TRUST_BOUNDARY
   description String?
-  technology  String?  // e.g. Node.js, PostgreSQL, Redis, Envoy
-  trustZone   String?  // e.g. Public Internet, DMZ, VPC Private, Secure Core
+  technology  String?
+  trustZone   String?
   posX        Float    @default(100)
   posY        Float    @default(100)
   createdAt   DateTime @default(now())
@@ -51,14 +51,14 @@ model ArchitectureElement {
 }
 
 model DataFlow {
-  id                   String   @id @default(cuid())
-  projectId            String
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectId            String   @db.ObjectId
   name                 String
-  sourceElementId      String
-  targetElementId      String
-  protocol             String   @default("HTTPS/REST") // HTTPS/REST, gRPC, AMQP/Kafka, WebSocket, Database Wire
-  dataCategory         String?  // Sensitive PII, Auth Credentials, Financial/Payment, Public Data, Telemetry
-  authContext          String?  // OAuth 2.0 Bearer, mTLS, API Key, Session Cookie, Unauthenticated
+  sourceElementId      String   @db.ObjectId
+  targetElementId      String   @db.ObjectId
+  protocol             String   @default("HTTPS/REST")
+  dataCategory         String?
+  authContext          String?
   crossesTrustBoundary Boolean  @default(false)
   notes                String?
   createdAt            DateTime @default(now())
@@ -75,29 +75,29 @@ model DataFlow {
 }
 
 model Threat {
-  id                     String   @id @default(cuid())
-  projectId              String
-  threatId               String   // e.g., THR-001
+  id                     String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectId              String   @db.ObjectId
+  threatId               String
   title                  String
   scenario               String
   strideCategories       String   // JSON array string: ["SPOOFING", "TAMPERING"]
   preconditions          String?
-  confidentialityImpact  String?  // Low, Medium, High, None
-  integrityImpact        String?  // Low, Medium, High, None
-  availabilityImpact     String?  // Low, Medium, High, None
-  privacyImpact          String?  // Low, Medium, High, None
+  confidentialityImpact  String?
+  integrityImpact        String?
+  availabilityImpact     String?
+  privacyImpact          String?
   businessImpact         String?
-  likelihood             String   @default("MEDIUM") // LOW, MEDIUM, HIGH
-  impact                 String   @default("MEDIUM") // LOW, MEDIUM, HIGH
-  severity               String   @default("MEDIUM") // LOW, MEDIUM, HIGH, CRITICAL
-  severityRationale      String?  // Documented rationale if overridden
+  likelihood             String   @default("MEDIUM")
+  impact                 String   @default("MEDIUM")
+  severity               String   @default("MEDIUM")
+  severityRationale      String?
   isOverridden           Boolean  @default(false)
   existingControls       String?
-  controlsStatus         String   @default("ASSUMED") // VERIFIED, ASSUMED, NONE
+  controlsStatus         String   @default("ASSUMED")
   mitigation             String?
   owner                  String?
   dueDate                DateTime?
-  status                 String   @default("OPEN") // OPEN, ACCEPTED, MITIGATED, DEFERRED, NOT_APPLICABLE
+  status                 String   @default("OPEN")
   notApplicableRationale String?
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
@@ -112,9 +112,9 @@ model Threat {
 }
 
 model ThreatElementLink {
-  id        String   @id @default(cuid())
-  threatId  String
-  elementId String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  threatId  String   @db.ObjectId
+  elementId String   @db.ObjectId
   createdAt DateTime @default(now())
 
   threat    Threat   @relation(fields: [threatId], references: [id], onDelete: Cascade)
@@ -125,9 +125,9 @@ model ThreatElementLink {
 }
 
 model ThreatFlowLink {
-  id        String   @id @default(cuid())
-  threatId  String
-  flowId    String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  threatId  String   @db.ObjectId
+  flowId    String   @db.ObjectId
   createdAt DateTime @default(now())
 
   threat    Threat   @relation(fields: [threatId], references: [id], onDelete: Cascade)

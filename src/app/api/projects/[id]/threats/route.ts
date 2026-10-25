@@ -136,71 +136,69 @@ export async function POST(
       threatId = `THR-${String(count + 1).padStart(3, "0")}`;
     }
 
-    const threat = await prisma.$transaction(async (tx) => {
-      const created = await tx.threat.create({
-        data: {
-          projectId: id,
-          threatId,
-          title: data.title,
-          scenario: data.scenario,
-          strideCategories: JSON.stringify(data.strideCategories),
-          preconditions: data.preconditions,
-          confidentialityImpact: data.confidentialityImpact,
-          integrityImpact: data.integrityImpact,
-          availabilityImpact: data.availabilityImpact,
-          privacyImpact: data.privacyImpact,
-          businessImpact: data.businessImpact,
-          likelihood: data.likelihood,
-          impact: data.impact,
-          severity,
-          severityRationale: data.isOverridden ? data.severityRationale : null,
-          isOverridden: data.isOverridden,
-          existingControls: data.existingControls,
-          controlsStatus: data.controlsStatus,
-          mitigation: data.mitigation,
-          owner: data.owner,
-          dueDate: data.dueDate ? new Date(data.dueDate) : null,
-          status: data.status,
-          notApplicableRationale:
-            data.status === "NOT_APPLICABLE"
-              ? data.notApplicableRationale
-              : null,
-        },
+    const created = await prisma.threat.create({
+      data: {
+        projectId: id,
+        threatId,
+        title: data.title,
+        scenario: data.scenario,
+        strideCategories: JSON.stringify(data.strideCategories),
+        preconditions: data.preconditions,
+        confidentialityImpact: data.confidentialityImpact,
+        integrityImpact: data.integrityImpact,
+        availabilityImpact: data.availabilityImpact,
+        privacyImpact: data.privacyImpact,
+        businessImpact: data.businessImpact,
+        likelihood: data.likelihood,
+        impact: data.impact,
+        severity,
+        severityRationale: data.isOverridden ? data.severityRationale : null,
+        isOverridden: data.isOverridden,
+        existingControls: data.existingControls,
+        controlsStatus: data.controlsStatus,
+        mitigation: data.mitigation,
+        owner: data.owner,
+        dueDate: data.dueDate ? new Date(data.dueDate) : null,
+        status: data.status,
+        notApplicableRationale:
+          data.status === "NOT_APPLICABLE"
+            ? data.notApplicableRationale
+            : null,
+      },
+    });
+
+    if (data.linkedElementIds && data.linkedElementIds.length > 0) {
+      await prisma.threatElementLink.createMany({
+        data: data.linkedElementIds.map((elementId) => ({
+          threatId: created.id,
+          elementId,
+        })),
       });
+    }
 
-      if (data.linkedElementIds && data.linkedElementIds.length > 0) {
-        await tx.threatElementLink.createMany({
-          data: data.linkedElementIds.map((elementId) => ({
-            threatId: created.id,
-            elementId,
-          })),
-        });
-      }
+    if (data.linkedFlowIds && data.linkedFlowIds.length > 0) {
+      await prisma.threatFlowLink.createMany({
+        data: data.linkedFlowIds.map((flowId) => ({
+          threatId: created.id,
+          flowId,
+        })),
+      });
+    }
 
-      if (data.linkedFlowIds && data.linkedFlowIds.length > 0) {
-        await tx.threatFlowLink.createMany({
-          data: data.linkedFlowIds.map((flowId) => ({
-            threatId: created.id,
-            flowId,
-          })),
-        });
-      }
-
-      return tx.threat.findUnique({
-        where: { id: created.id },
-        include: {
-          linkedElements: {
-            include: {
-              element: { select: { id: true, name: true, type: true } },
-            },
-          },
-          linkedFlows: {
-            include: {
-              flow: { select: { id: true, name: true, protocol: true } },
-            },
+    const threat = await prisma.threat.findUnique({
+      where: { id: created.id },
+      include: {
+        linkedElements: {
+          include: {
+            element: { select: { id: true, name: true, type: true } },
           },
         },
-      });
+        linkedFlows: {
+          include: {
+            flow: { select: { id: true, name: true, protocol: true } },
+          },
+        },
+      },
     });
 
     return NextResponse.json(threat, { status: 201 });
