@@ -62,8 +62,8 @@ export function NavigationTabs() {
 
   return (
     <div className="no-print border-b border-white/80 dark:border-white/10 bg-white/70 dark:bg-slate-900/75 backdrop-blur-xl shadow-2xs sticky top-16 z-30 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav className="flex space-x-1 sm:space-x-2 overflow-x-auto py-2.5">
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+        <nav className="flex space-x-1 sm:space-x-2 overflow-x-auto no-scrollbar scroll-smooth py-2 sm:py-2.5 px-2 -mx-2">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -71,7 +71,7 @@ export function NavigationTabs() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold whitespace-nowrap transition-all duration-150 ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-lg text-xs font-bold whitespace-nowrap transition-all duration-150 shrink-0 ${
                   isActive
                     ? isCorporate
                       ? "bg-blue-700 text-white shadow-sm ring-1 ring-blue-500/30"
@@ -79,11 +79,11 @@ export function NavigationTabs() {
                     : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-800/60 hover:backdrop-blur-xs"
                 }`}
               >
-                <Icon className={`h-4 w-4 ${isActive ? "text-white" : "text-slate-500 dark:text-slate-400"}`} />
+                <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-white" : "text-slate-500 dark:text-slate-400"}`} />
                 <span>{tab.label}</span>
                 {tab.badge && (
                   <span
-                    className={`ml-1 px-1.5 py-0.2 rounded text-[10px] font-semibold border ${
+                    className={`ml-0.5 sm:ml-1 px-1.5 py-0.2 rounded text-[10px] font-semibold border ${
                       tab.badgeColor
                         ? tab.badgeColor
                         : isActive

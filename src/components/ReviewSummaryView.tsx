@@ -119,41 +119,41 @@ export function ReviewSummaryView() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <button
             onClick={() => setShowDeleteModal(true)}
             title="Permanently delete this threat model project"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-rose-300/80 dark:border-rose-500/30 bg-rose-50/80 dark:bg-rose-950/30 hover:bg-rose-100 dark:hover:bg-rose-950/50 text-rose-700 dark:text-rose-400 text-xs font-semibold shadow-xs transition-colors backdrop-blur-sm"
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg border border-rose-300/80 dark:border-rose-500/30 bg-rose-50/80 dark:bg-rose-950/30 hover:bg-rose-100 dark:hover:bg-rose-950/50 text-rose-700 dark:text-rose-400 text-xs font-semibold shadow-xs transition-colors backdrop-blur-sm"
           >
-            <Trash2 className="h-4 w-4" />
-            <span className="hidden sm:inline">Delete</span> Project
+            <Trash2 className="h-4 w-4 shrink-0" />
+            <span><span className="hidden sm:inline">Delete</span> Project</span>
           </button>
 
           <a
             href={`/api/projects/${activeProject.id}/export/csv`}
             download
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-slate-200/80 bg-white/80 hover:bg-white text-slate-700 dark:text-slate-200 dark:border-slate-700 dark:bg-slate-800/80 text-xs font-semibold shadow-xs transition-colors backdrop-blur-sm"
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg border border-slate-200/80 bg-white/80 hover:bg-white text-slate-700 dark:text-slate-200 dark:border-slate-700 dark:bg-slate-800/80 text-xs font-semibold shadow-xs transition-colors backdrop-blur-sm"
           >
-            <Download className="h-4 w-4" />
-            Download CSV
+            <Download className="h-4 w-4 shrink-0" />
+            <span>Download CSV</span>
           </a>
 
           <button
             onClick={handlePrint}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-white text-xs font-semibold shadow-xs transition-all hover:scale-[1.02] ${
+            className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-white text-xs font-semibold shadow-xs transition-all hover:scale-[1.02] ${
               isCorporate
                 ? "bg-blue-700 hover:bg-blue-800"
                 : "bg-teal-700 hover:bg-teal-800"
             }`}
           >
-            <Printer className="h-4 w-4" />
-            Print / Save PDF Report
+            <Printer className="h-4 w-4 shrink-0" />
+            <span>Print Report</span>
           </button>
         </div>
       </div>
 
       {/* Formal Printable Document Body */}
-      <div className="p-8 sm:p-10 rounded-xl glass-card print:bg-white print:text-black print:border-none print:shadow-none space-y-8 print:p-0">
+      <div className="p-4 sm:p-8 md:p-10 rounded-xl glass-card print:bg-white print:text-black print:border-none print:shadow-none space-y-6 sm:space-y-8 print:p-0">
         {/* Document Header */}
         <div className="border-b border-slate-200 print:border-gray-300 pb-6 space-y-2">
           <div className="flex items-center justify-between">
@@ -268,8 +268,8 @@ export function ReviewSummaryView() {
             3. Critical & High Priority Risk Register
           </h2>
 
-          <div className="overflow-x-auto border border-slate-200/80 rounded-lg">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto no-scrollbar border border-slate-200/80 rounded-lg">
+            <table className="w-full min-w-[620px] text-left text-xs">
               <thead>
                 <tr className="bg-slate-100/80 text-slate-700 border-b border-slate-200">
                   <th className="py-2.5 px-3 font-bold">ID</th>
@@ -327,8 +327,8 @@ export function ReviewSummaryView() {
             4. Mitigation & Action Plan Register
           </h2>
 
-          <div className="overflow-x-auto border border-slate-200/80 rounded-lg">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto no-scrollbar border border-slate-200/80 rounded-lg">
+            <table className="w-full min-w-[660px] text-left text-xs">
               <thead>
                 <tr className="bg-slate-100/80 text-slate-700 border-b border-slate-200">
                   <th className="py-2.5 px-3 font-bold">ID</th>
@@ -368,10 +368,10 @@ export function ReviewSummaryView() {
         </div>
 
         {/* Section 5: OWASP Threat Dragon Integration Guidance (no-print) */}
-        <div className="no-print rounded-lg border border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs p-5 space-y-4">
-          <div className="flex items-center justify-between">
+        <div className="no-print rounded-lg border border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xs p-4 sm:p-5 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-2">
-              <Code className={`h-5 w-5 ${isCorporate ? "text-blue-700 dark:text-blue-400" : "text-teal-700 dark:text-teal-400"}`} />
+              <Code className={`h-5 w-5 shrink-0 ${isCorporate ? "text-blue-700 dark:text-blue-400" : "text-teal-700 dark:text-teal-400"}`} />
               <div>
                 <h3 className="text-sm font-bold text-slate-900 dark:text-white">
                   OWASP Threat Dragon Integration Path
@@ -382,23 +382,23 @@ export function ReviewSummaryView() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto shrink-0">
               <button
                 onClick={() => setShowThreatDragonSpec(!showThreatDragonSpec)}
-                className="px-3 py-1.5 rounded-lg border border-slate-200/90 dark:border-slate-700 bg-white/90 dark:bg-slate-800 hover:bg-white dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors shadow-2xs backdrop-blur-xs"
+                className="flex-1 sm:flex-initial px-3 py-1.5 rounded-lg border border-slate-200/90 dark:border-slate-700 bg-white/90 dark:bg-slate-800 hover:bg-white dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors shadow-2xs backdrop-blur-xs text-center"
               >
                 {showThreatDragonSpec ? "Hide Schema" : "Inspect 2.x Schema"}
               </button>
               <button
                 onClick={handleCopyThreatDragonJson}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs text-white font-semibold shadow-xs transition-colors ${
+                className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs text-white font-semibold shadow-xs transition-colors ${
                   isCorporate
                     ? "bg-blue-700 hover:bg-blue-800"
                     : "bg-teal-700 hover:bg-teal-800"
                 }`}
               >
-                {copiedJson ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-                {copiedJson ? "Copied JSON" : "Copy Threat Dragon JSON"}
+                {copiedJson ? <Check className="h-3.5 w-3.5 shrink-0" /> : <Copy className="h-3.5 w-3.5 shrink-0" />}
+                <span>{copiedJson ? "Copied JSON" : "Copy Threat Dragon JSON"}</span>
               </button>
             </div>
           </div>

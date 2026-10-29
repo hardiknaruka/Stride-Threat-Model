@@ -202,26 +202,26 @@ export function ThreatRegisterView({
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
           <a
             href={`/api/projects/${activeProject.id}/export/csv`}
             download
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-xs transition-colors"
+            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-xs transition-colors"
           >
-            <Download className="h-4 w-4" />
-            Export CSV
+            <Download className="h-4 w-4 shrink-0" />
+            <span>Export CSV</span>
           </a>
           {roleConfig.canCreateThreats && (
             <button
               onClick={onOpenNewThreat}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-white text-xs font-semibold shadow-xs transition-all hover:scale-[1.02] ${
+              className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-white text-xs font-semibold shadow-xs transition-all hover:scale-[1.02] ${
                 isCorporate
                   ? "bg-blue-700 hover:bg-blue-800"
                   : "bg-teal-700 hover:bg-teal-800"
               }`}
             >
-              <Plus className="h-4 w-4" />
-              New Threat
+              <Plus className="h-4 w-4 shrink-0" />
+              <span>New Threat</span>
             </button>
           )}
         </div>
@@ -469,7 +469,7 @@ export function ThreatRegisterView({
                   </div>
 
                   {/* Actions */}
-                  <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
+                  <div className="flex items-center gap-2 self-start sm:self-auto shrink-0 w-full sm:w-auto justify-between sm:justify-start pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800">
                     {/* Quick status dropdown */}
                     {roleConfig.canChangeStatus && (
                       <select
@@ -553,7 +553,7 @@ export function ThreatRegisterView({
                 )}
 
                 {/* Footer metadata: Traceability links, owner, due date */}
-                <div className="pt-2 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-[11px] text-slate-500">
+                <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-[11px] text-slate-500">
                   <div className="flex flex-wrap items-center gap-3">
                     {/* Linked elements */}
                     {threat.linkedElements.length > 0 && (

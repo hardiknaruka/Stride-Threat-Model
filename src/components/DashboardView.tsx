@@ -268,10 +268,10 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Top Outer Card Container (Clean Light Presentation Canvas) */}
-      <div className="glass-panel rounded-2xl p-6 shadow-sm space-y-6">
+      <div className="glass-panel rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm space-y-5 sm:space-y-6">
         {/* Top Accent Line */}
         <div
-          className={`w-full h-1.5 rounded-full -mt-2 mb-4 ${
+          className={`w-full h-1.5 rounded-full -mt-1 sm:-mt-2 mb-3 sm:mb-4 ${
             isCorporate
               ? "bg-gradient-to-r from-blue-700 via-sky-500 to-indigo-700"
               : "bg-gradient-to-r from-teal-700 via-emerald-500 to-cyan-600"
@@ -281,8 +281,8 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
         {/* Main Title, Project Metadata, & Actions Bar */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 pb-5">
           <div className="space-y-1">
-            <div className="flex flex-wrap items-center gap-2.5">
-              <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+              <h1 className="text-lg sm:text-2xl font-bold text-slate-900 tracking-tight">
                 Risk Profile and KPIs Dashboard with Heat Map
               </h1>
               <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${
@@ -298,26 +298,26 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
             </p>
           </div>
 
-          <div className="flex items-center gap-2.5 shrink-0">
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-2.5 w-full sm:w-auto shrink-0">
             {roleConfig.canCreateThreats && (
               <button
                 onClick={onOpenNewThreat}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-white text-xs font-semibold shadow-xs transition-colors ${
+                className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg text-white text-xs font-semibold shadow-xs transition-colors ${
                   isCorporate
                     ? "bg-blue-700 hover:bg-blue-800"
                     : "bg-teal-700 hover:bg-teal-800"
                 }`}
               >
-                <Sparkles className="h-4 w-4" />
-                Add Threat Assessment
+                <Sparkles className="h-4 w-4 shrink-0" />
+                <span>Add Threat Assessment</span>
               </button>
             )}
             <button
               onClick={() => setActiveTab("review")}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-xs transition-colors"
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-xs transition-colors"
             >
-              Export & Review
-              <ArrowRight className="h-3.5 w-3.5" />
+              <span>Export & Review</span>
+              <ArrowRight className="h-3.5 w-3.5 shrink-0" />
             </button>
           </div>
         </div>
@@ -363,37 +363,37 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
         {/* ============================================================== */}
         {/* EXECUTIVE KPI STRIP (4 Industry Standard Metric Cards) */}
         {/* ============================================================== */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="glass-card glass-card-hover p-4 rounded-xl shadow-2xs">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="glass-card glass-card-hover p-3.5 sm:p-4 rounded-xl shadow-2xs">
             <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
               Total Threats Assessed
             </span>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-black text-slate-900 dark:text-white">{totalThreats}</span>
+              <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">{totalThreats}</span>
               <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                 ({openCount} open • {verifiedMitigated + assumedMitigated} mitigated)
               </span>
             </div>
           </div>
 
-          <div className="glass-card glass-card-hover p-4 rounded-xl shadow-2xs border border-rose-200/80 dark:border-rose-500/30 dark:bg-rose-950/20">
+          <div className="glass-card glass-card-hover p-3.5 sm:p-4 rounded-xl shadow-2xs border border-rose-200/80 dark:border-rose-500/30 dark:bg-rose-950/20">
             <span className="text-[11px] font-bold text-rose-700 dark:text-rose-400 uppercase tracking-wider block">
               Critical & High Risks
             </span>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-black text-rose-700 dark:text-rose-400">{highCritical}</span>
+              <span className="text-xl sm:text-2xl font-black text-rose-700 dark:text-rose-400">{highCritical}</span>
               <span className="text-xs text-rose-600 dark:text-rose-300 font-medium">
                 {highCritical > 0 ? "Requires mitigation priority" : "No critical exposure"}
               </span>
             </div>
           </div>
 
-          <div className="glass-card glass-card-hover p-4 rounded-xl shadow-2xs border border-emerald-200/80 dark:border-emerald-500/30 dark:bg-emerald-950/20">
+          <div className="glass-card glass-card-hover p-3.5 sm:p-4 rounded-xl shadow-2xs border border-emerald-200/80 dark:border-emerald-500/30 dark:bg-emerald-950/20">
             <span className="text-[11px] font-bold text-emerald-800 dark:text-emerald-400 uppercase tracking-wider block">
               Mitigation Health
             </span>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-black text-emerald-700 dark:text-emerald-400">
+              <span className="text-xl sm:text-2xl font-black text-emerald-700 dark:text-emerald-400">
                 {totalThreats > 0 ? Math.round(((verifiedMitigated + assumedMitigated) / totalThreats) * 100) : 0}%
               </span>
               <span className="text-xs text-emerald-700 dark:text-emerald-300 font-medium">
@@ -402,12 +402,12 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
             </div>
           </div>
 
-          <div className="glass-card glass-card-hover p-4 rounded-xl shadow-2xs">
+          <div className="glass-card glass-card-hover p-3.5 sm:p-4 rounded-xl shadow-2xs">
             <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
               Assessed Architecture
             </span>
             <div className="flex items-baseline gap-2 mt-1">
-              <span className="text-2xl font-black text-slate-900 dark:text-white">{elements.length}</span>
+              <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">{elements.length}</span>
               <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                 Components • {flows.length} Data Flows
               </span>
@@ -418,15 +418,15 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
         {/* ============================================================== */}
         {/* TOP SECTION: Balanced 2-Column Layout (Table 50% & Donuts 50%) */}
         {/* ============================================================== */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
           {/* Left: Corporate Risk Profile Table (6 Columns) */}
-          <div className="lg:col-span-6 glass-card p-5 rounded-2xl flex flex-col justify-between shadow-2xs">
+          <div className="lg:col-span-6 glass-card p-4 sm:p-5 rounded-2xl flex flex-col justify-between shadow-2xs">
             <div>
               {/* Header with Circular Badge */}
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between mb-3 gap-2">
                 <div className="flex items-center gap-2.5">
                   <div
-                    className={`h-8 w-8 rounded-lg flex items-center justify-center text-white shadow-xs ${
+                    className={`h-8 w-8 rounded-lg flex items-center justify-center text-white shadow-xs shrink-0 ${
                       isCorporate ? "bg-blue-700" : "bg-teal-700"
                     }`}
                   >
@@ -445,7 +445,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
                 {totalThreats > 0 && (
                   <button
                     onClick={() => setActiveTab("threats")}
-                    className={`text-xs font-bold hover:underline ${
+                    className={`text-xs font-bold hover:underline shrink-0 ${
                       isCorporate ? "text-blue-700" : "text-teal-700"
                     }`}
                   >
@@ -455,8 +455,8 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
               </div>
 
               {/* Data Table */}
-              <div className="overflow-hidden rounded-xl border border-slate-200/80 bg-white/85 backdrop-blur-sm shadow-2xs">
-                <table className="w-full text-left text-xs border-collapse">
+              <div className="overflow-x-auto no-scrollbar rounded-xl border border-slate-200/80 bg-white/85 backdrop-blur-sm shadow-2xs">
+                <table className="w-full min-w-[280px] text-left text-xs border-collapse">
                   <thead>
                     <tr
                       className={`text-white font-bold ${
@@ -493,7 +493,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
                             }}
                             className="hover:bg-slate-50 cursor-pointer transition-colors"
                           >
-                            <td className="py-2.5 px-3 text-slate-800 font-semibold truncate max-w-[220px]">
+                            <td className="py-2.5 px-3 text-slate-800 font-semibold truncate max-w-[150px] sm:max-w-[220px]">
                               <span className="font-mono text-[10px] text-slate-500 mr-1.5">{t.threatId}</span>
                               {t.title}
                             </td>
@@ -696,7 +696,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
                     return (
                       <div key={comp.id} className="flex items-center gap-2 text-xs">
                         {/* Component Label */}
-                        <span className="w-32 text-right text-slate-800 dark:text-slate-200 font-semibold truncate text-[11px] shrink-0" title={comp.name}>
+                        <span className="w-24 sm:w-32 text-right text-slate-800 dark:text-slate-200 font-semibold truncate text-[10px] sm:text-[11px] shrink-0" title={comp.name}>
                           {comp.name}
                         </span>
 
@@ -728,7 +728,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
                 )}
 
                 {/* X-Axis Scale Indicator (Ranking 0 to 55) */}
-                <div className="mt-3 pt-2 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400 font-mono pl-32 font-medium">
+                <div className="mt-3 pt-2 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400 font-mono pl-24 sm:pl-32 font-medium">
                   <span>0</span>
                   <span>10</span>
                   <span>20</span>
@@ -744,7 +744,7 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
             </div>
 
             {/* Legend for Stacked Bar */}
-            <div className="flex items-center gap-4 text-[10px] text-slate-600 dark:text-slate-300 pt-2 border-t border-slate-200 dark:border-slate-700 mt-3 font-medium">
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 text-[10px] text-slate-600 dark:text-slate-300 pt-2 border-t border-slate-200 dark:border-slate-700 mt-3 font-medium">
               <span className="flex items-center gap-1.5">
                 <span className="h-2.5 w-3 rounded-xs bg-rose-600" />
                 Critical & High Impact
@@ -783,112 +783,114 @@ export function DashboardView({ onOpenNewThreat, onFilterThreats }: DashboardVie
               </div>
 
               {/* Heatmap Grid Container */}
-              <div className="bg-white/75 dark:bg-slate-900/60 backdrop-blur-sm p-3.5 rounded-xl border border-white/80 dark:border-white/10 shadow-2xs flex items-stretch gap-3">
-                {/* Left "Totals" Color Indicator Bar */}
-                <div className="w-12 flex flex-col items-center">
-                  <span className="text-[10px] text-slate-500 font-bold mb-1 uppercase tracking-wider">Totals</span>
-                  <div className="flex-1 w-full rounded border border-slate-200 flex flex-col overflow-hidden text-[11px] font-black text-center shadow-2xs">
-                    <div className="flex-1 bg-emerald-500 text-white flex items-center justify-center" title="Low risk bucket">
-                      {lowCount}
-                    </div>
-                    <div className="flex-1 bg-amber-400 text-slate-900 flex items-center justify-center" title="Medium risk bucket">
-                      {mediumCount}
-                    </div>
-                    <div className="flex-1 bg-rose-600 text-white flex items-center justify-center" title="Critical/High risk bucket">
-                      {highCritical}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Y-Axis Label */}
-                <div className="flex items-center justify-center -rotate-90 text-[10px] font-bold text-slate-500 uppercase tracking-widest px-0">
-                  Likelihood
-                </div>
-
-                {/* 5x5 Grid Cells */}
-                <div className="flex-1 flex flex-col space-y-1">
-                  {heatmapData.map((row, rIdx) => {
-                    const rowLabel = 5 - rIdx;
-                    return (
-                      <div key={rIdx} className="flex items-center space-x-1">
-                        {/* Row Y value */}
-                        <span className="w-4 text-[11px] font-mono font-bold text-slate-600 text-right pr-1">
-                          {rowLabel}
-                        </span>
-
-                        {/* Row Cells */}
-                        {row.map((val, cIdx) => {
-                          let cellBg = "bg-emerald-100 text-emerald-900 border border-emerald-200"; // Low
-                          if (rIdx === 0) {
-                            if (cIdx >= 2) cellBg = "bg-rose-600 text-white border border-rose-700"; // Critical
-                            else if (cIdx === 1) cellBg = "bg-amber-400 text-slate-900 border border-amber-500"; // High
-                            else cellBg = "bg-amber-200 text-slate-900 border border-amber-300"; // Med
-                          } else if (rIdx === 1) {
-                            if (cIdx >= 3) cellBg = "bg-rose-500 text-white border border-rose-600";
-                            else if (cIdx >= 1) cellBg = "bg-amber-300 text-slate-900 border border-amber-400";
-                            else cellBg = "bg-emerald-100 text-emerald-900 border border-emerald-200";
-                          } else if (rIdx === 2) {
-                            if (cIdx >= 4) cellBg = "bg-rose-600 text-white border border-rose-700";
-                            else if (cIdx >= 2) cellBg = "bg-amber-300 text-slate-900 border border-amber-400";
-                            else cellBg = "bg-emerald-100 text-emerald-900 border border-emerald-200";
-                          } else if (rIdx === 3) {
-                            if (cIdx >= 3) cellBg = "bg-amber-300 text-slate-900 border border-amber-400";
-                            else cellBg = "bg-emerald-100 text-emerald-900 border border-emerald-200";
-                          } else if (rIdx === 4) {
-                            cellBg = "bg-emerald-50 text-emerald-900 border border-emerald-100";
-                          }
-
-                          return (
-                            <button
-                              key={cIdx}
-                              onClick={() => {
-                                onFilterThreats({});
-                                setActiveTab("threats");
-                              }}
-                              className={`flex-1 h-7 rounded-sm flex items-center justify-center font-bold text-xs transition-all hover:scale-105 hover:brightness-95 shadow-2xs ${cellBg}`}
-                              title={`Likelihood ${rowLabel}, Impact ${(cIdx + 1) * 3}: ${val} threats`}
-                            >
-                              {val > 0 ? val : "—"}
-                            </button>
-                          );
-                        })}
+              <div className="overflow-x-auto no-scrollbar pb-1">
+                <div className="min-w-[300px] bg-white/75 dark:bg-slate-900/60 backdrop-blur-sm p-3.5 rounded-xl border border-white/80 dark:border-white/10 shadow-2xs flex items-stretch gap-2.5 sm:gap-3">
+                  {/* Left "Totals" Color Indicator Bar */}
+                  <div className="w-12 flex flex-col items-center">
+                    <span className="text-[10px] text-slate-500 font-bold mb-1 uppercase tracking-wider">Totals</span>
+                    <div className="flex-1 w-full rounded border border-slate-200 flex flex-col overflow-hidden text-[11px] font-black text-center shadow-2xs">
+                      <div className="flex-1 bg-emerald-500 text-white flex items-center justify-center" title="Low risk bucket">
+                        {lowCount}
                       </div>
-                    );
-                  })}
-
-                  {/* X-Axis Columns: 3, 6, 9, 12, 15 */}
-                  <div className="flex items-center space-x-1 pl-4 pt-1.5 text-[10px] font-mono font-bold text-slate-500">
-                    <span className="flex-1 text-center">3</span>
-                    <span className="flex-1 text-center">6</span>
-                    <span className="flex-1 text-center">9</span>
-                    <span className="flex-1 text-center">12</span>
-                    <span className="flex-1 text-center">15</span>
+                      <div className="flex-1 bg-amber-400 text-slate-900 flex items-center justify-center" title="Medium risk bucket">
+                        {mediumCount}
+                      </div>
+                      <div className="flex-1 bg-rose-600 text-white flex items-center justify-center" title="Critical/High risk bucket">
+                        {highCritical}
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-center text-[10px] font-bold text-slate-600 tracking-wider uppercase">
-                    Risk Impact
+
+                  {/* Y-Axis Label */}
+                  <div className="flex items-center justify-center -rotate-90 text-[10px] font-bold text-slate-500 uppercase tracking-widest px-0">
+                    Likelihood
+                  </div>
+
+                  {/* 5x5 Grid Cells */}
+                  <div className="flex-1 flex flex-col space-y-1">
+                    {heatmapData.map((row, rIdx) => {
+                      const rowLabel = 5 - rIdx;
+                      return (
+                        <div key={rIdx} className="flex items-center space-x-1">
+                          {/* Row Y value */}
+                          <span className="w-4 text-[11px] font-mono font-bold text-slate-600 text-right pr-1">
+                            {rowLabel}
+                          </span>
+
+                          {/* Row Cells */}
+                          {row.map((val, cIdx) => {
+                            let cellBg = "bg-emerald-100 text-emerald-900 border border-emerald-200"; // Low
+                            if (rIdx === 0) {
+                              if (cIdx >= 2) cellBg = "bg-rose-600 text-white border border-rose-700"; // Critical
+                              else if (cIdx === 1) cellBg = "bg-amber-400 text-slate-900 border border-amber-500"; // High
+                              else cellBg = "bg-amber-200 text-slate-900 border border-amber-300"; // Med
+                            } else if (rIdx === 1) {
+                              if (cIdx >= 3) cellBg = "bg-rose-500 text-white border border-rose-600";
+                              else if (cIdx >= 1) cellBg = "bg-amber-300 text-slate-900 border border-amber-400";
+                              else cellBg = "bg-emerald-100 text-emerald-900 border border-emerald-200";
+                            } else if (rIdx === 2) {
+                              if (cIdx >= 4) cellBg = "bg-rose-600 text-white border border-rose-700";
+                              else if (cIdx >= 2) cellBg = "bg-amber-300 text-slate-900 border border-amber-400";
+                              else cellBg = "bg-emerald-100 text-emerald-900 border border-emerald-200";
+                            } else if (rIdx === 3) {
+                              if (cIdx >= 3) cellBg = "bg-amber-300 text-slate-900 border border-amber-400";
+                              else cellBg = "bg-emerald-100 text-emerald-900 border border-emerald-200";
+                            } else if (rIdx === 4) {
+                              cellBg = "bg-emerald-50 text-emerald-900 border border-emerald-100";
+                            }
+
+                            return (
+                              <button
+                                key={cIdx}
+                                onClick={() => {
+                                  onFilterThreats({});
+                                  setActiveTab("threats");
+                                }}
+                                className={`flex-1 h-7 rounded-sm flex items-center justify-center font-bold text-xs transition-all hover:scale-105 hover:brightness-95 shadow-2xs ${cellBg}`}
+                                title={`Likelihood ${rowLabel}, Impact ${(cIdx + 1) * 3}: ${val} threats`}
+                              >
+                                {val > 0 ? val : "—"}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      );
+                    })}
+
+                    {/* X-Axis Columns: 3, 6, 9, 12, 15 */}
+                    <div className="flex items-center space-x-1 pl-4 pt-1.5 text-[10px] font-mono font-bold text-slate-500">
+                      <span className="flex-1 text-center">3</span>
+                      <span className="flex-1 text-center">6</span>
+                      <span className="flex-1 text-center">9</span>
+                      <span className="flex-1 text-center">12</span>
+                      <span className="flex-1 text-center">15</span>
+                    </div>
+                    <div className="text-center text-[10px] font-bold text-slate-600 tracking-wider uppercase">
+                      Risk Impact
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Bottom Heatmap Legend */}
-            <div className="flex items-center justify-between text-[10px] text-slate-500 pt-2 border-t border-slate-200 mt-3 font-medium">
-              <div className="flex items-center gap-3">
-                <span className="flex items-center gap-1">
-                  <span className="h-2.5 w-2.5 rounded-xs bg-emerald-500" /> Low
-                </span>
-                <span className="flex items-center gap-1">
-                  <span className="h-2.5 w-2.5 rounded-xs bg-amber-400" /> Medium
-                </span>
-                <span className="flex items-center gap-1">
-                  <span className="h-2.5 w-2.5 rounded-xs bg-rose-500" /> High
-                </span>
-                <span className="flex items-center gap-1">
-                  <span className="h-2.5 w-2.5 rounded-xs bg-rose-700" /> Critical
-                </span>
+            <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] text-slate-500 pt-2 border-t border-slate-200 mt-3 font-medium">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                  <span className="flex items-center gap-1">
+                    <span className="h-2.5 w-2.5 rounded-xs bg-emerald-500" /> Low
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="h-2.5 w-2.5 rounded-xs bg-amber-400" /> Medium
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="h-2.5 w-2.5 rounded-xs bg-rose-500" /> High
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="h-2.5 w-2.5 rounded-xs bg-rose-700" /> Critical
+                  </span>
+                </div>
+                <span className="text-slate-400 font-mono text-[9px]">Live MongoDB Atlas Sync</span>
               </div>
-              <span className="text-slate-400 font-mono text-[9px]">Live MongoDB Atlas Sync</span>
-            </div>
           </div>
         </div>
 

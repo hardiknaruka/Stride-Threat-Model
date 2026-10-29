@@ -63,7 +63,7 @@ function MainAppContent() {
       <Header onOpenNewProject={() => setIsProjectModalOpen(true)} />
       <NavigationTabs />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-24 space-y-4">
             <div className="h-12 w-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center animate-pulse">

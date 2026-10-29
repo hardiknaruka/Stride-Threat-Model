@@ -124,7 +124,7 @@ export function ScopeView() {
       </div>
 
       {/* Header and Save Action */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
             Study Scope, Assumptions & Context
@@ -135,10 +135,10 @@ export function ScopeView() {
         </div>
 
         {roleConfig.canEditScope && (
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
             {saveSuccess && (
               <span className="text-xs text-emerald-700 dark:text-emerald-400 flex items-center gap-1 font-bold">
-                <CheckCircle2 className="h-4 w-4" /> Changes saved
+                <CheckCircle2 className="h-4 w-4 shrink-0" /> Changes saved
               </span>
             )}
             {saveError && (
@@ -147,14 +147,14 @@ export function ScopeView() {
             <button
               onClick={handleSave}
               disabled={isSaving}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-bold shadow-md transition-all disabled:opacity-50 ${
+              className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-bold shadow-md transition-all disabled:opacity-50 ${
                 isCorporate
                   ? "bg-blue-700 hover:bg-blue-800 shadow-blue-700/20"
                   : "bg-teal-700 hover:bg-teal-800 shadow-teal-700/20"
               }`}
             >
-              <Save className="h-4 w-4" />
-              {isSaving ? "Saving..." : "Save Changes"}
+              <Save className="h-4 w-4 shrink-0" />
+              <span>{isSaving ? "Saving..." : "Save Changes"}</span>
             </button>
           </div>
         )}
@@ -317,8 +317,8 @@ export function ScopeView() {
             No stakeholders recorded yet. Add architecture leads, security champions, and engineering owners.
           </p>
         ) : (
-          <div className="overflow-x-auto rounded-lg border border-slate-200">
-            <table className="w-full text-left text-xs">
+          <div className="overflow-x-auto no-scrollbar rounded-lg border border-slate-200 dark:border-slate-800">
+            <table className="w-full min-w-[500px] text-left text-xs">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50 text-slate-600 font-bold">
                   <th className="py-2.5 px-3">Name</th>

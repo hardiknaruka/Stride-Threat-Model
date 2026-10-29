@@ -77,29 +77,29 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/35 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg glass-modal rounded-2xl shadow-2xl p-6 space-y-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/35 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto">
+      <div className="relative w-full max-w-lg max-h-[92vh] overflow-y-auto glass-modal rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-6 space-y-4 my-auto">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-          <div className="flex items-center gap-3">
-            <div className={`h-9 w-9 rounded-lg flex items-center justify-center border ${
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className={`h-8 w-8 sm:h-9 sm:w-9 rounded-lg flex items-center justify-center border shrink-0 ${
               isCorporate
                 ? "bg-blue-50 border-blue-200 text-blue-700"
                 : "bg-teal-50 border-teal-200 text-teal-700"
             }`}>
-              <Server className="h-5 w-5" />
+              <Server className="h-4 w-4 sm:h-5 sm:w-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-900">
+              <h2 className="text-sm sm:text-base font-bold text-slate-900">
                 New Threat Modeling Project
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-[11px] sm:text-xs text-slate-500">
                 Initialize a microservices STRIDE threat assessment study.
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors shrink-0"
           >
             <X className="h-5 w-5" />
           </button>
@@ -141,7 +141,7 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-slate-700 font-bold mb-1">
                 Study Owner / AppSec Lead *
@@ -173,7 +173,7 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label className="block text-slate-700 font-bold mb-1">
                 Arch Version
@@ -216,18 +216,18 @@ export function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
             </div>
           </div>
 
-          <div className="pt-3 border-t border-slate-100 flex justify-end gap-2">
+          <div className="pt-3 border-t border-slate-100 flex items-center justify-end gap-2.5">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors"
+              className="flex-1 sm:flex-initial px-4 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors text-center"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`px-5 py-2 rounded-lg text-white font-semibold text-xs shadow-xs transition-all disabled:opacity-50 ${
+              className={`flex-1 sm:flex-initial px-5 py-2 rounded-lg text-white font-semibold text-xs shadow-xs transition-all disabled:opacity-50 text-center ${
                 isCorporate
                   ? "bg-blue-700 hover:bg-blue-800"
                   : "bg-teal-700 hover:bg-teal-800"

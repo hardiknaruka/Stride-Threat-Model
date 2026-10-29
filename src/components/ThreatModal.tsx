@@ -251,37 +251,37 @@ export function ThreatModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/35 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-200">
-      <div className="relative w-full max-w-4xl max-h-[92vh] flex flex-col glass-modal rounded-2xl shadow-2xl overflow-hidden my-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/35 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-200">
+      <div className="relative w-full max-w-4xl max-h-[95vh] sm:max-h-[92vh] flex flex-col glass-modal rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden my-2 sm:my-4">
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50 shrink-0">
-          <div className="flex items-center gap-3">
-            <div className={`h-9 w-9 rounded-lg flex items-center justify-center border ${
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50 shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className={`h-8 w-8 sm:h-9 sm:w-9 rounded-lg flex items-center justify-center border shrink-0 ${
               isCorporate
                 ? "bg-blue-50 border-blue-200 text-blue-700"
                 : "bg-teal-50 border-teal-200 text-teal-700"
             }`}>
-              <ShieldAlert className="h-5 w-5" />
+              <ShieldAlert className="h-4 w-4 sm:h-5 sm:w-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-900">
+              <h2 className="text-sm sm:text-base font-bold text-slate-900 line-clamp-1">
                 {threatToEdit ? `Edit Assessment: ${threatToEdit.threatId}` : "Record STRIDE Threat Assessment"}
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-[11px] sm:text-xs text-slate-500 line-clamp-1">
                 Traceable risk scenario, qualitative matrix derivation, and mitigation treatment.
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors shrink-0"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Modal Form Scrollable Body */}
-        <form onSubmit={handleSubmit} className="overflow-y-auto p-6 space-y-6 text-xs flex-1">
+        <form onSubmit={handleSubmit} className="overflow-y-auto p-3.5 sm:p-6 space-y-4 sm:space-y-6 text-xs flex-1">
           {validationError && (
             <div className="p-3 rounded-lg border border-rose-200 bg-rose-50 text-rose-800 flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 shrink-0 text-rose-600" />
@@ -516,7 +516,7 @@ export function ThreatModal({
 
           {/* Section 4: Risk Scoring Engine & Overrides */}
           <div className="p-4 rounded-lg border border-slate-200 bg-slate-50 space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
                 <h4 className="font-bold text-slate-900 text-xs">
                   Qualitative Risk Scoring (Likelihood x Impact)
@@ -527,7 +527,7 @@ export function ThreatModal({
               </div>
 
               {/* Result Pill */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 shrink-0">
                 <span className="text-[11px] text-slate-600 font-medium">Resulting Priority:</span>
                 <span className={`px-3 py-1 rounded-full text-xs font-bold ${
                   effectiveSeverity === "CRITICAL"
@@ -734,22 +734,22 @@ export function ThreatModal({
           </div>
 
           {/* Modal Actions */}
-          <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
-            <span className="text-[11px] text-slate-500">
+          <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <span className="text-[11px] text-slate-500 order-2 sm:order-1 text-center sm:text-left">
               * Required fields. Strict validation applied on save.
             </span>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-end gap-2.5 sm:gap-3 order-1 sm:order-2 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-medium transition-colors"
+                className="flex-1 sm:flex-initial px-4 py-2 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 font-medium transition-colors text-center"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`px-5 py-2 rounded-lg text-white font-semibold shadow-xs transition-all disabled:opacity-50 ${
+                className={`flex-1 sm:flex-initial px-5 py-2 rounded-lg text-white font-semibold shadow-xs transition-all disabled:opacity-50 text-center ${
                   isCorporate
                     ? "bg-blue-700 hover:bg-blue-800"
                     : "bg-teal-700 hover:bg-teal-800"
